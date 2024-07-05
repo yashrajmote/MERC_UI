@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="icon" href="images/abhitech-logo.png" type="image/png">
+    <link rel="icon" href="images/abhitech-mahagenco-combined-logo.png" type="image/png">
     <title>Mahagenco</title>
 </head>
 <body class="bg-gray-100">
     <div class="min-h-screen flex flex-col">
         <nav class="bg-white shadow p-4">
             <div class="container mx-auto flex items-center">
-                <img src="images/abhitech-logo.png" alt="Logo" class="h-20 w-auto">
+                <img src="images/abhitech-mahagenco-combined-logo.png" alt="Logo" class="h-20 w-auto">
             </div>
         </nav>
         <main class="flex-grow container mx-auto p-4">
@@ -24,7 +24,14 @@
                     </ul>
                 </aside>
                 <section class="w-3/4 p-4 bg-white shadow">
-                    <h1 class="text-2xl font-bold mb-4">Input</h1>
+                    <div class="flex items-center mb-4">
+                        <h1 class="text-2xl font-bold">New Project</h1>
+                        <div class="ml-4">
+                            <button id="preset1" class="px-3 py-1 bg-green-500 text-white rounded-md">KPKD Unit 1-4</button>
+                            <button id="preset2" class="px-3 py-1 bg-green-500 text-white rounded-md">KPKD Unit-5</button>
+                            <button id="preset3" class="px-3 py-1 bg-green-500 text-white rounded-md">BSL Unit-3</button>
+                        </div>
+                    </div>
                     <form id="inputForm">
                         <!-- Accordion for Sections -->
                         <div x-data="{ openSection: 'generation' }">
@@ -34,76 +41,48 @@
                             <div x-show="openSection === 'generation'" class="grid grid-cols-2 gap-4 mb-4">
                                 <!-- Generation and Consumption Inputs -->
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Generation (MUs)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Generation" required>
+                                    <label class="block text-sm font-medium text-gray-700">Actual Generation (MUs)</label>
+                                    <input type="number" name="AGEN" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual Generation" required>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Auxiliary Consumption (MUs)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Auxiliary Consumption" required>
+                                    <label class="block text-sm font-medium text-gray-700">Actual Auxiliary Consumption (MUs)</label>
+                                    <input type="number" name="AAPC" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual Auxiliary Consumption" required>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Raw Coal Consumption (MT)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Raw Coal Consumption" required>
+                                    <label class="block text-sm font-medium text-gray-700">Actual Raw Coal GCV (As Billed) (kcal/kg)</label>
+                                    <input type="number" name="ARGCVB" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual Raw Coal GCV (As Billed)" required>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Washed Coal Consumption (MT)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Washed Coal Consumption" required>
+                                    <label class="block text-sm font-medium text-gray-700">Actual Washed Coal GCV (As Billed) (kcal/kg)</label>
+                                    <input type="number" name="AWGCVB" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual Washed Coal GCV (As Billed)" required>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Imported Coal Consumption (MT)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Imported Coal Consumption" required>
+                                    <label class="block text-sm font-medium text-gray-700">Actual Imported Coal GCV (As Billed) (kcal/kg)</label>
+                                    <input type="number" name="AIGCVB" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual Imported Coal GCV (As Billed)" required>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">LDO Consumption (KL)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="LDO Consumption" required>
+                                    <label class="block text-sm font-medium text-gray-700">Actual Raw Coal GCV (As Received) (kcal/kg)</label>
+                                    <input type="number" name="ARGCVR" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual Raw Coal GCV (As Received)" required>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">FO Consumption (KL)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="FO Consumption" required>
-                                </div>
-                            </div>
-
-                            <!-- GCV Section -->
-                            <div @click="openSection = openSection === 'gcv' ? '' : 'gcv'" class="cursor-pointer bg-gray-200 p-2 rounded mb-2">
-                                <h2 class="text-lg font-semibold">GCV (Gross Calorific Value)</h2>
-                            </div>
-                            <div x-show="openSection === 'gcv'" class="grid grid-cols-2 gap-4 mb-4">
-                                <!-- GCV Inputs -->
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700">Raw Coal GCV (As Billed) (kcal/kg)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Raw Coal GCV(As Billed)" required>
+                                    <label class="block text-sm font-medium text-gray-700">Actual Washed Coal GCV (As Received) (kcal/kg)</label>
+                                    <input type="number" name="AWGCVR" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual Washed Coal GCV (As Received)" required>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Washed Coal GCV (As Billed) (kcal/kg)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Washed Coal GCV (As Billed)" required>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700">Imported Coal GCV (As Billed) (kcal/kg)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Imported Coal GCV (As Billed)" required>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700">Raw Coal GCV (As Received) (kcal/kg)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Raw Coal GCV (As Received)" required>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700">Washed Coal GCV (As Received) (kcal/kg)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Washed Coal GCV (As Received)" required>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700">Imported Coal GCV (As Received) (kcal/kg)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Imported Coal GCV (As Received)" required>
+                                    <label class="block text-sm font-medium text-gray-700">Actual Imported Coal GCV (As Received) (kcal/kg)</label>
+                                    <input type="number" name="AIGCVR" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual Imported Coal GCV (As Received)" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">LDO GCV (kcal/kg)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="LDO GCV" required>
+                                    <input type="number" name="LDOGCV" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="LDO GCV" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">FO GCV (kcal/kg)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="FO GCV" required>
+                                    <input type="number" name="FOGCV" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="FO GCV" required>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Combined Coal GCV after stacking loss (kcal/kg)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Combined Coal GCV after stacking loss" required>
+                                    <label class="block text-sm font-medium text-gray-700">Actual Combined Coal GCV after stacking loss (kcal/kg)</label>
+                                    <input type="number" name="ACGCV" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual Combined Coal GCV after stacking loss" required>
                                 </div>
                             </div>
 
@@ -114,107 +93,108 @@
                             <div x-show="openSection === 'costs'" class="grid grid-cols-2 gap-4 mb-4">
                                 <!-- Costs Inputs -->
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Raw Coal Landed cost (Rs./MT)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Raw Coal Landed cost" required>
+                                    <label class="block text-sm font-medium text-gray-700">Actual Raw Coal Landed cost (Rs./MT)</label>
+                                    <input type="number" name="ARCLC" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual Raw Coal Landed cost" required>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Washed Coal Landed cost (Rs./MT)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Washed Coal Landed cost" required>
+                                    <label class="block text-sm font-medium text-gray-700">Actual Washed Coal Landed cost (Rs./MT)</label>
+                                    <input type="number" name="AWCLC" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual Washed Coal Landed cost" required>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Imported Coal Landed cost (Rs./MT)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Imported Coal Landed cost" required>
+                                    <label class="block text-sm font-medium text-gray-700">Actual Imported Coal Landed cost (Rs./MT)</label>
+                                    <input type="number" name="AICLC" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual Imported Coal Landed cost" required>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">LDO cost (Rs./KL)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="LDO cost" required>
+                                    <label class="block text-sm font-medium text-gray-700">Actual LDO cost (Rs./KL)</label>
+                                    <input type="number" name="ALDOLC" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual LDO cost" required>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">FO cost (Rs./KL)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="FO cost" required>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700">Raw Coal consumption cost (Rs./MT)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Raw Coal consumption cost" required>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700">Washed Coal consumption cost (Rs./MT)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Washed Coal consumption cost" required>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700">Imported Coal consumption cost (Rs./MT)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Imported Coal consumption cost" required>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700">Other Variable costs (Rs. Crores)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Other Variable costs" required>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700">Transit loss cost (Rs. Crores)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Transit loss cost" required>
+                                    <label class="block text-sm font-medium text-gray-700">Actual FO cost (Rs./KL)</label>
+                                    <input type="number" name="AFOLC" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual FO cost" required>
                                 </div>
                             </div>
 
-                            <!-- Other Metrics Section -->
-                            <div @click="openSection = openSection === 'metrics' ? '' : 'metrics'" class="cursor-pointer bg-gray-200 p-2 rounded mb-2">
-                                <h2 class="text-lg font-semibold">Other Metrics</h2>
+                            <!-- Consumption Section -->
+                            <div @click="openSection = openSection === 'consumption' ? '' : 'consumption'" class="cursor-pointer bg-gray-200 p-2 rounded mb-2">
+                                <h2 class="text-lg font-semibold">Consumption</h2>
                             </div>
-                            <div x-show="openSection === 'metrics'" class="grid grid-cols-2 gap-4 mb-4">
-                                <!-- Other Metrics Inputs -->
+                            <div x-show="openSection === 'consumption'" class="grid grid-cols-2 gap-4 mb-4">
+                                <!-- Consumption Inputs -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Actual Raw Coal Consumption (MT)</label>
+                                    <input type="number" name="ARCC" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual Raw Coal Consumption" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Actual Washed Coal Consumption (MT)</label>
+                                    <input type="number" name="AWCC" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual Washed Coal Consumption" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Actual Imported Coal Consumption (MT)</label>
+                                    <input type="number" name="AICC" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual Imported Coal Consumption" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Actual LDO Consumption (KL)</label>
+                                    <input type="number" name="ALDOC" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual LDO Consumption" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Actual FO Consumption (KL)</label>
+                                    <input type="number" name="AFOC" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual FO Consumption" required>
+                                </div>
+                            </div>
+
+                            <!-- Other Parameters Section -->
+                            <div @click="openSection = openSection === 'other' ? '' : 'other'" class="cursor-pointer bg-gray-200 p-2 rounded mb-2">
+                                <h2 class="text-lg font-semibold">Other Parameters</h2>
+                            </div>
+                            <div x-show="openSection === 'other'" class="grid grid-cols-2 gap-4 mb-4">
+                                <!-- Other Parameters Inputs -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Other Variable costs (Rs. Crores)</label>
+                                    <input type="number" name="OVC" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Other Variable costs" required>
+                                </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Actual Transit loss (%)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual Transit loss" required>
+                                    <input type="number" name="ATL" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual Transit loss" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Actual Transit loss cost (Rs. Crores)</label>
+                                    <input type="number" name="ATLC" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Actual Transit loss cost" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">MTBF achieved (days)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="MTBF achieved" required>
+                                    <input type="number" name="AMTBF" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="MTBF achieved" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Ramp rate achieved (%/min)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Ramp rate achieved" required>
+                                    <input type="number" name="ARR" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Ramp rate achieved" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Peak AVF achieved (%)</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Peak AVF achieved" required>
+                                    <input type="number" name="APAVF" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Peak AVF achieved" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">FGMO</label>
-                                    <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="FGMO" required>
+                                    <input type="text" name="FGMOS" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="FGMO" required>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="fixed bottom-4 right-4">
-                            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">Submit</button>
+                        <!-- Submit Button -->
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">Generate Report</button>
                         </div>
                     </form>
+
+                   <!-- Report Output Container -->
+            <div id="reportContainer" class="hidden">
+                <h2 class="text-lg font-semibold">Generated Report:</h2>
+                <pre id="reportOutput" class="mt-2 p-4 bg-gray-200 rounded"></pre>
+                
                 </section>
             </div>
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
-    <script>
-        document.getElementById('inputForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const data = {};
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
-
-            fetch('/api/submit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(result => {
-                alert('Calculation Result: ' + result.result);
-            })
-            .catch(error => console.error('Error:', error));
-        });
-    </script>
+    <script src="js/scripts.js" ></script>
 </body>
 </html>

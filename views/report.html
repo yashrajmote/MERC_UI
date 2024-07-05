@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gain/Loss Report</title>
+    <style>
+        /* Add your CSS styles here */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        .total-row {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Gain/ Loss Report as per Norms</h2>
+    <table id="normsTable">
+        <thead>
+            <tr>
+                <th>Sr. no.</th>
+                <th>Parameter</th>
+                <th>Unit</th>
+                <th>Normative value</th>
+                <th>Achieved</th>
+                <th>Commercial Gain/ Loss (Rs. Crores)</th>
+            </tr>
+        </thead>
+        <tbody id="normsTableBody">
+            <!-- Table rows will be generated dynamically using JavaScript -->
+        </tbody>
+    </table>
+
+    <h2>Incentive Gains Report as per Regulations</h2>
+    <table id="incentiveTable">
+        <thead>
+            <tr>
+                <th>Sr. no.</th>
+                <th>Parameter</th>
+                <th>Unit</th>
+                <th>Min. Requirement</th>
+                <th>Achieved</th>
+                <th>Incentive Gain (Rs. Crores)</th>
+            </tr>
+        </thead>
+        <tbody id="incentiveTableBody">
+            <!-- Table rows will be generated dynamically using JavaScript -->
+        </tbody>
+    </table>
+
+    <h2>Net Gain/ Loss</h2>
+    <p id="netGainLoss"></p>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
