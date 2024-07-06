@@ -120,11 +120,13 @@ function fillForm(data) {
 
 
 
-/*
+
 
 // Function to process the form data and calculate all variables
 function processFormData(formData) {
-    // Array of keys corresponding to the form inputs
+
+    // -------> 31 inputs <---------
+
     const keys = [
         'AGEN', 'AAPC', 'ARGCVB', 'AWGCVB', 'AIGCVB', 'ARGCVR', 'AWGCVR', 'AIGCVR',
         'LDOGCV', 'FOGCV', 'ACGCV', 'ARCLC', 'AWCLC', 'AICLC', 'ALDOLC', 'AFOLC',
@@ -146,6 +148,24 @@ function processFormData(formData) {
         ARCC, AWCC, AICC, ALDOC, AFOC, OVC, ATL, ATLC, AMTBF, ARR, 
         APAVF, FGMOS } = parsedValues;
 
+    // -------> 11 same as inputs <---------
+
+    const APGEN = parsedValues['AGEN'];
+    const NRGCVB = parsedValues['ARGCVB'];
+    const NWGCVB = parsedValues['AWGCVB'];
+    const NIGCVB = parsedValues['AIGCVB'];
+    const NIGCVR = parsedValues['AIGCVR'];
+    const NLDOGCV = parsedValues['ALDOGCV'];
+    const NFOGCV = parsedValues['AFOGCV'];
+    const NWCLC = parsedValues['AWCLC'];
+    const NICLC = parsedValues['AICLC'];
+    const NLDOLC = parsedValues['ALDOLC'];
+    const NFOLC = parsedValues['AFOLC'];
+
+    // -------> <---------
+
+
+       
     // Reference values from a separate sheet or provided inputs
     const NAPC_PERCENT = 8; // Example value, replace with actual reference
     const NADLURGCV = 500; // Example value, replace with actual reference
@@ -163,11 +183,12 @@ function processFormData(formData) {
     const ROEPAVF = createLookupTable(parsedValues['PeakAVF']); // Replace with actual lookup table function
     const ROEFGMO = createLookupTable(parsedValues['FGMO']); // Replace with actual lookup table function
 
-    // Derived values calculation
-    const MTBFGain = ROEMTBF * ROERP;
-    const RampRateGain = ROERR * ROERP;
-    const PeakAVFGain = ROEPAVF * ROERP;
-    const FGMOGain = ROEFGMO * ROERP;
+    // ------->  Derived Formulas  <---------
+
+    const MTBFGain = ROEMTBF * ROERP; //a
+    const RampRateGain = ROERR * ROERP; //b
+    const PeakAVFGain = ROEPAVF * ROERP; //c
+    const FGMOGain = ROEFGMO * ROERP; //d
     const APCGainLoss = ((parsedValues['NAPC'] - AAPC) * parsedValues['APCR']) / 10;
     const SFOCGainLoss = parsedValues['NLDOCC'] + parsedValues['NFOCC'] - parsedValues['ALDOCC'] - parsedValues['AFOCC'];
     const TLGainLoss = ((parsedValues['ARCCC'] * parsedValues['ARCC']) / (1 - parsedValues['NTL'] / 10000000)) - ((parsedValues['ARCCC'] * parsedValues['ARCC']) / 10000000) - parsedValues['ATLC'];
@@ -285,7 +306,7 @@ Net Gain/ Loss\t\t\t\t\t\t\t${netGainLoss.toFixed(4)}
     reportContainer.classList.remove('hidden');
 });
 
-*/
+
 
 function generateReport() {
     // Gain/Loss Report Data
