@@ -45,29 +45,29 @@ document.getElementById('preset2').addEventListener('click', function() {
         AICC: 54540.25,
         ALDOC: 0,
         AFOC: 145.2,
-        ARGCVB: 0, 
-        AWGCVB: 0, 
+        ARGCVB: 3742, 
+        AWGCVB: 3387, 
         AIGCVB: 0, 
-        ARGCVR: 0, 
-        AWGCVR: 0, 
-        AIGCVR: 0, 
-        LDOGCV: 0, 
-        FOGCV: 0, 
-        ACGCV: 0, 
-        ARCLC: 0, 
-        AWCLC: 0, 
-        AICLC: 0, 
-        ALDOLC: 0, 
-        AFOLC: 0, 
-        ARCCC: 0, 
-        AWCCC: 0, 
-        AICCC: 0, 
-        OVC: 0, 
-        ATL: 0,
+        ARGCVR: 3041, 
+        AWGCVR: 4075, 
+        AIGCVR: 4701, 
+        LDOGCV: 10657, 
+        FOGCV: 10593, 
+        ACGCV: 2927, 
+        ARCLC: 3717, 
+        AWCLC: 4621.63, 
+        AICLC: 4621.63, 
+        ALDOLC: 49015.35, 
+        AFOLC: 39047.69, 
+        ARCCC: 3607.00, 
+        AWCCC: 4534.95, 
+        AICCC: 16127.44, 
+        OVC: 19229430.98, 
+        ATL: 0.78,
         ATLC: 0.32,
-        AMTBF: 0, 
-        ARR: 0, 
-        APAVF: 0, 
+        AMTBF: 56, 
+        ARR: 0.5, 
+        APAVF: 86, 
         FGMOS: 0
     });
 });
@@ -81,29 +81,29 @@ document.getElementById('preset3').addEventListener('click', function() {
         AICC: 54540.25,
         ALDOC: 0,
         AFOC: 145.2,
-        ARGCVB: 0, 
-        AWGCVB: 0, 
+        ARGCVB: 3742, 
+        AWGCVB: 3387, 
         AIGCVB: 0, 
-        ARGCVR: 0, 
-        AWGCVR: 0, 
-        AIGCVR: 0, 
-        LDOGCV: 0, 
-        FOGCV: 0, 
-        ACGCV: 0, 
-        ARCLC: 0, 
-        AWCLC: 0, 
-        AICLC: 0, 
-        ALDOLC: 0, 
-        AFOLC: 0, 
-        ARCCC: 0, 
-        AWCCC: 0, 
-        AICCC: 0, 
-        OVC: 0, 
-        ATL: 0,
+        ARGCVR: 3041, 
+        AWGCVR: 4075, 
+        AIGCVR: 4701, 
+        LDOGCV: 10657, 
+        FOGCV: 10593, 
+        ACGCV: 2927, 
+        ARCLC: 3717, 
+        AWCLC: 4621.63, 
+        AICLC: 4621.63, 
+        ALDOLC: 49015.35, 
+        AFOLC: 39047.69, 
+        ARCCC: 3607.00, 
+        AWCCC: 4534.95, 
+        AICCC: 16127.44, 
+        OVC: 19229430.98, 
+        ATL: 0.78,
         ATLC: 0.32,
-        AMTBF: 0, 
-        ARR: 0, 
-        APAVF: 0, 
+        AMTBF: 56, 
+        ARR: 0.5, 
+        APAVF: 86, 
         FGMOS: 0
     });
 });
@@ -290,16 +290,16 @@ Net Gain/ Loss\t\t\t\t\t\t\t${netGainLoss.toFixed(4)}
 function generateReport() {
     // Gain/Loss Report Data
     const gainLossData = [
-        { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: 85, achieved: 0.00, gainLoss: -30.9214 },
-        { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: 2430, achieved: 2619.43, gainLoss: -11.1262 },
-        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: 8.5, achieved: 5.00, gainLoss: 5.2682 },
+        { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: 80, achieved: 0.00, gainLoss: -44.2997 },
+        { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: 2430, achieved: 2619.43, gainLoss: 0.6157 },
+        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: 8.5, achieved: 5.00, gainLoss: 7.6554 },
         { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: 0.5, achieved: 0.48, gainLoss: 0.0486 },
         { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: 0.8, achieved: 0.78, gainLoss: 0.0786 }
     ];
 
     // Incentive Gains Report Data
     const incentiveGainsData = [
-        { srNo: 6, parameter: 'MTBF', unit: 'days', minNormativeValue: 45, achieved: 56, gain: 0.0252 },
+        { srNo: 6, parameter: 'MTBF', unit: 'days', minNormativeValue: 45, achieved: 56, gain: 0.0616 },
         { srNo: 7, parameter: 'Ramp rate above 1%', unit: '%/min', description: 'above 1% ramp rate', achieved: 0.5, gain: 0.0252 },
         { srNo: 8, parameter: 'Peak AVF', unit: '%', minNormativeValue: 75, achieved: 86, gain: 0.0252 },
         { srNo: 9, parameter: 'FGMO status', unit: '-', description: 'In service', achieved: 'y', gain: 0.0629 }
@@ -310,9 +310,9 @@ function generateReport() {
 
     // Constructing Gain/Loss Report HTML
     let gainLossHTML = `
-        <h2 class="text-lg font-semibold">Gain/ Loss Report as per Norms</h2>
-        <table class="mt-4 w-full border-collapse border border-gray-300">
-            <thead>
+    <h2 class="text-lg font-semibold mb-4">Gain/ Loss Report as per Norms</h2>
+    <table class="w-full border-collapse border border-gray-300 text-sm text-left text-gray-500">
+            <thead class="bg-gray-100 text-gray-700 uppercase">
                 <tr class="bg-gray-200">
                     <th class="border border-gray-300 px-4 py-2">#</th>
                     <th class="border border-gray-300 px-4 py-2">Parameter</th>
@@ -327,7 +327,7 @@ function generateReport() {
 
     gainLossData.forEach(item => {
         gainLossHTML += `
-            <tr>
+            <tr class="bg-white border-b">
                 <td class="border border-gray-300 px-4 py-2">${item.srNo}</td>
                 <td class="border border-gray-300 px-4 py-2">${item.parameter}</td>
                 <td class="border border-gray-300 px-4 py-2">${item.unit}</td>
@@ -339,7 +339,7 @@ function generateReport() {
     });
 
     gainLossHTML += `
-            <tr>
+            <tr class="bg-gray-100">
                 <td colspan="5" class="border border-gray-300 px-4 py-2 text-right font-semibold">Total</td>
                 <td class="border border-gray-300 px-4 py-2 font-semibold">${netGainLoss.toFixed(4)}</td>
             </tr>
@@ -349,9 +349,10 @@ function generateReport() {
 
     // Constructing Incentive Gains Report HTML
     let incentiveGainsHTML = `
-        <h2 class="text-lg font-semibold mt-8">Incentive Gains Report as per Regulations</h2>
-        <table class="mt-4 w-full border-collapse border border-gray-300">
-            <thead>
+        <h2 class="text-lg font-semibold mt-8 mb-4">Incentive Gains Report as per Regulations</h2>
+            <table class="w-full border-collapse border border-gray-300 text-sm text-left text-gray-500">
+            <thead class="bg-gray-100 text-gray-700 uppercase">
+
                 <tr class="bg-gray-200">
                     <th class="border border-gray-300 px-4 py-2">#</th>
                     <th class="border border-gray-300 px-4 py-2">Parameter</th>
@@ -365,7 +366,7 @@ function generateReport() {
 
     incentiveGainsData.forEach(item => {
         incentiveGainsHTML += `
-            <tr>
+            <tr class="bg-white border-b">
                 <td class="border border-gray-300 px-4 py-2">${item.srNo}</td>
                 <td class="border border-gray-300 px-4 py-2">${item.parameter}</td>
                 <td class="border border-gray-300 px-4 py-2">${item.unit}</td>
@@ -376,7 +377,7 @@ function generateReport() {
     });
 
     incentiveGainsHTML += `
-            <tr>
+            <tr class="bg-gray-100">
                 <td colspan="4" class="border border-gray-300 px-4 py-2 text-right font-semibold">Total</td>
                 <td class="border border-gray-300 px-4 py-2 font-semibold">0.1384</td>
             </tr>
@@ -397,6 +398,7 @@ function generateReport() {
     const reportOutput = document.getElementById('reportOutput');
     reportOutput.innerHTML = gainLossHTML + incentiveGainsHTML;
 }
+
 
 // Event listener for form submission
 document.getElementById('inputForm').addEventListener('submit', function(event) {
