@@ -4,8 +4,6 @@ const router = express.Router();
 router.post('/submit', (req, res) => {
     const formData = req.body;
 
-    //CALCULATIONS
-
     let result = 0;
     Object.values(formData).forEach(value => {
         if (!isNaN(value)) {
@@ -13,8 +11,7 @@ router.post('/submit', (req, res) => {
         }
     })
 
-res.json({ result: result}); // sending result back to client
-
+res.json({ result: result}); 
 });
 
 module.exports = router;

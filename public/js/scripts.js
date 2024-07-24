@@ -33,6 +33,15 @@ document.getElementById('preset1').addEventListener('click', function() {
         ARR: 0.5, 
         APAVF: 86, 
         FGMOS: 0
+       /* PDCTDR: 1,
+        OPDCTDR: 2, 
+        ADCTDR: 3, 
+        PDCHDS: 4,
+        OPDCHDS: 5, 
+        ADCHDS: 6,
+        PDCLDS: 7,
+        OPDCLDS: 8,
+        ADCLDS: 9 */
     });
 });
 
@@ -43,32 +52,41 @@ document.getElementById('preset2').addEventListener('click', function() {
         ARCC: 136258.84,
         AWCC: 31042.3,
         AICC: 54540.25,
-        ALDOC: 0,
+        ALDOC: 7,
         AFOC: 145.2,
-        ARGCVB: 0, 
-        AWGCVB: 0, 
-        AIGCVB: 0, 
-        ARGCVR: 0, 
-        AWGCVR: 0, 
-        AIGCVR: 0, 
-        LDOGCV: 0, 
-        FOGCV: 0, 
-        ACGCV: 0, 
-        ARCLC: 0, 
-        AWCLC: 0, 
-        AICLC: 0, 
-        ALDOLC: 0, 
-        AFOLC: 0, 
-        ARCCC: 0, 
-        AWCCC: 0, 
-        AICCC: 0, 
-        OVC: 0, 
-        ATL: 0,
+        ARGCVB: 1, 
+        AWGCVB: 2, 
+        AIGCVB: 3, 
+        ARGCVR: 4, 
+        AWGCVR: 5, 
+        AIGCVR: 6, 
+        LDOGCV: 7, 
+        FOGCV: 8, 
+        ACGCV: 9, 
+        ARCLC: 1, 
+        AWCLC: 2, 
+        AICLC: 3, 
+        ALDOLC: 4, 
+        AFOLC: 5, 
+        ARCCC: 6, 
+        AWCCC: 7, 
+        AICCC: 8, 
+        OVC: 9, 
+        ATL: 1,
         ATLC: 0.32,
-        AMTBF: 0, 
-        ARR: 0, 
-        APAVF: 0, 
+        AMTBF: 2, 
+        ARR: 3, 
+        APAVF: 4, 
         FGMOS: 0
+       /* PDCTDR: 1,
+        OPDCTDR: 2, 
+        ADCTDR: 3, 
+        PDCHDS: 4,
+        OPDCHDS: 5, 
+        ADCHDS: 6,
+        PDCLDS: 7,
+        OPDCLDS: 8,
+        ADCLDS: 9 */
     });
 });
 
@@ -105,6 +123,15 @@ document.getElementById('preset3').addEventListener('click', function() {
         ARR: 0, 
         APAVF: 0, 
         FGMOS: 0
+       /* PDCTDR: 1,
+        OPDCTDR: 2, 
+        ADCTDR: 3, 
+        PDCHDS: 4,
+        OPDCHDS: 5, 
+        ADCHDS: 6,
+        PDCLDS: 7,
+        OPDCLDS: 8,
+        ADCLDS: 9 */
     });
 });
 
@@ -118,35 +145,34 @@ function fillForm(data) {
     }
 }
 
-
-
-
-
 // Function to process the form data and calculate all variables
 function processFormData(formData) {
 
-    // -------> 31 inputs <---------
+    // -------> 40 inputs <---------
 
     const keys = [
         'AGEN', 'AAPC', 'ARGCVB', 'AWGCVB', 'AIGCVB', 'ARGCVR', 'AWGCVR', 'AIGCVR',
-        'LDOGCV', 'FOGCV', 'ACGCV', 'ARCLC', 'AWCLC', 'AICLC', 'ALDOLC', 'AFOLC',
+        'LDOGCV', 'FOGCV', 'ACGCV', 'ARCLC', 'AWCLC', 'AICLC', 'ALDOLC', 'AFOLC', 'ARCCC',
         'ARCC', 'AWCC', 'AICC', 'ALDOC', 'AFOC', 'OVC', 'ATL', 'ATLC', 'AMTBF', 
-        'ARR', 'APAVF', 'FGMOS'
+        'ARR', 'APAVF', 'FGMOS', 'AWCCC', 'AICCC', 'PDCTDR', 'OPDCTDR', 'ADCTDR', 'PDCHDS',
+        'OPDCHDS', 'ADCHDS', 'PDCLDS', 'OPDCLDS', 'ADCLDS'
     ];
 
     // Object to store parsed values
     let parsedValues = {};
 
-    // Iterate over keys array and populate parsedValues object
     keys.forEach(key => {
         parsedValues[key] = parseFloat(formData.get(key));
     });
 
     // Destructure parsedValues to individual variables for easier reference
-    let { AGEN, AAPC, ARGCVB, AWGCVB, AIGCVB, ARGCVR, AWGCVR, AIGCVR, 
+    const { AGEN, AAPC, ARGCVB, AWGCVB, AIGCVB, ARGCVR, AWGCVR, AIGCVR, 
         LDOGCV, FOGCV, ACGCV, ARCLC, AWCLC, AICLC, ALDOLC, AFOLC,
-        ARCC, AWCC, AICC, ALDOC, AFOC, OVC, ATL, ATLC, AMTBF, ARR, 
-        APAVF, FGMOS } = parsedValues;
+        ARCC, ARCCC, AWCC, AWCCC, AICC, AICCC, ALDOC, AFOC, OVC, ATL, ATLC, AMTBF, ARR, 
+        APAVF, FGMOS, PDCTDR, OPDCTDR, ADCTDR, PDCHDS,
+        OPDCHDS, ADCHDS, PDCLDS, OPDCLDS, ADCLDS } = parsedValues;
+
+    
 
     // -------> 11 same as inputs <---------
 
@@ -161,56 +187,107 @@ function processFormData(formData) {
     const NICLC = parsedValues['AICLC'];
     const NLDOLC = parsedValues['ALDOLC'];
     const NFOLC = parsedValues['AFOLC'];
-
-    // -------> <---------
-
-
        
-    // Reference values from a separate sheet or provided inputs
-    const NAPC_PERCENT = 8; // Example value, replace with actual reference
-    const NADLURGCV = 500; // Example value, replace with actual reference
-    const NADLUWGCV = 500; // Example value, replace with actual reference
-    const NSHR = 2300; // Example value, replace with actual reference
-    const NSL = 100; // Example value, replace with actual reference
-    const NFC = 1000; // Example value, replace with actual reference
-    const NFCEWC = 800; // Example value, replace with actual reference
-    const ROE = 10; // Example value, replace with actual reference
-    const TDFY = 365; // Example value, replace with actual reference
-    const NTL = 2; // Example value, replace with actual reference
-    const ROERP = (ROE * TDR) / TDFY; // Calculated value for ROERP
-    const ROEMTBF = createLookupTable(parsedValues['MTBF']); // Replace with actual lookup table function
-    const ROERR = createLookupTable(parsedValues['RampRate']); // Replace with actual lookup table function
-    const ROEPAVF = createLookupTable(parsedValues['PeakAVF']); // Replace with actual lookup table function
-    const ROEFGMO = createLookupTable(parsedValues['FGMO']); // Replace with actual lookup table function
+    // NORMATIVE regulatory parameeters values HARD CODED
+    const IC = 250; // to change to standard value at some point
+    const TDR = 5; // End date - Start Date + 1
+    const NAVF = 10; // this is another normative value
+    const NAPC = 8; // HARD CODED VALUE THAT WE WILL REPLACE WITH OBTAINED VALUES LATER 
+    const NSFOC = 0.5;
+    const NADLURGCV = 500; 
+    const NADLUWGCV = 500; 
+    const NSHR = 2300; 
+    const NSL = 100; 
+    const NFC = 1000; 
+    const NFCEWC = 800;
+    const ROE = 10; 
+    const TDFY = 365; 
+    const NTL = 2; 
+    const ROE_RP = (ROE * TDR) / TDFY; // Calculated value for ROERP
+    const ROE_FGMO = 0;
 
-    // ------->  Derived Formulas  <---------
+    const ROE_MTBF = (AMTBF >= 1 && AMTBF <= 44) ? 0 :
+                 (AMTBF >= 45 && AMTBF <= 89) ? 0.5 :
+                 (AMTBF >= 90 && AMTBF <= 119) ? 0.75 :
+                 (AMTBF >= 120 && AMTBF <= 500) ? 1 : 0;
 
-    const MTBFGain = ROEMTBF * ROERP; //a
-    const RampRateGain = ROERR * ROERP; //b
-    const PeakAVFGain = ROEPAVF * ROERP; //c
-    const FGMOGain = ROEFGMO * ROERP; //d
-    const APCGainLoss = ((parsedValues['NAPC'] - AAPC) * parsedValues['APCR']) / 10;
-    const SFOCGainLoss = parsedValues['NLDOCC'] + parsedValues['NFOCC'] - parsedValues['ALDOCC'] - parsedValues['AFOCC'];
-    const TLGainLoss = ((parsedValues['ARCCC'] * parsedValues['ARCC']) / (1 - parsedValues['NTL'] / 10000000)) - ((parsedValues['ARCCC'] * parsedValues['ARCC']) / 10000000) - parsedValues['ATLC'];
+    const ROE_PAVF = (APAVF >= 0 && APAVF <= 74) ? 0 :
+                 (APAVF >= 75 && APAVF <= 84) ? 0.25 :
+                 (APAVF >= 85 && APAVF <= 89) ? 0.5 :
+                 (APAVF >= 90 && APAVF <= 100) ? 1 : 0;
 
-    // Add calculated values to parsedValues
+    const ROE_RR = (ARR >= 0 && ARR <= 0.24) ? 0 :
+               (ARR >= 0.25 && ARR <= 0.49) ? 0.25 :
+               (ARR >= 0.5 && ARR <= 0.74) ? 0.5 :
+               (ARR >= 0.75 && ARR <= 0.99) ? 0.75 :
+               (ARR >= 1 && ARR <= 1.24) ? 1 :
+               (ARR === 1.25) ? 1.25 : 0;
+
+
+
+
+    const NTHCF = AGEN * NSHR;
+    const NAPCM = AGEN * (NAPC/100)
+    const AHCWC = ( AWCC * ACGCV ) / 1000;
+    const NLDOC = 1;                                  //NSLDOC * AGEN;
+    const NHCLDO = (NLDOC * NLDOGCV * 0.853) / 1000;
+    const NFOC = NSFOC * AGEN
+    const NHCFO = (NFOC * NFOGCV * 0.933) / 1000;
+    const AHCRC = ( ARCC * ACGCV ) / 1000;
+    const AHCIC = ( AICC * ACGCV ) / 1000;
+    const NHCWC = AHCWC * ( NTHCF - NHCLDO - NHCFO) / ( AHCRC + AHCWC + AHCIC );
+    const NHCIC = AHCIC * ( NTHCF - NHCLDO - NHCFO) / ( AHCRC + AHCWC + AHCIC );
+    const NHCRC = NTHCF - ( NHCWC + NHCIC + NHCLDO + NHCFO );
+
+    const NRGCVR = (ARGCVB - ARGCVR > NADLURGCV) ? (ARGCVB - NADLURGCV) : ARGCVR;
+    const NWGCVR = (AWGCVB - AWGCVR > NADLUWGCV) ? (AWGCVB - NADLUWGCV) : AWGCVR;
+    const NRCLC = (ARGCVB - ARGCVR > NADLURGCV) ? (ARGCVB - NADLURGCV) : ARGCVR;
+    const AROPAVFTDR = (OPAVFTDR >= NAVF) ? MPROPAVFTDR : (0.8 * 85 * OPAVFTDR * NFCEWC * TDR / TDFY);
+
+    const NCGCV = [(ARCC * NRGCVR) + (AWCC * NWGCVR) + (AICC * NIGCVR) / (ARCC + AWCC + AICC)] - APSL;
+    const NRCC = (NHCRC / NCGCV) * 1000;
+    const NRCCC = NRCC * (NRCLC / 10^7);          
+    const NWCC = NHCWC / NCGCV * 1000;
+    const NWCCC = NWCC * NWCLC / 10^7;
+    const NICC = NHCIC / NCGCV * 1000;
+    const NICCC = NICC * NICLC / 10^7;
+    const NLDOCC = NLDOC * NLDOLC / 10^7;
+    const NFOCC = NFOC * NFOLC / 10^7;
+    const TNFCC = NRCCC + NWCCC + NICCC + NLDOCC + NFOCC;
+    const APECR = TNFCC / ((AGEN - AAPC) * 10);
+    const ALDOCC = ALDOC * ALDOLC / 10^7;
+    const AFOCC = AFOC * AFOLC / 10^7;
+    const OPAVFTDR = 100 * OPDCTDR / ECTDR;
+    const MPROPAVFTDR = 0.8 * NFCEWC * TDR / TDFY;
+
+    const MPRPAVFTDR = 0.2 * NFCEWC * TDR / TDFY;
+    const ECTDR = IC * ( 1 - NAPC ) * TDR;
+    const PAVFTDR = 100 * PDCTDR / ECTDR
+    const ARPAVFTDR = (PAVFTDR >= NAVF) ? MPRPAVFTDR : (0.2 * 85 * PAVFTDR * NFCEWC * TDR / TDFY);
+    const ARAAVFTDR = ARPAVFTDR + AROPAVFTDR;
+    const MPRAAVFTDR = MPRPAVFTDR + MPROPAVFTDR;
+
+
+    // -------> 9 Derived Formulas now going to be 9 <---------
+
+    const gainMTBF = ROE_MTBF * ROE_RP; 
+    const gainRampRate = ROE_RR * ROE_RP; 
+    const gainPeakAVF = ROE_PAVF * ROE_RP; 
+    const gainFGMO = ROE_FGMO * ROE_RP; 
+    const gainAPC = ((NAPCM - AAPC) * APECR) / 10;
+    const gainSFOC = NLDOCC + NFOCC - ALDOCC - AFOCC;
+    const gainTL = ((ARCCC * ARCC) / (1 - NTL)) - ((ARCCC * ARCC) / 10^7) - ATLC;
+    const gainNSHR = ARCCC + AWCCC + AICCC - NRCCC - NWCCC - NICCC - gainTL;
+    const gainAVF = ARAAVFTDR - MPRAAVFTDR;
+
     Object.assign(parsedValues, {
-        ROERP, ROEMTBF, ROERR, ROEPAVF, ROEFGMO,
-        MTBFGain, RampRateGain, PeakAVFGain, FGMOGain,
-        APCGainLoss, SFOCGainLoss, TLGainLoss
+        ROE_RP, ROE_MTBF, ROE_RR, ROE_PAVF, ROE_FGMO,
+        gainMTBF, gainRampRate, gainPeakAVF, gainFGMO,
+        gainAPC, gainSFOC, gainTL, gainNSHR, gainAVF
     });
 
     return parsedValues;
 }
-
-// Example function to create lookup table values based on input
-function createLookupTable(value) {
-    // Replace with actual logic to fetch or compute lookup table values
-    // For simplicity, returning a static value here
-    return 10; // Example static value; replace with actual logic
-}
-
-
 
 
 document.getElementById('inputForm').addEventListener('submit', function(event) {
@@ -238,7 +315,6 @@ document.getElementById('inputForm').addEventListener('submit', function(event) 
     });
 
 
-    // Perform calculations (replace with your actual calculation logic)
     const calculatedValues = {
         ASL: 0.00,
         ASRCC: 2619.43,
@@ -249,10 +325,8 @@ document.getElementById('inputForm').addEventListener('submit', function(event) 
         NRAMP_RATE: 0.5,
         NPEAK_AVF: 86,
         NFGMO_STATUS: inputData.FGMOS
-        // Add more calculations as needed based on inputData
     };
 
-    // Function to generate report based on calculated values
     function generateReport(calculatedValues) {
         // Gain/Loss Report Parameters
         const gainLossReport = [
@@ -271,12 +345,10 @@ document.getElementById('inputForm').addEventListener('submit', function(event) 
             { srNo: 9, parameter: 'FGMO status', unit: '-', normativeValue: 'In service', achieved: calculatedValues.NFGMO_STATUS === 'y' ? 'Yes' : 'No', commercialGainLoss: 0.0629 }
         ];
 
-        // Total values
         const totalGainLoss = gainLossReport.reduce((total, item) => total + item.commercialGainLoss, 0);
         const totalIncentiveGains = incentiveGainsReport.reduce((total, item) => total + item.commercialGainLoss, 0);
         const netGainLoss = totalGainLoss + totalIncentiveGains;
 
-        // Format the report
         const formattedReport = `
 Gain/ Loss Report as per Norms
 Sr. no.\tParameter\tUnit\tNormative value\tAchieved\tCommercial Gain/ Loss (Rs. Crores)
@@ -294,14 +366,12 @@ Net Gain/ Loss\t\t\t\t\t\t\t${netGainLoss.toFixed(4)}
         return formattedReport;
     }
 
-    // Generate report
     const report = generateReport(calculatedValues);
 
     // Display the report in the UI
     const reportOutput = document.getElementById('reportOutput');
     reportOutput.textContent = report;
 
-    // Show the report container
     const reportContainer = document.getElementById('reportContainer');
     reportContainer.classList.remove('hidden');
 });
@@ -419,9 +489,7 @@ function generateReport() {
     reportOutput.innerHTML = gainLossHTML + incentiveGainsHTML;
 }
 
-// Event listener for form submission
 document.getElementById('inputForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent default form submission
-    // Call function to generate report
+    event.preventDefault(); 
     generateReport();
 });
