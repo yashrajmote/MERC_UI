@@ -25,16 +25,89 @@
                 </aside>
                 <section class="w-3/4 p-4 bg-white shadow">
                     <div class="flex items-center mb-4">
-                        <h1 class="text-2xl font-bold">New Project</h1>
+                        <h1 class="text-2xl font-bold">Select Unit</h1>
                         <div class="ml-4">
                             <button id="preset1" class="px-3 py-1 bg-green-500 text-white rounded-md">KPKD Unit 1-4</button>
                             <button id="preset2" class="px-3 py-1 bg-green-500 text-white rounded-md">KPKD Unit-5</button>
                             <button id="preset3" class="px-3 py-1 bg-green-500 text-white rounded-md">BSL Unit-3</button>
                         </div>
                     </div>
+                    <div class="mt-8">
+                        <div class="flex space-x-4">
+                            <div class="flex-1">
+                                <label for="start-date" class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                                <input type="date" id="start-date" name="start-date" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                            </div>
+                            <div class="flex-1">
+                                <label for="end-date" class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+                                <input type="date" id="end-date" name="end-date" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                            </div>
+                        </div>
+                        <div class="flex justify-end pt-2">
+                            <button onClick="setTDR()" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-md">Set Days Under Reference</button>
+                        </div>
+                    </div>
                     <form id="inputForm">
                         <!-- Accordion for Sections -->
-                        <div x-data="{ openSection: 'generation' }">
+                        <div class="mt-5" x-data="{ openSection: 'regulations' }">
+                            <div @click="openSection = openSection === 'regulations' ? '' : 'regulations'" class="cursor-pointer bg-gray-200 p-2 rounded mb-2">
+                                <h2 class="text-lg font-semibold">Regulatory Parameters Approved by Commission</h2>
+                            </div>
+                            <div x-show="openSection === 'regulations'" class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Installed Capacity (MW)</label>
+                                    <input type="number" name="IC" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Installed Capacity" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Availability Factor (%)</label>
+                                    <input type="number" name="NAVF" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Availability Factor" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Station Heat Rate (kcal/kwh)</label>
+                                    <input type="number" name="NSHR" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Station Heat Rate" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Auxiliiary Power Consumption (%)</label>
+                                    <input type="number" name="NAPC" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Auxiliiary Power Consumption" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Specific Oil Consumption (ml/kwh)<label>
+                                    <input type="number" name="NSFOC" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Specific Oil Consumption" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Transit Loss (%)<label>
+                                    <input type="number" name="NTL" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Transit Loss" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Stack Loss (kcal/kg)<label>
+                                    <input type="number" name="NSL" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Stack Loss" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Fixed Cost (Rs.Crores)<label>
+                                    <input type="number" name="NFC" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Fixed Cost" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Fixed Cost Excluding Water Charges (Rs.Crores)<label>
+                                    <input type="number" name="NFCEWC" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Fixed Cost Excluding Water" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">ROE applicable for incentive (Rs.Crores)<label>
+                                    <input type="number" name="ROE" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="ROE for Incentive" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Max. Allowable Difference in Loading end and Unloading end GCV (Raw Coal) (kcal/kg)<label>
+                                    <input type="number" name="NADLURGCV" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Max. Allowable Difference (Raw Coal)" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Max. Allowable Difference in Loading end and Unloading end GCV (Washed Coal) (kcal/kg)<label>
+                                    <input type="number" name="NADLUWGCV" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Max. Allowable Difference (Washed Coal)" required>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        
+                        <div x-data="{ openSection: 'regulations' }">
                             <div @click="openSection = openSection === 'generation' ? '' : 'generation'" class="cursor-pointer bg-gray-200 p-2 rounded mb-2">
                                 <h2 class="text-lg font-semibold">Generation and Consumption</h2>
                             </div>
@@ -74,11 +147,11 @@
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">LDO GCV (kcal/kg)</label>
-                                    <input type="number" name="LDOGCV" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="LDO GCV" required>
+                                    <input type="number" name="ALDOGCV" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="ALDO GCV" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">FO GCV (kcal/kg)</label>
-                                    <input type="number" name="FOGCV" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="FO GCV" required>
+                                    <input type="number" name="AFOGCV" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="AFO GCV" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Actual Combined Coal GCV after stacking loss (kcal/kg)</label>
@@ -174,43 +247,43 @@
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">FGMO</label>
-                                    <input type="checkbox" name="FGMOS" step="0.0001"  placeholder="FGMO" required>
+                                    <input type="checkbox" id="FGMO" checked="checked" onChange="FGMOstatus()" name="FGMOS" step="0.0001"  placeholder="FGMO" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Peak Hour DC (total)</label>
-                                    <input type="text" name="Peak Hour DC (Total)" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Peak Hour DC (Total)" required>
+                                    <input type="number" name="PDCTDR" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Peak Hour DC (Total)" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Off-peak Hour DC (total)</label>
-                                    <input type="text" name="Off-peak Hour DC (total)" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Off-peak Hour DC (total)" required>
+                                    <input type="number" name="OPDCTDR" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Off-peak Hour DC (total)" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Avg 24-Hour DC (total)</label>
-                                    <input type="text" name="Avg 24-Hour DC (total)" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Avg 24-Hour DC (total)" required>
+                                    <input type="number" name="ADCTDR" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Avg 24-Hour DC (total)" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Peak Hour DC (HDS)</label>
-                                    <input type="text" name="Peak Hour DC (HDS)" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Peak Hour DC (HDS)" required>
+                                    <input type="number" name="PDCHDS" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Peak Hour DC (HDS)" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Off-peak Hour DC (HDS)</label>
-                                    <input type="text" name="Off-peak Hour DC (HDS)" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Off-peak Hour DC (HDS)" required>
+                                    <input type="number" name="OPDCHDS" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Off-peak Hour DC (HDS)" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Avg 24-Hour DC (HDS)</label>
-                                    <input type="text" name="Avg 24-Hour DC (HDS)" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Avg 24-Hour DC (HDS)" required>
+                                    <input type="number" name="ADCHDS" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Avg 24-Hour DC (HDS)" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Peak Hour DC (LDS)</label>
-                                    <input type="text" name="Peak Hour DC (LDS)" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Peak Hour DC (LDS)" required>
+                                    <input type="number" name="PDCLDS" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Peak Hour DC (LDS)" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Off-peak Hour DC (LDS)</label>
-                                    <input type="text" name="Off-peak Hour DC (LDS)" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Off-peak Hour DC (LDS)" required>
+                                    <input type="number" name="OPDCLDS" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Off-peak Hour DC (LDS)" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Avg 24-Hour DC (LDS)</label>
-                                    <input type="text" name="Avg 24-Hour DC (LDS)" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Avg 24-Hour DC (LDS)" required>
+                                    <input type="number" name="ADCLDS" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Avg 24-Hour DC (LDS)" required>
                                 </div>
                             </div>
                         </div>

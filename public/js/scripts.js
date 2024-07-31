@@ -1,7 +1,19 @@
-
-
 document.getElementById('preset1').addEventListener('click', function() {
     fillForm({
+        // NORMATIVE/REGULATORY VALUES
+        IC: 840,
+        NAVF: 80,
+        NSHR: 2630,
+        NAPC: 9.7,
+        NSFOC: 0.5,
+        NTL: 0.8,
+        NSL: 120,
+        NFC: 543.56,
+        NFCEWC: 538.98,
+        ROE: 150,
+        NADLURGCV: 600,
+        NADLUWGCV: 300,
+        // NORMATIVE/REGULATORY VALUES
         AGEN: 300,
         AAPC: 15,
         ARCC: 136258.84,
@@ -11,12 +23,12 @@ document.getElementById('preset1').addEventListener('click', function() {
         AFOC: 145.2,
         ARGCVB: 3742, 
         AWGCVB: 3387, 
-        AIGCVB: 0, 
+        AIGCVB: 2, 
         ARGCVR: 3041, 
         AWGCVR: 4075, 
         AIGCVR: 4701, 
-        LDOGCV: 10657, 
-        FOGCV: 10593, 
+        ALDOGCV: 10657, 
+        AFOGCV: 10593, 
         ACGCV: 2927, 
         ARCLC: 3717, 
         AWCLC: 4621.63, 
@@ -32,8 +44,8 @@ document.getElementById('preset1').addEventListener('click', function() {
         AMTBF: 56, 
         ARR: 0.5, 
         APAVF: 86, 
-        FGMOS: 0
-       /* PDCTDR: 1,
+        FGMOS: 0,
+        PDCTDR: 1,
         OPDCTDR: 2, 
         ADCTDR: 3, 
         PDCHDS: 4,
@@ -41,12 +53,26 @@ document.getElementById('preset1').addEventListener('click', function() {
         ADCHDS: 6,
         PDCLDS: 7,
         OPDCLDS: 8,
-        ADCLDS: 9 */
+        ADCLDS: 9 
     });
 });
 
 document.getElementById('preset2').addEventListener('click', function() {
     fillForm({
+        // NORMATIVE/REGULATORY VALUES
+        IC: 500,
+        NAVF: 85,
+        NSHR: 2375,
+        NAPC: 6,
+        NSFOC: 0.5,
+        NTL: 0.8,
+        NSL: 120,
+        NFC: 543.56,
+        NFCEWC: 538.98,
+        ROE: 150,
+        NADLURGCV: 600,
+        NADLUWGCV: 300,
+        // NORMATIVE/REGULATORY VALUES
         AGEN: 300,
         AAPC: 15,
         ARCC: 136258.84,
@@ -60,8 +86,8 @@ document.getElementById('preset2').addEventListener('click', function() {
         ARGCVR: 4, 
         AWGCVR: 5, 
         AIGCVR: 6, 
-        LDOGCV: 7, 
-        FOGCV: 8, 
+        ALDOGCV: 7, 
+        AFOGCV: 8, 
         ACGCV: 9, 
         ARCLC: 1, 
         AWCLC: 2, 
@@ -77,8 +103,8 @@ document.getElementById('preset2').addEventListener('click', function() {
         AMTBF: 2, 
         ARR: 3, 
         APAVF: 4, 
-        FGMOS: 0
-       /* PDCTDR: 1,
+        FGMOS: 1,
+        PDCTDR: 1,
         OPDCTDR: 2, 
         ADCTDR: 3, 
         PDCHDS: 4,
@@ -86,12 +112,26 @@ document.getElementById('preset2').addEventListener('click', function() {
         ADCHDS: 6,
         PDCLDS: 7,
         OPDCLDS: 8,
-        ADCLDS: 9 */
+        ADCLDS: 9 
     });
 });
 
 document.getElementById('preset3').addEventListener('click', function() {
     fillForm({
+        // NORMATIVE/REGULATORY VALUES
+        IC: 210,
+        NAVF: 80,
+        NSHR: 2787,
+        NAPC: 10.96,
+        NSFOC: 1.4,
+        NTL: 0.8,
+        NSL: 120,
+        NFC: 177.83,
+        NFCEWC: 166.57,
+        ROE: 13.64,
+        NADLURGCV: 600,
+        NADLUWGCV: 300,
+        // NORMATIVE/REGULATORY VALUES
         AGEN: 300,
         AAPC: 15,
         ARCC: 136258.84,
@@ -99,31 +139,31 @@ document.getElementById('preset3').addEventListener('click', function() {
         AICC: 54540.25,
         ALDOC: 0,
         AFOC: 145.2,
-        ARGCVB: 0, 
-        AWGCVB: 0, 
-        AIGCVB: 0, 
-        ARGCVR: 0, 
-        AWGCVR: 0, 
-        AIGCVR: 0, 
-        LDOGCV: 0, 
-        FOGCV: 0, 
-        ACGCV: 0, 
-        ARCLC: 0, 
-        AWCLC: 0, 
-        AICLC: 0, 
-        ALDOLC: 0, 
-        AFOLC: 0, 
-        ARCCC: 0, 
-        AWCCC: 0, 
-        AICCC: 0, 
-        OVC: 0, 
-        ATL: 0,
+        ARGCVB: 1, 
+        AWGCVB: 2, 
+        AIGCVB: 3, 
+        ARGCVR: 4, 
+        AWGCVR: 5, 
+        AIGCVR: 6, 
+        ALDOGCV: 7, 
+        AFOGCV: 8, 
+        ACGCV: 9,
+        ARCLC: 1, 
+        AWCLC: 2, 
+        AICLC: 3, 
+        ALDOLC: 4, 
+        AFOLC: 5, 
+        ARCCC: 6, 
+        AWCCC: 7, 
+        AICCC: 8, 
+        OVC: 8, 
+        ATL: 9,
         ATLC: 0.32,
-        AMTBF: 0, 
-        ARR: 0, 
-        APAVF: 0, 
-        FGMOS: 0
-       /* PDCTDR: 1,
+        AMTBF: 1, 
+        ARR: 2, 
+        APAVF: 3, 
+        FGMOS: 4,
+        PDCTDR: 5,
         OPDCTDR: 2, 
         ADCTDR: 3, 
         PDCHDS: 4,
@@ -131,7 +171,7 @@ document.getElementById('preset3').addEventListener('click', function() {
         ADCHDS: 6,
         PDCLDS: 7,
         OPDCLDS: 8,
-        ADCLDS: 9 */
+        ADCLDS: 9
     });
 });
 
@@ -152,10 +192,12 @@ function processFormData(formData) {
 
     const keys = [
         'AGEN', 'AAPC', 'ARGCVB', 'AWGCVB', 'AIGCVB', 'ARGCVR', 'AWGCVR', 'AIGCVR',
-        'LDOGCV', 'FOGCV', 'ACGCV', 'ARCLC', 'AWCLC', 'AICLC', 'ALDOLC', 'AFOLC', 'ARCCC',
+        'ALDOGCV', 'AFOGCV', 'ACGCV', 'ARCLC', 'AWCLC', 'AICLC', 'ALDOLC', 'AFOLC', 'ARCCC',
         'ARCC', 'AWCC', 'AICC', 'ALDOC', 'AFOC', 'OVC', 'ATL', 'ATLC', 'AMTBF', 
         'ARR', 'APAVF', 'FGMOS', 'AWCCC', 'AICCC', 'PDCTDR', 'OPDCTDR', 'ADCTDR', 'PDCHDS',
-        'OPDCHDS', 'ADCHDS', 'PDCLDS', 'OPDCLDS', 'ADCLDS'
+        'OPDCHDS', 'ADCHDS', 'PDCLDS', 'OPDCLDS', 'ADCLDS', 'IC', 'NAVF', 'NSHR', 'NAPC', 'NSFOC', 
+        'NTL', 'NSL', 'NFC', 'NFCEWC', 'ROE', 'NADLURGCV', 'NADLUWGCV'
+
     ];
 
     // Object to store parsed values
@@ -167,10 +209,11 @@ function processFormData(formData) {
 
     // Destructure parsedValues to individual variables for easier reference
     const { AGEN, AAPC, ARGCVB, AWGCVB, AIGCVB, ARGCVR, AWGCVR, AIGCVR, 
-        LDOGCV, FOGCV, ACGCV, ARCLC, AWCLC, AICLC, ALDOLC, AFOLC,
+        ALDOGCV, AFOGCV, ACGCV, ARCLC, AWCLC, AICLC, ALDOLC, AFOLC,
         ARCC, ARCCC, AWCC, AWCCC, AICC, AICCC, ALDOC, AFOC, OVC, ATL, ATLC, AMTBF, ARR, 
         APAVF, FGMOS, PDCTDR, OPDCTDR, ADCTDR, PDCHDS,
-        OPDCHDS, ADCHDS, PDCLDS, OPDCLDS, ADCLDS } = parsedValues;
+        OPDCHDS, ADCHDS, PDCLDS, OPDCLDS, ADCLDS, IC, NAVF, NSHR, NAPC, NSFOC, NTL, NSL, NFC, NFCEWC, ROE, NADLURGCV, NADLUWGCV
+    } = parsedValues;
 
     
 
@@ -187,48 +230,42 @@ function processFormData(formData) {
     const NICLC = parsedValues['AICLC'];
     const NLDOLC = parsedValues['ALDOLC'];
     const NFOLC = parsedValues['AFOLC'];
-       
-    // NORMATIVE regulatory parameeters values HARD CODED
-    const IC = 250; // to change to standard value at some point
-    const TDR = 5; // End date - Start Date + 1
-    const NAVF = 10; // this is another normative value
-    const NAPC = 8; // HARD CODED VALUE THAT WE WILL REPLACE WITH OBTAINED VALUES LATER 
-    const NSFOC = 0.5;
-    const NADLURGCV = 500; 
-    const NADLUWGCV = 500; 
-    const NSHR = 2300; 
-    const NSL = 100; 
-    const NFC = 1000; 
-    const NFCEWC = 800;
-    const ROE = 10; 
-    const TDFY = 365; 
-    const NTL = 2; 
-    const ROE_RP = (ROE * TDR) / TDFY; // Calculated value for ROERP
-    const ROE_FGMO = 0;
 
-    const ROE_MTBF = (AMTBF >= 1 && AMTBF <= 44) ? 0 :
+    const ROE_RP = (ROE * TDR) / TDFY; // Calculated value for ROERP
+    //const ROE_FGMO = 0; /* if checkbox is checked then value is 1.25% if unchecked then 0% */
+
+    let ROE_FGMO = FGMOstatus();
+
+    let ROE_MTBF = (AMTBF >= 1 && AMTBF <= 44) ? 0 :  /* needs to be percentage */
                  (AMTBF >= 45 && AMTBF <= 89) ? 0.5 :
                  (AMTBF >= 90 && AMTBF <= 119) ? 0.75 :
                  (AMTBF >= 120 && AMTBF <= 500) ? 1 : 0;
 
-    const ROE_PAVF = (APAVF >= 0 && APAVF <= 74) ? 0 :
+    let ROE_PAVF = (APAVF >= 0 && APAVF <= 74) ? 0 : /* needs to be percentage */
                  (APAVF >= 75 && APAVF <= 84) ? 0.25 :
                  (APAVF >= 85 && APAVF <= 89) ? 0.5 :
                  (APAVF >= 90 && APAVF <= 100) ? 1 : 0;
 
-    const ROE_RR = (ARR >= 0 && ARR <= 0.24) ? 0 :
+    let ROE_RR = (ARR >= 0 && ARR <= 0.24) ? 0 : /* needs to be percentage */
                (ARR >= 0.25 && ARR <= 0.49) ? 0.25 :
                (ARR >= 0.5 && ARR <= 0.74) ? 0.5 :
                (ARR >= 0.75 && ARR <= 0.99) ? 0.75 :
                (ARR >= 1 && ARR <= 1.24) ? 1 :
                (ARR === 1.25) ? 1.25 : 0;
 
+    let percentageValues = ['ROE_MTBF', 'ROE_PAVF', 'ROE_RR'];
+    const [converted_ROE_MTBF, converted_ROE_PAVF, converted_ROE_RR] = convertToPercentage(percentageValues);
+    
 
 
+    // Calendar days calculations 
+    const TDR = setTDR(); 
+    console.log('TDR');
+    const TDFY = 365; /* should only take a financial year 1st april to 31st march also including the condition of a leap year */
 
-    const NTHCF = AGEN * NSHR;
-    const NAPCM = AGEN * (NAPC/100)
-    const AHCWC = ( AWCC * ACGCV ) / 1000;
+    const NTHCF = AGEN * NSHR; console.log('TDR');
+    const NAPCM = AGEN * (NAPC/100); console.log('TDR');
+    const AHCWC = ( AWCC * ACGCV ) / 1000; console.log('TDR');
     const NLDOC = 1;                                  //NSLDOC * AGEN;
     const NHCLDO = (NLDOC * NLDOGCV * 0.853) / 1000;
     const NFOC = NSFOC * AGEN
@@ -241,25 +278,28 @@ function processFormData(formData) {
 
     const NRGCVR = (ARGCVB - ARGCVR > NADLURGCV) ? (ARGCVB - NADLURGCV) : ARGCVR;
     const NWGCVR = (AWGCVB - AWGCVR > NADLUWGCV) ? (AWGCVB - NADLUWGCV) : AWGCVR;
-    const NRCLC = (ARGCVB - ARGCVR > NADLURGCV) ? (ARGCVB - NADLURGCV) : ARGCVR;
+    const NRCLC = (NRCC === 0) ? 0 : (ARCC / (1 - (NTL / 100))) + (OVC / (ARCC + AWCC + AICC));
     const AROPAVFTDR = (OPAVFTDR >= NAVF) ? MPROPAVFTDR : (0.8 * 85 * OPAVFTDR * NFCEWC * TDR / TDFY);
 
+    const ASL = [(ARCC * ARGCVR) + (AWCC * AWGCVR) + (AICC * AIGCVR) / (ARCC + AWCC + AICC)] - ACGCV;
+    const APSL = Math.min(NSL, ASL);
+
     const NCGCV = [(ARCC * NRGCVR) + (AWCC * NWGCVR) + (AICC * NIGCVR) / (ARCC + AWCC + AICC)] - APSL;
-    const NRCC = (NHCRC / NCGCV) * 1000;
-    const NRCCC = NRCC * (NRCLC / 10^7);          
+    const NRCC = (NHCRC / NCGCV) * 1000; 
+    const NRCCC = NRCC * (NRCLC / 10^7);           
     const NWCC = NHCWC / NCGCV * 1000;
     const NWCCC = NWCC * NWCLC / 10^7;
     const NICC = NHCIC / NCGCV * 1000;
     const NICCC = NICC * NICLC / 10^7;
     const NLDOCC = NLDOC * NLDOLC / 10^7;
     const NFOCC = NFOC * NFOLC / 10^7;
-    const TNFCC = NRCCC + NWCCC + NICCC + NLDOCC + NFOCC;
+    const TNFCC = NRCCC + NWCCC + NICCC + NLDOCC + NFOCC; 
     const APECR = TNFCC / ((AGEN - AAPC) * 10);
     const ALDOCC = ALDOC * ALDOLC / 10^7;
     const AFOCC = AFOC * AFOLC / 10^7;
+
     const OPAVFTDR = 100 * OPDCTDR / ECTDR;
     const MPROPAVFTDR = 0.8 * NFCEWC * TDR / TDFY;
-
     const MPRPAVFTDR = 0.2 * NFCEWC * TDR / TDFY;
     const ECTDR = IC * ( 1 - NAPC ) * TDR;
     const PAVFTDR = 100 * PDCTDR / ECTDR
@@ -270,9 +310,9 @@ function processFormData(formData) {
 
     // -------> 9 Derived Formulas now going to be 9 <---------
 
-    const gainMTBF = ROE_MTBF * ROE_RP; 
-    const gainRampRate = ROE_RR * ROE_RP; 
-    const gainPeakAVF = ROE_PAVF * ROE_RP; 
+    const gainMTBF = converted_ROE_MTBF * ROE_RP; 
+    const gainRampRate = converted_ROE_RR * ROE_RP; 
+    const gainPeakAVF = converted_ROE_PAVF * ROE_RP; 
     const gainFGMO = ROE_FGMO * ROE_RP; 
     const gainAPC = ((NAPCM - AAPC) * APECR) / 10;
     const gainSFOC = NLDOCC + NFOCC - ALDOCC - AFOCC;
@@ -281,7 +321,7 @@ function processFormData(formData) {
     const gainAVF = ARAAVFTDR - MPRAAVFTDR;
 
     Object.assign(parsedValues, {
-        ROE_RP, ROE_MTBF, ROE_RR, ROE_PAVF, ROE_FGMO,
+        ROE_RP, converted_ROE_MTBF, converted_ROE_RR, converted_ROE_PAVF, ROE_FGMO,
         gainMTBF, gainRampRate, gainPeakAVF, gainFGMO,
         gainAPC, gainSFOC, gainTL, gainNSHR, gainAVF
     });
@@ -289,93 +329,38 @@ function processFormData(formData) {
     return parsedValues;
 }
 
+function convertToPercentage(percentageValues){
+    return percentageValues.map(value => value / 100);
+}
 
-document.getElementById('inputForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const formData = new FormData(this);
-    const formObject = {};
-    formData.forEach((value, key) => {
-        formObject[key] = value;
-    });
+function FGMOstatus(){
+    const checkbox = document.getElementById('FGMO')
 
-    fetch('/submit', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formObject),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        // Do something with the response data, like displaying it on the page
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-
-
-    const calculatedValues = {
-        ASL: 0.00,
-        ASRCC: 2619.43,
-        APSL: 5.00,
-        ASFOC: 0.48,
-        ATLC: 0.78,
-        NMTBF: 56,
-        NRAMP_RATE: 0.5,
-        NPEAK_AVF: 86,
-        NFGMO_STATUS: inputData.FGMOS
-    };
-
-    function generateReport(calculatedValues) {
-        // Gain/Loss Report Parameters
-        const gainLossReport = [
-            { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: 85, achieved: calculatedValues.ASL, commercialGainLoss: -30.9214 },
-            { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: 2430, achieved: calculatedValues.ASRCC, commercialGainLoss: -11.1262 },
-            { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: 8.5, achieved: calculatedValues.APSL, commercialGainLoss: 5.2682 },
-            { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: 0.5, achieved: calculatedValues.ASFOC, commercialGainLoss: 0.0486 },
-            { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: 0.8, achieved: calculatedValues.ATLC, commercialGainLoss: 0.0786 }
-        ];
-
-        // Incentive Gains Report Parameters
-        const incentiveGainsReport = [
-            { srNo: 6, parameter: 'MTBF', unit: 'days', normativeValue: 'min. 45', achieved: calculatedValues.NMTBF, commercialGainLoss: 0.0252 },
-            { srNo: 7, parameter: 'Ramp rate above 1%', unit: '%/min', normativeValue: 'above 1% ramp rate', achieved: calculatedValues.NRAMP_RATE, commercialGainLoss: 0.0252 },
-            { srNo: 8, parameter: 'Peak AVF', unit: '%', normativeValue: 'min. 75%', achieved: calculatedValues.NPEAK_AVF, commercialGainLoss: 0.0252 },
-            { srNo: 9, parameter: 'FGMO status', unit: '-', normativeValue: 'In service', achieved: calculatedValues.NFGMO_STATUS === 'y' ? 'Yes' : 'No', commercialGainLoss: 0.0629 }
-        ];
-
-        const totalGainLoss = gainLossReport.reduce((total, item) => total + item.commercialGainLoss, 0);
-        const totalIncentiveGains = incentiveGainsReport.reduce((total, item) => total + item.commercialGainLoss, 0);
-        const netGainLoss = totalGainLoss + totalIncentiveGains;
-
-        const formattedReport = `
-Gain/ Loss Report as per Norms
-Sr. no.\tParameter\tUnit\tNormative value\tAchieved\tCommercial Gain/ Loss (Rs. Crores)
-${gainLossReport.map(item => `${item.srNo}\t${item.parameter}\t${item.unit}\t${item.normativeValue}\t${item.achieved}\t${item.commercialGainLoss.toFixed(4)}`).join('\n')}
-Total\t\t\t\t\t\t\t${totalGainLoss.toFixed(4)}
-
-Incentive Gains Report as per Regulations
-Sr. no.\tParameter\tUnit\tNormative value\tAchieved\tCommercial Gain/ Loss (Rs. Crores)
-${incentiveGainsReport.map(item => `${item.srNo}\t${item.parameter}\t${item.unit}\t${item.normativeValue}\t${item.achieved}\t${item.commercialGainLoss.toFixed(4)}`).join('\n')}
-Total\t\t\t\t\t\t\t${totalIncentiveGains.toFixed(4)}
-
-Net Gain/ Loss\t\t\t\t\t\t\t${netGainLoss.toFixed(4)}
-`;
-
-        return formattedReport;
+    if(checkbox.checked){
+        return 1.25 / 100
+    } else {
+        return 0;
     }
+}
 
-    const report = generateReport(calculatedValues);
+function setTDR() { 
 
-    // Display the report in the UI
-    const reportOutput = document.getElementById('reportOutput');
-    reportOutput.textContent = report;
+    const startDateInput = document.getElementById('start-date').value;
+    const endDateInput = document.getElementById('end-date');
 
-    const reportContainer = document.getElementById('reportContainer');
-    reportContainer.classList.remove('hidden');
-});
+    const startDate = new Date(startDateInput.value);
+    const endDate = new Date(endDateInput.value);
 
+    const differenceInMillis = endDate - startDate;
+
+    const differenceInDays = Math.ceil(differenceInMillis / (1000 * 60 * 60 * 24));
+
+    return differenceInDays;
+}
+
+window.onLoad = function(){
+    FGMOstatus();
+}
 
 
 function generateReport() {
@@ -489,7 +474,15 @@ function generateReport() {
     reportOutput.innerHTML = gainLossHTML + incentiveGainsHTML;
 }
 
-document.getElementById('inputForm').addEventListener('submit', function(event) {
-    event.preventDefault(); 
+function handleSubmit(event) {
+    event.preventDefault();
+
     generateReport();
-});
+
+    const formData = new FormData(event.target);
+    const processedData = processFormData(formData);
+
+    console.log(processedData); 
+}
+
+document.getElementById('inputForm').addEventListener('submit', handleSubmit);
