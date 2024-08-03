@@ -433,9 +433,9 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
 
     // Gain/Loss Report Data
     const gainLossData = [
-        { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: 85, achieved: 0.00, gainLoss: gainAVF },
+        { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: 0.00, gainLoss: gainAVF },
         { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: 2619.43, gainLoss: gainNSHR },
-        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPCM, achieved: 5.00, gainLoss: gainAPC },
+        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPCM, achieved: AAPC, gainLoss: gainAPC },
         { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: 0.5, achieved: 0.48, gainLoss: gainSFOC },
         { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: NTL, achieved: ATL, gainLoss: gainTL }
     ];
