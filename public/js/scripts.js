@@ -15,7 +15,7 @@ document.getElementById('preset1').addEventListener('click', function() {
         NADLUWGCV: 300,
         // NORMATIVE/REGULATORY VALUES
         AGEN: 300,
-        AAPC: 15,
+        AAPCM: 15,
         ARCC: 136258.84,
         AWCC: 31042.3,
         AICC: 54540.25,
@@ -23,7 +23,7 @@ document.getElementById('preset1').addEventListener('click', function() {
         AFOC: 145.2,
         ARGCVB: 3742, 
         AWGCVB: 3387, 
-        AIGCVB: 2, 
+        AIGCVB: 0, 
         ARGCVR: 3041, 
         AWGCVR: 4075, 
         AIGCVR: 4701, 
@@ -32,28 +32,28 @@ document.getElementById('preset1').addEventListener('click', function() {
         ACGCV: 2927, 
         ARCLC: 3717, 
         AWCLC: 4621.63, 
-        AICLC: 4621.63, 
+        AICLC: 16214.12, 
         ALDOLC: 49015.35, 
         AFOLC: 39047.69, 
-        ARCCC: 3607.00, 
-        AWCCC: 4534.95, 
-        AICCC: 16127.44, 
+        IRCCC: 3607.00, 
+        IWCCC: 4534.95, 
+        IICCC: 16127.44, 
         OVC: 19229430.98, 
         ATL: 0.78,
-        ATLC: 0.32,
+        ATLC: 0.3177,
         AMTBF: 56, 
         ARR: 0.5, 
         APAVF: 86, 
         FGMOS: 0,
-        PDCTDR: 1,
-        OPDCTDR: 2, 
-        ADCTDR: 3, 
-        PDCHDS: 4,
-        OPDCHDS: 5, 
-        ADCHDS: 6,
-        PDCLDS: 7,
-        OPDCLDS: 8,
-        ADCLDS: 9 
+        PDCTDR: 0,
+        OPDCTDR: 0, 
+        ADCTDR: 0, 
+        PDCHDS: 0,
+        OPDCHDS: 0, 
+        ADCHDS: 0,
+        PDCLDS: 0,
+        OPDCLDS: 0,
+        ADCLDS: 0 
     });
 });
 
@@ -74,7 +74,7 @@ document.getElementById('preset2').addEventListener('click', function() {
         NADLUWGCV: 300,
         // NORMATIVE/REGULATORY VALUES
         AGEN: 300,
-        AAPC: 15,
+        AAPCM: 15,
         ARCC: 136258.84,
         AWCC: 31042.3,
         AICC: 54540.25,
@@ -94,9 +94,9 @@ document.getElementById('preset2').addEventListener('click', function() {
         AICLC: 3, 
         ALDOLC: 4, 
         AFOLC: 5, 
-        ARCCC: 6, 
-        AWCCC: 7, 
-        AICCC: 8, 
+        IRCCC: 6, 
+        IWCCC: 7, 
+        IICCC: 8, 
         OVC: 9, 
         ATL: 1,
         ATLC: 0.32,
@@ -133,7 +133,7 @@ document.getElementById('preset3').addEventListener('click', function() {
         NADLUWGCV: 300,
         // NORMATIVE/REGULATORY VALUES
         AGEN: 300,
-        AAPC: 15,
+        AAPCM: 15,
         ARCC: 136258.84,
         AWCC: 31042.3,
         AICC: 54540.25,
@@ -153,9 +153,9 @@ document.getElementById('preset3').addEventListener('click', function() {
         AICLC: 3, 
         ALDOLC: 4, 
         AFOLC: 5, 
-        ARCCC: 6, 
-        AWCCC: 7, 
-        AICCC: 8, 
+        IRCCC: 6, 
+        IWCCC: 7, 
+        IICCC: 8, 
         OVC: 8, 
         ATL: 9,
         ATLC: 0.32,
@@ -233,12 +233,12 @@ function calculateTDFY() {
 
 function parseFormData(formData) {
     const keys = [
-        'AGEN', 'AAPC', 'ARGCVB', 'AWGCVB', 'AIGCVB', 'ARGCVR', 'AWGCVR', 'AIGCVR',
-        'ALDOGCV', 'AFOGCV', 'ACGCV', 'ARCLC', 'AWCLC', 'AICLC', 'ALDOLC', 'AFOLC', 'ARCCC',
+        'AGEN', 'AAPCM', 'ARGCVB', 'AWGCVB', 'AIGCVB', 'ARGCVR', 'AWGCVR', 'AIGCVR',
+        'ALDOGCV', 'AFOGCV', 'ACGCV', 'ARCLC', 'AWCLC', 'AICLC', 'ALDOLC', 'AFOLC',
         'ARCC', 'AWCC', 'AICC', 'ALDOC', 'AFOC', 'OVC', 'ATL', 'ATLC', 'AMTBF', 
-        'ARR', 'APAVF', 'FGMOS', 'AWCCC', 'AICCC', 'PDCTDR', 'OPDCTDR', 'ADCTDR', 'PDCHDS',
+        'ARR', 'APAVF', 'FGMOS', 'PDCTDR', 'OPDCTDR', 'ADCTDR', 'PDCHDS',
         'OPDCHDS', 'ADCHDS', 'PDCLDS', 'OPDCLDS', 'ADCLDS', 'IC', 'NAVF', 'NSHR', 'NAPC', 'NSFOC', 
-        'NTL', 'NSL', 'NFC', 'NFCEWC', 'ROE', 'NADLURGCV', 'NADLUWGCV'
+        'NTL', 'NSL', 'NFC', 'NFCEWC', 'ROE', 'NADLURGCV', 'NADLUWGCV', 'IRCCC', 'IWCCC', 'IICCC'
     ];
 
     let parsedValues = {};
@@ -277,6 +277,7 @@ function calculateROEValues(parsedValues, TDR, TDFY) {
     const { ROE, AMTBF, APAVF, ARR } = parsedValues;
 
     const ROE_RP = (ROE * TDR) / TDFY;
+    
     let ROE_MTBF = (AMTBF >= 1 && AMTBF <= 44) ? 0 :  
                  (AMTBF >= 45 && AMTBF <= 89) ? 0.5 :
                  (AMTBF >= 90 && AMTBF <= 119) ? 0.75 :
@@ -300,46 +301,62 @@ function calculateROEValues(parsedValues, TDR, TDFY) {
     return { ROE_RP, converted_ROE_MTBF, converted_ROE_PAVF, converted_ROE_RR };
 }
 function calculations(parsedValues, TDR, TDFY) {
-    const { IC, AGEN, NAVF, NSHR, NAPC, AWCC, ACGCV, ALDOC, ALDOLC, NSFOC, ARCC, AICCC, AFOGCV, AWGCVR, 
-        AIGCVR, ARGCVB, OPDCTDR, NADLURGCV, ARGCVR, AIGCVB, NADLUWGCV, ARCCC, ATLC, NTL, OVC, AFOC, AFOLC, APGEN, NRGCVB, 
-        NWGCVB, NIGCVB, NIGCVR, NFCEWC, NLDOGCV, NFOGCV, PDCTDR, NWCLC, NICLC, NLDOLC, NFOLC, NSL, AAPC } = parsedValues;
+    const { IC, AICC, AGEN, NAVF, NSHR, NAPC, AWCC, ACGCV, ALDOC, ALDOLC, NSFOC, ARCC, AFOGCV, AWGCVR, 
+        AIGCVR, ARGCVB, OPDCTDR, NADLURGCV, ARGCVR, AIGCVB, NADLUWGCV, ATLC, NTL, OVC, AFOC, AFOLC, APGEN, NRGCVB, 
+        NWGCVB, NIGCVB, NIGCVR, NFCEWC, NLDOGCV, NFOGCV, PDCTDR, NWCLC, NICLC, NLDOLC, NFOLC, NSL, AAPCM, ADCTDR, ALDOGCV, 
+        ARCLC, AWCLC, AICLC, IRCCC } = parsedValues;
 
+    const AWCCC = ( AWCC * AWCLC ) / 10 ** 7;
+    const AICCC = ( AICC * AICLC ) / 10 ** 7;
+    const ARCCC = ( ARCC * ARCLC ) / 10 ** 7;
+    const AAPC = ( AAPCM / AGEN ) * 100;
     const NTHCF = AGEN * NSHR;
     const NAPCM = AGEN * (NAPC / 100);
     const AHCWC = (AWCC * ACGCV) / 1000;
-    const NLDOC = 1; // NSLDOC * AGEN;
+    const NSLDOC = 0.2 * NSFOC;
+    const NSFFOC = 0.8 * NSFOC;
+    const NLDOC = NSLDOC * AGEN; // NSLDOC * AGEN;
     const NHCLDO = (NLDOC * NLDOGCV * 0.853) / 1000;
-    const NFOC = NSFOC * AGEN;
+    const NFOC = NSFFOC * AGEN;
     const NHCFO = (NFOC * NFOGCV * 0.933) / 1000;
     const AHCRC = (ARCC * ACGCV) / 1000;
-    const AHCIC = (AICCC * ACGCV) / 1000;
+    const AHCIC = (AICC * ACGCV) / 1000;
     const NHCWC = AHCWC * (NTHCF - NHCLDO - NHCFO) / (AHCRC + AHCWC + AHCIC);
     const NHCIC = AHCIC * (NTHCF - NHCLDO - NHCFO) / (AHCRC + AHCWC + AHCIC);
     const NHCRC = NTHCF - (NHCWC + NHCIC + NHCLDO + NHCFO);
 
     const NRGCVR = (ARGCVB - ARGCVR > NADLURGCV) ? (ARGCVB - NADLURGCV) : ARGCVR;
     const NWGCVR = (NWGCVB - AWGCVR > NADLUWGCV) ? (NWGCVB - NADLUWGCV) : AWGCVR;
-    const ASL = [(ARCC * ARGCVR) + (AWCC * AWGCVR) + (AICCC * AIGCVR) / (ARCC + AWCC + AICCC)] - ACGCV;
+    const ASL = (((ARCC * ARGCVR) + (AWCC * AWGCVR) + (AICC * AIGCVR)) / (ARCC + AWCC + AICC)) - ACGCV;
     const APSL = Math.min(NSL, ASL);
-    const NCGCV = [(ARCC * NRGCVR) + (AWCC * NWGCVR) + (AICCC * NIGCVR) / (ARCC + AWCC + AICCC)] - APSL;
+    const NCGCV = (((ARCC * NRGCVR) + (AWCC * NWGCVR) + (AICC * NIGCVR)) / (ARCC + AWCC + AICC)) - APSL;
     const NRCC = (NHCRC / NCGCV) * 1000;
-    const NRCLC = (NRCC === 0) ? 0 : (ARCC / (1 - (NTL / 100))) + (OVC / (ARCC + AWCC + AICCC));
-    const NRCCC = NRCC * (NRCLC / 10 ** 7);
+    const NRCLC = (NRCC === 0) ? 0 : (IRCCC / (1 - (NTL / 100))) + (OVC / (ARCC + AWCC + AICC));
+    const NRCCC = ( NRCC * NRCLC ) / 10 ** 7;
 
 
     const NWCC = NHCWC / NCGCV * 1000;
-    const NWCCC = NWCC * NWCLC / 10 ** 7;
+    const NWCCC = ( NWCC * NWCLC ) / 10 ** 7;
     const NICC = NHCIC / NCGCV * 1000;
-    const NICCC = NICC * NICLC / 10 ** 7;
-    const NLDOCC = NLDOC * NLDOLC / 10 ** 7;
-    const NFOCC = NFOC * NFOLC / 10 ** 7;
+    const NICCC = ( NICC * NICLC ) / 10 ** 7;
+    const NLDOCC = ( NLDOC * NLDOLC ) / 10 ** 7;
+    const NFOCC = ( NFOC * NFOLC ) / 10 ** 7;
     const TNFCC = NRCCC + NWCCC + NICCC + NLDOCC + NFOCC;
-    const APECR = TNFCC / ((AGEN - AAPC) * 10);
+    const APECR = (TNFCC / (AGEN - AAPCM)) * 10;
     const ALDOCC = ALDOC * ALDOLC / 10 ** 7;
     const AFOCC = AFOC * AFOLC / 10 ** 7;
+    const AHCLDO = ALDOC * ALDOGCV * 0.853 / 1000;
+    const AHCFO = AFOC * AFOGCV * 0.933 / 1000;
+    const ATHCF = AHCRC + AHCWC + AHCIC + AHCLDO + AHCFO;
+    const ASHR = ATHCF / AGEN;
+    const ASLDOC = ALDOC / AGEN;
+    const ASFOC = AFOC / AGEN;
+    const ACSFOC = ASLDOC + ASFOC;
+
 
     const ECTDR = IC * ( 1 - NAPC ) * TDR;
-    const OPAVFTDR = 100 * OPDCTDR / ECTDR;
+    const AAVFTDR = 100  * ( ADCTDR / ECTDR );
+    const OPAVFTDR = 100 * ( OPDCTDR / ECTDR );
     const MPROPAVFTDR = 0.8 * NFCEWC * TDR / TDFY;
 
     const AROPAVFTDR = (OPAVFTDR >= NAVF) ? MPROPAVFTDR : (0.8 * 85 * OPAVFTDR * NFCEWC * TDR / TDFY);
@@ -351,13 +368,14 @@ function calculations(parsedValues, TDR, TDFY) {
     const MPRAAVFTDR = MPRPAVFTDR + MPROPAVFTDR;
 
     return { NTHCF, NAPCM, AHCWC, NLDOC, NHCLDO, NFOC, NHCFO, AHCRC, AHCIC, NHCWC, NHCIC, NHCRC, NRGCVR, 
-        NWGCVR, ASL, APSL, NCGCV, NRCC, NRCCC, NRCLC, NWCC, NWCCC, NICC, NICCC, NLDOCC, NFOCC, TNFCC, APECR, ALDOCC, AFOCC, ARAAVFTDR, MPRAAVFTDR };
+             NWGCVR, ASL, APSL, NCGCV, NRCC, NRCCC, NRCLC, NWCC, NWCCC, NICC, NICCC, NLDOCC, NFOCC, TNFCC, APECR, 
+             ALDOCC, AFOCC, ARAAVFTDR, MPRAAVFTDR, AAPC, AAVFTDR, ASHR, ASFOC, NTL, ARCCC, AICCC, AWCCC, AAPCM };
 }
 
 function calculateGainValues(parsedValues, afterCalculations, ROEValues) {
     const { ROE_RP, converted_ROE_MTBF, converted_ROE_RR, converted_ROE_PAVF } = ROEValues;
-    const { NAPCM, APECR, NLDOCC, NFOCC, ALDOCC, AFOCC, NRCCC, NWCCC, NICCC, ARAAVFTDR, MPRAAVFTDR } = afterCalculations;
-    const { AAPC, AICCC, AWCCC, ARCCC, ARCC, ATLC, NTL } = parsedValues;
+    const { NAPCM, APECR, NLDOCC, NFOCC, ALDOCC, AFOCC, NRCCC, NWCCC, NICCC, ARAAVFTDR, MPRAAVFTDR, AAPCM, AICCC, AWCCC, ARCCC } = afterCalculations;
+    const { ARCC, ATLC, NTL, IRCCC, IWCCC, IICCC } = parsedValues;
 
 
     const ROE_FGMO = FGMOstatus();
@@ -366,10 +384,10 @@ function calculateGainValues(parsedValues, afterCalculations, ROEValues) {
     const gainRampRate = converted_ROE_RR * ROE_RP;
     const gainPeakAVF = converted_ROE_PAVF * ROE_RP;
     const gainFGMO = ROE_FGMO * ROE_RP;
-    const gainAPC = ((NAPCM - AAPC) * APECR) / 10;
+    const gainAPC = ((NAPCM - AAPCM) * APECR) / 10;
     const gainSFOC = NLDOCC + NFOCC - ALDOCC - AFOCC;
-    const gainTL = ((ARCCC * ARCC) / (1 - NTL)) - ((ARCCC * ARCC) / 10 ** 7) - ATLC;
-    const gainNSHR = ARCCC + AWCCC + AICCC - NRCCC - NWCCC - NICCC - gainTL;
+    const gainTL = ((((IRCCC * ARCC) / (1 - (NTL / 100))) - (IRCCC * ARCC)) / 10 ** 7) - ATLC;
+    const gainNSHR = NRCCC + NWCCC + NICCC - ARCCC - AWCCC - AICCC - gainTL;
     const gainAVF = ARAAVFTDR - MPRAAVFTDR;
 
     return { gainMTBF, gainRampRate, gainPeakAVF, gainFGMO, gainAPC, gainSFOC, gainTL, gainNSHR, gainAVF };
@@ -421,22 +439,18 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
 
     const { NTHCF, NAPCM, AHCWC, NLDOC, NHCLDO, NFOC, NHCFO, AHCRC, AHCIC, NHCWC, NHCIC, NHCRC, NRGCVR, 
         NWGCVR, ASL, APSL, NCGCV, NRCC, NRCCC, NRCLC, NWCC, NWCCC, NICC, NICCC, NLDOCC, NFOCC, TNFCC, 
-        APECR, ALDOCC, AFOCC, ARAAVFTDR, MPRAAVFTDR  } = afterCalculations;
+        APECR, ALDOCC, AFOCC, ARAAVFTDR, MPRAAVFTDR, AAPCM, AAVFTDR, ASHR, ASFOC } = afterCalculations;
 
     const { ROE_RP, converted_ROE_MTBF, converted_ROE_PAVF, converted_ROE_RR } = ROEValues;
 
-    const { AGEN, AAPC, ARGCVB, AWGCVB, AIGCVB, ARGCVR, AWGCVR, AIGCVR, ALDOGCV, AFOGCV, ACGCV, ARCLC, AWCLC, AICLC, 
-        ALDOLC, AFOLC, ARCCC, ARCC, AWCC, AICC, ALDOC, AFOC, OVC, ATL, ATLC, AMTBF, ARR, APAVF, FGMOS, AWCCC, AICCC, 
-        PDCTDR, OPDCTDR, ADCTDR, PDCHDS, OPDCHDS, ADCHDS, PDCLDS, OPDCLDS, ADCLDS, IC, NAVF, NSHR, NAPC, NSFOC, NTL, 
-        NSL, NFC, NFCEWC, ROE, NADLURGCV, NADLUWGCV
-    } = parsedValues;        
+    const { ATL, ATLC, AMTBF, ARR, APAVF, NAVF, NSHR, NAPC, NSFOC, NTL } = parsedValues;        
 
     // Gain/Loss Report Data
     const gainLossData = [
-        { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: 0.00, gainLoss: gainAVF },
-        { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: 2619.43, gainLoss: gainNSHR },
-        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPCM, achieved: AAPC, gainLoss: gainAPC },
-        { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: 0.5, achieved: 0.48, gainLoss: gainSFOC },
+        { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: AAVFTDR, gainLoss: gainAVF },
+        { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: ASHR, gainLoss: gainNSHR },
+        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: AAPCM, gainLoss: gainAPC },
+        { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: NSFOC, achieved: ASFOC, gainLoss: gainSFOC },
         { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: NTL, achieved: ATL, gainLoss: gainTL }
     ];
 
@@ -454,7 +468,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
     // Constructing Gain/Loss Report HTML
     let gainLossHTML = `
         <h2 class="text-lg font-semibold">Gain/ Loss Report as per Norms</h2>
-        <table class="mt-4 w-full border-collapse border border-gray-300">
+        <table class="mt-6 w-full border-collapse border border-gray-300 shadow-lg rounded-lg">
             <thead>
                 <tr class="bg-gray-200">
                     <th class="border border-gray-300 px-4 py-2">#</th>
@@ -493,7 +507,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
     // Constructing Incentive Gains Report HTML
     let incentiveGainsHTML = `
         <h2 class="text-lg font-semibold mt-8">Incentive Gains Report as per Regulations</h2>
-        <table class="mt-4 w-full border-collapse border border-gray-300">
+        <table class="mt-6 w-full border-collapse border border-gray-300 shadow-lg rounded-lg">
             <thead>
                 <tr class="bg-gray-200">
                     <th class="border border-gray-300 px-4 py-2">#</th>
