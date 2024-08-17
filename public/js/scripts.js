@@ -78,41 +78,41 @@ document.getElementById('preset2').addEventListener('click', function() {
         ARCC: 136258.84,
         AWCC: 31042.3,
         AICC: 54540.25,
-        ALDOC: 7,
+        ALDOC: 0,
         AFOC: 145.2,
-        ARGCVB: 1, 
-        AWGCVB: 2, 
-        AIGCVB: 3, 
-        ARGCVR: 4, 
-        AWGCVR: 5, 
-        AIGCVR: 6, 
-        ALDOGCV: 7, 
-        AFOGCV: 8, 
-        ACGCV: 9, 
-        ARCLC: 1, 
-        AWCLC: 2, 
-        AICLC: 3, 
-        ALDOLC: 4, 
-        AFOLC: 5, 
-        IRCCC: 6, 
-        IWCCC: 7, 
-        IICCC: 8, 
-        OVC: 9, 
-        ATL: 1,
-        ATLC: 0.32,
-        AMTBF: 2, 
-        ARR: 3, 
-        APAVF: 4, 
+        ARGCVB: 3742, 
+        AWGCVB: 3387, 
+        AIGCVB: 0, 
+        ARGCVR: 3041, 
+        AWGCVR: 4075, 
+        AIGCVR: 4701, 
+        ALDOGCV: 10657, 
+        AFOGCV: 10593, 
+        ACGCV: 2927, 
+        ARCLC: 3717, 
+        AWCLC: 4621.63, 
+        AICLC: 16214.12, 
+        ALDOLC: 49015.35, 
+        AFOLC: 39047.69, 
+        IRCCC: 3607, 
+        IWCCC: 4534.95, 
+        IICCC: 16127.44, 
+        OVC: 19229431, 
+        ATL: 0.78,
+        ATLC: 0.3177,
+        AMTBF: 56, 
+        ARR: 0.5, 
+        APAVF: 86, 
         FGMOS: 1,
-        PDCTDR: 1,
-        OPDCTDR: 2, 
-        ADCTDR: 3, 
-        PDCHDS: 4,
-        OPDCHDS: 5, 
-        ADCHDS: 6,
-        PDCLDS: 7,
-        OPDCLDS: 8,
-        ADCLDS: 9 
+        PDCTDR: 0,
+        OPDCTDR: 0, 
+        ADCTDR: 0, 
+        PDCHDS: 0,
+        OPDCHDS: 0, 
+        ADCHDS: 0,
+        PDCLDS: 0,
+        OPDCLDS: 0,
+        ADCLDS: 0 
     });
 });
 
@@ -437,9 +437,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
 
     const { gainMTBF, gainRampRate, gainPeakAVF, gainFGMO, gainAPC, gainSFOC, gainTL, gainNSHR, gainAVF } = gainValues;
 
-    const { NTHCF, NAPCM, AHCWC, NLDOC, NHCLDO, NFOC, NHCFO, AHCRC, AHCIC, NHCWC, NHCIC, NHCRC, NRGCVR, 
-        NWGCVR, ASL, APSL, NCGCV, NRCC, NRCCC, NRCLC, NWCC, NWCCC, NICC, NICCC, NLDOCC, NFOCC, TNFCC, 
-        APECR, ALDOCC, AFOCC, ARAAVFTDR, MPRAAVFTDR, AAPCM, AAVFTDR, ASHR, ASFOC } = afterCalculations;
+    const { AAPC, AAVFTDR, ASHR, ASFOC } = afterCalculations;
 
     const { ROE_RP, converted_ROE_MTBF, converted_ROE_PAVF, converted_ROE_RR } = ROEValues;
 
@@ -449,7 +447,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
     const gainLossData = [
         { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: AAVFTDR, gainLoss: gainAVF },
         { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: ASHR, gainLoss: gainNSHR },
-        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: AAPCM, gainLoss: gainAPC },
+        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: AAPC, gainLoss: gainAPC },
         { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: NSFOC, achieved: ASFOC, gainLoss: gainSFOC },
         { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: NTL, achieved: ATL, gainLoss: gainTL }
     ];
@@ -463,7 +461,11 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
     ];
 
     // Net Gain/Loss
-    const netGainLoss = gainMTBF + gainRampRate + gainPeakAVF + gainFGMO + gainAPC + gainSFOC + gainTL + gainNSHR + gainAVF;
+    const normGainLoss = gainAPC + gainSFOC + gainTL + gainNSHR + gainAVF ;
+
+    const incentiveGainLoss = gainMTBF + gainRampRate + gainPeakAVF + gainFGMO;
+
+    const netGainLoss = normGainLoss - incentiveGainLoss;
 
     // Constructing Gain/Loss Report HTML
     let gainLossHTML = `
@@ -498,7 +500,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
     gainLossHTML += `
             <tr>
                 <td colspan="5" class="border border-gray-300 px-4 py-2 text-right font-semibold">Total</td>
-                <td class="border border-gray-300 px-4 py-2 font-semibold">${netGainLoss.toFixed(4)}</td>
+                <td class="border border-gray-300 px-4 py-2 font-semibold">${normGainLoss.toFixed(4)}</td>
             </tr>
         </tbody>
     </table>
@@ -535,7 +537,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
     incentiveGainsHTML += `
             <tr>
                 <td colspan="4" class="border border-gray-300 px-4 py-2 text-right font-semibold">Total</td>
-                <td class="border border-gray-300 px-4 py-2 font-semibold">0.1384</td>
+                <td class="border border-gray-300 px-4 py-2 font-semibold">${incentiveGainLoss.toFixed(4)}</td>
             </tr>
         </tbody>
     </table>
@@ -553,5 +555,88 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
 
     const reportOutput = document.getElementById('reportOutput');
     reportOutput.innerHTML = gainLossHTML + incentiveGainsHTML;
+
+    gainLossData.forEach(chart => {
+        const ctx = document.getElementById(`chart${chart.srNo}`).getContext('2d');
+
+        new Chart (ctx, {
+            type: 'bar', 
+            data: { 
+                labels: ['Normative', 'Achieved'], 
+                datasets: [{
+                    label: chart.parameter, 
+                    data: [chart.normativeValue, chart.achieved], 
+                    backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)'],
+                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)'],
+                    borderWidth: 2
+                }]
+            }, 
+            options: {
+                indexAxis: 'y', 
+                responsive: true, 
+                
+            }
+        })
+    })
+
+    const ctx1 = document.getElementById(`chart6`).getContext('2d');
+
+        new Chart (ctx1, {
+            type: 'doughnut', 
+            data: { 
+                labels: ['MTBF', 'Ramp Rate', 'Peak AVF', 'FGMO Status'], 
+                datasets: [{
+                    label: 'Gains', 
+                    data: [gainMTBF, gainRampRate, gainPeakAVF, gainFGMO], 
+                    backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(254, 2, 155, 0.2)', 'rgba(123, 23, 432, 0.2)' ],
+                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)' ],
+                    borderWidth: 2
+                }]
+            }, 
+            options: {
+                responsive: true, 
+                plugins: {
+                    legend: {
+                      position: 'top'
+                    }
+            }
+        }
+    });
+
+    const ctx2 = document.getElementById(`chart7`).getContext('2d');
+
+        new Chart (ctx2, {
+            type: 'bar', 
+            data: { 
+                labels: ['Availability Factor', 'Heat Rate', 'Auxilliary Power Consumption', 'Specific Oil Consumption', 'Transit Loss'], 
+                datasets: [{
+                    label: 'Gains', // change this
+                    data: [gainAVF, gainNSHR, gainAPC, gainSFOC, gainTL], 
+                    backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(254, 2, 155, 0.2)', 'rgba(123, 23, 432, 0.2)' ],
+                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)' ],
+                    borderWidth: 2
+                }]
+            }, 
+            options: {
+                responsive: true, 
+                plugins: {
+                    legend: {
+                      position: 'top'
+                    }
+            }
+        }
+    });
+
 }
+
+document.getElementById('menuButton').addEventListener('click', function() {
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar.classList.contains('sidebar-hidden')) {
+        sidebar.classList.remove('sidebar-hidden');
+        sidebar.classList.add('sidebar-visible');
+    } else {
+        sidebar.classList.remove('sidebar-visible');
+        sidebar.classList.add('sidebar-hidden');
+    }
+});
 

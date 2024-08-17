@@ -8,7 +8,7 @@
     <title>Mahagenco</title>
 </head>
 <body class="bg-gray-100">
-    <div class="min-h-screen flex flex-col">
+    <div class="max-h-screen flex flex-col">
         <nav class="bg-white shadow p-4">
             <div class="container mx-auto flex items-center">
                 <img src="images/abhitech-mahagenco-combined-logo.png" alt="Logo" class="h-20 w-auto">
@@ -43,11 +43,12 @@
                                 <input type="date" id="end-date" name="end-date" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
                             </div>
                         </div>
-                        <div class="flex justify-end pt-2">
-                            <button onClick="setTDR()" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-md">Set Days Under Reference</button>
-                        </div>
                     </div>
                     <form id="inputForm">
+                        <!-- Submit Button -->
+                        <div class="flex pt-4">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">Generate Report</button>
+                        </div>
                         <!-- Accordion for Sections -->
                         <div class="mt-5" x-data="{ openSection: 'regulations' }">
                             <div @click="openSection = openSection === 'regulations' ? '' : 'regulations'" class="cursor-pointer bg-gray-200 p-2 rounded mb-2">
@@ -298,18 +299,42 @@
                                     <input type="number" name="ADCLDS" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Avg 24-Hour DC (LDS)" required>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <div class="flex justify-end">
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">Generate Report</button>
-                        </div>
+                        </div>         
                     </form>
 
                    <!-- Report Output Container -->
-            <div id="reportContainer" class="hidden">
+            <div id="reportContainer" class="hidden overflow-auto w-full">
                 <h2 class="text-lg font-semibold">Generated Report:</h2>
                 <pre id="reportOutput" class="mt-2 p-4 bg-gray-200 rounded"></pre>
+
+                <div class="mt-8 p-4 bg-white shadow-md rounded-lg mt-6">
+                    <h2 class="text-lg font-semibold mb-2">Availability Factor</h2>
+                    <canvas id="chart1" width="500" height="100"></canvas>
+                </div>
+                <div class="mt-8 p-4 bg-white shadow-md rounded-lg mt-6">
+                    <h2 class="text-lg font-semibold mb-2">Heat Rate</h2>
+                    <canvas id="chart2" width="500" height="100"></canvas>
+                </div>
+                <div class="mt-8 p-4 bg-white shadow-md rounded-lg mt-6">
+                    <h2 class="text-lg font-semibold mb-2">Auxilliary Power Consumption</h2>
+                    <canvas id="chart3" width="500" height="100"></canvas>
+                </div>
+                <div class="mt-8 p-4 bg-white shadow-md rounded-lg mt-6">
+                    <h2 class="text-lg font-semibold mb-2">Specific oil consumption</h2>
+                    <canvas id="chart4" width="500" height="100"></canvas>
+                </div>
+                <div class="mt-8 p-4 bg-white shadow-md rounded-lg mt-6">
+                    <h2 class="text-lg font-semibold mb-2">Transit Loss</h2>
+                    <canvas id="chart5" width="500" height="100"></canvas>
+                </div>
+                <div class="mt-8 p-4 bg-white shadow-md rounded-lg mt-6">
+                    <h2 class="text-lg font-semibold mb-2">Incentives</h2>
+                    <canvas id="chart6" ></canvas>
+                </div>
+                <div class="mt-8 p-4 bg-white shadow-md rounded-lg mt-6">
+                    <h2 class="text-lg font-semibold mb-2">Incentives</h2>
+                    <canvas id="chart7" ></canvas>
+                </div>
                 
                 </section>
             </div>
@@ -317,5 +342,6 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
     <script src="js/scripts.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
