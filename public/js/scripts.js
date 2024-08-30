@@ -1,7 +1,3 @@
-function updateSelectedLabel(selectElement) {
-    const selectedLabel = selectElement.options[selectElement.selectedIndex].text; 
-    document.getElementById('selectedLabel').textContent = `Selected Unit: ${selectedLabel}`;
-}
 
 const selectKPKD = document.querySelectorAll('select')[2]; 
 selectKPKD.addEventListener('change', function() {
@@ -1008,6 +1004,12 @@ function handleSubmit(event) {
     }
 }
 
+function updateSelectedLabel(selectElement) {
+    const selectedLabel = selectElement.options[selectElement.selectedIndex].text; 
+    document.getElementById('selectedLabel').textContent = `Selected Unit: ${selectedLabel}`;
+}
+
+
 document.getElementById('inputForm').addEventListener('submit', handleSubmit);
 
 
@@ -1021,19 +1023,19 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
 
     // Gain/Loss Report Data
     const gainLossData = [
-        { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: AAVFTDR, gainLoss: gainAVF },
-        { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: ASHR, gainLoss: gainNSHR },
-        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: AAPC, gainLoss: gainAPC },
-        { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: NSFOC, achieved: ASFOC, gainLoss: gainSFOC },
-        { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: NTL, achieved: ATL, gainLoss: gainTL }
+        { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: AAVFTDR, gainLoss: gainAVF.toFixed(3)  },
+        { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: ASHR.toFixed(3) , gainLoss: gainNSHR.toFixed(3)  },
+        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: AAPC, gainLoss: gainAPC.toFixed(3)  },
+        { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: NSFOC, achieved: ASFOC, gainLoss: gainSFOC.toFixed(3)  },
+        { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: NTL, achieved: ATL, gainLoss: gainTL.toFixed(3)  }
     ];
 
     // Incentive Gains Report Data
     const incentiveGainsData = [
-        { srNo: 6, parameter: 'MTBF', unit: 'days', minNormativeValue: 45, achieved: AMTBF, gain: gainMTBF },
-        { srNo: 7, parameter: 'Ramp rate above 1%', unit: '%/min', description: 'above 1% ramp rate', achieved: ARR, gain: gainRampRate },
-        { srNo: 8, parameter: 'Peak AVF', unit: '%', minNormativeValue: 75, achieved: APAVF, gain: gainPeakAVF },
-        { srNo: 9, parameter: 'FGMO status', unit: '-', description: 'In service', achieved: 'y', gain: gainFGMO }
+        { srNo: 6, parameter: 'MTBF', unit: 'days', minNormativeValue: 45, achieved: AMTBF, gain: gainMTBF.toFixed(3)  },
+        { srNo: 7, parameter: 'Ramp rate above 1%', unit: '%/min', description: 'above 1% ramp rate', achieved: ARR, gain: gainRampRate.toFixed(3)  },
+        { srNo: 8, parameter: 'Peak AVF', unit: '%', minNormativeValue: 75, achieved: APAVF, gain: gainPeakAVF.toFixed(3)  },
+        { srNo: 9, parameter: 'FGMO status', unit: '-', description: 'In service', achieved: 'y', gain: gainFGMO.toFixed(3) }
     ];
 
     // Net Gain/Loss
@@ -1052,9 +1054,9 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
                     <th class="border border-gray-300 px-4 py-2">#</th>
                     <th class="border border-gray-300 px-4 py-2">Parameter</th>
                     <th class="border border-gray-300 px-4 py-2">Unit</th>
-                    <th class="border border-gray-300 px-4 py-2">Normative value</th>
+                    <th class="border border-gray-300 px-4 py-2">Normative</th>
                     <th class="border border-gray-300 px-4 py-2">Achieved</th>
-                    <th class="border border-gray-300 px-4 py-2">Commercial Gain/ Loss (Crores)</th>
+                    <th class="border border-gray-300 px-4 py-2">Gain/ Loss (Cr.)</th>
                 </tr>
             </thead>
             <tbody>
@@ -1135,7 +1137,16 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
     gainLossData.forEach(chart => {
         const ctx = document.getElementById(`chart${chart.srNo}`).getContext('2d');
 
-        const achievedColor = chart.achieved > chart.normativeValue ? '#16a34a' : '#dc2626'; 
+        const getChartColor = (chartId, achieved, normativeValue) => {
+            if (chartId === 'chart2') {
+                return achieved > normativeValue ? '#16a34a' : '#dc2626';
+            } else {
+                return achieved > normativeValue ? '#dc2626' : '#16a34a';
+            }
+        };
+        
+
+        const achievedColor = chart.achieved > chart.normativeValue ? '#dc2626' : '#16a34a'; 
 
         new Chart (ctx, {
             type: 'bar', 
@@ -1144,7 +1155,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
                 datasets: [{
                     label: chart.parameter, 
                     data: [chart.normativeValue, chart.achieved], 
-                    backgroundColor: ['#6366f1', achievedColor],
+                    backgroundColor: ['#6366f1', getChartColor(`chart${chart.srNo}`, chart.achieved, chart.normativeValue)],
                     borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)'],
                     borderWidth: 2
                 }]
@@ -1166,7 +1177,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
                 datasets: [{
                     label: 'Gains', 
                     data: [gainMTBF, gainRampRate, gainPeakAVF, gainFGMO], 
-                    backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(254, 2, 155, 0.2)', 'rgba(123, 23, 432, 0.2)' ],
+                    backgroundColor: ['#ef4444', '#facc15', '#4ade80', '#3b82f6' ],
                     borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)' ],
                     borderWidth: 2
                 }]
@@ -1190,7 +1201,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
                 datasets: [{
                     label: 'Gains', // change this
                     data: [gainAVF, gainNSHR, gainAPC, gainSFOC, gainTL], 
-                    backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(254, 2, 155, 0.2)', 'rgba(123, 23, 432, 0.2)' ],
+                    backgroundColor: ['#1e40af', '#a21caf', '#9f1239', '#166534' ],
                     borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)' ],
                     borderWidth: 2
                 }]
