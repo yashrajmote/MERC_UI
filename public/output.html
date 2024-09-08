@@ -14,45 +14,49 @@
                 <img src="images/abhitech-mahagenco-combined-logo.png" alt="Logo" class="h-20 ">
             </div>
             <div id="selectedLabel" class="flex justify-center text-2xl font-bold text-gray-700">
-                Generated Report
+               
             </div>
         </nav>
-        <main class="content mt-16 overflow-y-auto h-[calc(100vh-4rem)] p-4">
-            <div class="flex">
-                <div class="bg-white p-6 rounded-lg shadow-lg w-full">
-                    <div class="text-gray-700">
-                        <!-- Report Output Container -->
-                        <div id="reportContainer" class=" w-full">
-                            <pre id="reportOutput" class="mt-2 p-4 bg-gray-200 rounded"></pre>
-        
-                            <div class="mt-8 p-4 bg-white shadow-md rounded-lg">
+        <main class="content mt-16 h-[calc(100vh-4rem)] p-4">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-full">
+                <div class="text-gray-700">
+                    <!-- Report Output Container -->
+                    <div id="reportContainer" class="grid grid-cols-2 gap-4 text-sm font-bold leading-6 ">
+                        <pre id="reportOutput" class="mt-2 p-1 bg-gray-200 rounded"></pre>
+                        <div class="grid grid-cols-2 gap-1">
+                            <div class="bg-white shadow-sm rounded-sm p-4">
                                 <h2 class="text-lg font-semibold mb-2">Availability Factor</h2>
-                                <canvas id="chart1" width="500" height="100"></canvas>
+                                <canvas id="chart1" class="w-full h-32"></canvas>
                             </div>
-                            <div class="mt-8 p-4 bg-white shadow-md rounded-lg">
+                            <div class="bg-white shadow-md rounded-sm p-4">
                                 <h2 class="text-lg font-semibold mb-2">Heat Rate</h2>
-                                <canvas id="chart2" width="500" height="100"></canvas>
+                                <canvas id="chart2" class="w-full h-32"></canvas>
                             </div>
-                            <div class="mt-8 p-4 bg-white shadow-md rounded-lg">
+                            <div class="bg-white shadow-md rounded-sm p-4">
                                 <h2 class="text-lg font-semibold mb-2">Auxiliary Power Consumption</h2>
-                                <canvas id="chart3" width="500" height="100"></canvas>
+                                <canvas id="chart3" class="w-full h-32"></canvas>
                             </div>
-                            <div class="mt-8 p-4 bg-white shadow-md rounded-lg">
+                            <div class="bg-white shadow-md rounded-sm p-4">
                                 <h2 class="text-lg font-semibold mb-2">Specific Oil Consumption</h2>
-                                <canvas id="chart4" width="500" height="100"></canvas>
+                                <canvas id="chart4" class="w-full h-32"></canvas>
                             </div>
-                            <div class="mt-8 p-4 bg-white shadow-md rounded-lg">
+                            <div class="bg-white shadow-md rounded-sm p-4">
                                 <h2 class="text-lg font-semibold mb-2">Transit Loss</h2>
-                                <canvas id="chart5" width="500" height="100"></canvas>
+                                <canvas id="chart5" class="w-full h-32"></canvas>
                             </div>
-                            <div class="mt-8 p-4 bg-white shadow-md rounded-lg">
+                            <div class=" bg-white shadow-md rounded-lg p-4">
                                 <h2 class="text-lg font-semibold mb-2">Incentives</h2>
-                                <canvas id="chart6"></canvas>
+                                <canvas id="chart6" width="500" height="100"></canvas>
                             </div>
-                            <div class="mt-8 p-4 bg-white shadow-md rounded-lg">
+                            
+                        </div>
+                        <div class="grid grid-cols-2 gap-1">
+                            
+                            <div class="justify-right bg-white shadow-md rounded-lg">
                                 <h2 class="text-lg font-semibold mb-2">Additional Incentives</h2>
-                                <canvas id="chart7"></canvas>
+                                <canvas id="chart7" width="200" height="200"></canvas>
                             </div>
+                        </div>
                         </div>
                     </div>
                     <div class="mt-4 text-center">
@@ -61,242 +65,35 @@
                         </button>
                     </div>
                 </div>
-            </div>
+           
         </main>
     </div>
     <script src="js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-
-            // Retrieve the stored data from localStorage
-            const reportData = JSON.parse(localStorage.getItem('reportData'));
-            const gainLossHTML = localStorage.getItem('gainLossHTML');
-            const incentiveGainsHTML = localStorage.getItem('incentiveGainsHTML');
-            const netGainLossHTML = localStorage.getItem('netGainLossHTML');
-
-            if (reportData) {
-                // Generate the report using the retrieved data
-                generateReport(
-                    reportData.gainValues,
-                    reportData.afterCalculations,
-                    reportData.ROEValues,
-                    reportData.parsedValues
-                );
-
-                // Optionally, clear the data from localStorage
-                localStorage.removeItem('reportData');
-            }
-        });
-
-function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) {
-
-    const { gainMTBF, gainRampRate, gainPeakAVF, gainFGMO, gainAPC, gainSFOC, gainTL, gainNSHR, gainAVF } = gainValues;
-
-    const { AAPC, AAVFTDR, ASHR, ASFOC } = afterCalculations;
-
-    const { ATL, ATLC, AMTBF, ARR, APAVF, NAVF, NSHR, NAPC, NSFOC, NTL } = parsedValues;        
-
-    // Gain/Loss Report Data
-    const gainLossData = [
-        { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: AAVFTDR, gainLoss: gainAVF.toFixed(3)  },
-        { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: ASHR.toFixed(3) , gainLoss: gainNSHR.toFixed(3)  },
-        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: AAPC, gainLoss: gainAPC.toFixed(3)  },
-        { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: NSFOC, achieved: ASFOC, gainLoss: gainSFOC.toFixed(3)  },
-        { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: NTL, achieved: ATL, gainLoss: gainTL.toFixed(3)  }
-    ];
-
-    // Incentive Gains Report Data
-    const incentiveGainsData = [
-        { srNo: 6, parameter: 'MTBF', unit: 'days', minNormativeValue: 45, achieved: AMTBF, gain: gainMTBF.toFixed(3)  },
-        { srNo: 7, parameter: 'Ramp rate above 1%', unit: '%/min', description: 'above 1% ramp rate', achieved: ARR, gain: gainRampRate.toFixed(3)  },
-        { srNo: 8, parameter: 'Peak AVF', unit: '%', minNormativeValue: 75, achieved: APAVF, gain: gainPeakAVF.toFixed(3)  },
-        { srNo: 9, parameter: 'FGMO status', unit: '-', description: 'In service', achieved: 'y', gain: gainFGMO.toFixed(3) }
-    ];
-
-    // Net Gain/Loss
-    const normGainLoss = gainAPC + gainSFOC + gainTL + gainNSHR + gainAVF ;
-
-    const incentiveGainLoss = gainMTBF + gainRampRate + gainPeakAVF + gainFGMO;
-
-    const netGainLoss = normGainLoss - incentiveGainLoss;
-
-    // Constructing Gain/Loss Report HTML
-    let gainLossHTML = `
-        <h2 class="text-lg font-semibold">Gain/ Loss Report as per Norms</h2>
-        <table class="mt-6 w-full border-collapse border border-gray-300 shadow-lg rounded-lg">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="border border-gray-300 px-4 py-2">#</th>
-                    <th class="border border-gray-300 px-4 py-2">Parameter</th>
-                    <th class="border border-gray-300 px-4 py-2">Unit</th>
-                    <th class="border border-gray-300 px-4 py-2">Normative</th>
-                    <th class="border border-gray-300 px-4 py-2">Achieved</th>
-                    <th class="border border-gray-300 px-4 py-2">Gain/ Loss (Cr.)</th>
-                </tr>
-            </thead>
-            <tbody>
-    `;
-
-    gainLossData.forEach(item => {
-        gainLossHTML += `
-            <tr>
-                <td class="border border-gray-300 px-4 py-2">${item.srNo}</td>
-                <td class="border border-gray-300 px-4 py-2">${item.parameter}</td>
-                <td class="border border-gray-300 px-4 py-2">${item.unit}</td>
-                <td class="border border-gray-300 px-4 py-2">${item.normativeValue}</td>
-                <td class="border border-gray-300 px-4 py-2">${item.achieved}</td>
-                <td class="border border-gray-300 px-4 py-2">${item.gainLoss}</td>
-            </tr>
-        `;
-    });
-
-    gainLossHTML += `
-            <tr>
-                <td colspan="5" class="border border-gray-300 px-4 py-2 text-right font-semibold">Total</td>
-                <td class="border border-gray-300 px-4 py-2 font-semibold">${normGainLoss.toFixed(4)}</td>
-            </tr>
-        </tbody>
-    </table>
-    `;
-
-    // Constructing Incentive Gains Report HTML
-    let incentiveGainsHTML = `
-        <h2 class="text-lg font-semibold mt-8">Incentive Gains Report as per Regulations</h2>
-        <table class="mt-6 w-full border-collapse border border-gray-300 shadow-lg rounded-lg">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="border border-gray-300 px-4 py-2">#</th>
-                    <th class="border border-gray-300 px-4 py-2">Parameter</th>
-                    <th class="border border-gray-300 px-4 py-2">Unit</th>
-                    <th class="border border-gray-300 px-4 py-2">Achieved</th>
-                    <th class="border border-gray-300 px-4 py-2">Gain</th>
-                </tr>
-            </thead>
-            <tbody>
-    `;
-
-    incentiveGainsData.forEach(item => {
-        incentiveGainsHTML += `
-            <tr>
-                <td class="border border-gray-300 px-4 py-2">${item.srNo}</td>
-                <td class="border border-gray-300 px-4 py-2">${item.parameter}</td>
-                <td class="border border-gray-300 px-4 py-2">${item.unit}</td>
-                <td class="border border-gray-300 px-4 py-2">${item.achieved}</td>
-                <td class="border border-gray-300 px-4 py-2">${item.gain}</td>
-            </tr>
-        `;
-    });
-
-    incentiveGainsHTML += `
-            <tr>
-                <td colspan="4" class="border border-gray-300 px-4 py-2 text-right font-semibold">Total</td>
-                <td class="border border-gray-300 px-4 py-2 font-semibold">${incentiveGainLoss.toFixed(4)}</td>
-            </tr>
-        </tbody>
-    </table>
-    `;
-
-    // Net Gain/Loss
-    let netGainLossHTML = `
-        <h2 class="text-lg font-semibold mt-8">Net Gain/ Loss</h2>
-        <p class="mt-4">Net Gain/ Loss: <span class="font-semibold">${netGainLoss.toFixed(4)}</span></p>
-    `;
-
-    // Outputting to the report container
-    const reportContainer = document.getElementById('reportContainer');
-    reportContainer.classList.remove('hidden');
-
-    const reportOutput = document.getElementById('reportOutput');
-    reportOutput.innerHTML = gainLossHTML + incentiveGainsHTML;
-
-    gainLossData.forEach(chart => {
-        const ctx = document.getElementById(`chart${chart.srNo}`).getContext('2d');
-
-        const getChartColor = (chartId, achieved, normativeValue) => {
-            if (chartId === 'chart2') {
-                return achieved > normativeValue ? '#16a34a' : '#dc2626';
-            } else {
-                return achieved > normativeValue ? '#dc2626' : '#16a34a';
-            }
-        };
         
+document.addEventListener('DOMContentLoaded', function() {
 
-        const achievedColor = chart.achieved > chart.normativeValue ? '#dc2626' : '#16a34a'; 
+    // Retrieve the stored data from localStorage
+    const reportData = JSON.parse(localStorage.getItem('reportData'));
+    const selectedLabel = JSON.parse(localStorage.getItem('selectedLabel'));
 
-        new Chart (ctx, {
-            type: 'bar', 
-            data: { 
-                labels: ['Normative', 'Achieved'], 
-                datasets: [{
-                    label: chart.parameter, 
-                    data: [chart.normativeValue, chart.achieved], 
-                    backgroundColor: ['#6366f1', getChartColor(`chart${chart.srNo}`, chart.achieved, chart.normativeValue)],
-                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)'],
-                    borderWidth: 2
-                }]
-            }, 
-            options: {
-                indexAxis: 'y', 
-                responsive: true, 
-                
-            }
-        })
-    })
+    if (selectedLabel) {
+        document.getElementById('selectedLabel').textContent = selectedLabel;
+    }
+    
+    if (reportData) {
+        // Generate the report using the retrieved data
+        generateReport(
+            reportData.gainValues,
+            reportData.afterCalculations,
+            reportData.ROEValues,
+            reportData.parsedValues
+        );
+    }
+});
 
-    const ctx1 = document.getElementById(`chart6`).getContext('2d');
-
-        new Chart (ctx1, {
-            type: 'doughnut', 
-            data: { 
-                labels: ['MTBF', 'Ramp Rate', 'Peak AVF', 'FGMO Status'], 
-                datasets: [{
-                    label: 'Gains', 
-                    data: [gainMTBF, gainRampRate, gainPeakAVF, gainFGMO], 
-                    backgroundColor: ['#ef4444', '#facc15', '#4ade80', '#3b82f6' ],
-                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)' ],
-                    borderWidth: 2
-                }]
-            }, 
-            options: {
-                responsive: true, 
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                      position: 'top'
-                    }
-            }
-        }
-    });
-
-    const ctx2 = document.getElementById(`chart7`).getContext('2d');
-
-        new Chart (ctx2, {
-            type: 'bar', 
-            data: { 
-                labels: ['Availability Factor', 'Heat Rate', 'Auxilliary Power Consumption', 'Specific Oil Consumption', 'Transit Loss'], 
-                datasets: [{
-                    label: 'Gains', // change this
-                    data: [gainAVF, gainNSHR, gainAPC, gainSFOC, gainTL], 
-                    backgroundColor: ['#1e40af', '#a21caf', '#9f1239', '#166534' ],
-                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)' ],
-                    borderWidth: 2
-                }]
-            }, 
-            options: {
-                responsive: true, 
-                plugins: {
-                    legend: {
-                      position: 'top'
-                    }
-            }
-        }
-    });
-
-
-    document.getElementById('inputForm').classList.add('hidden');
-
-}
     </script>
 </body>
 </html>
