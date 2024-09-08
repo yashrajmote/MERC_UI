@@ -1229,9 +1229,6 @@ new Chart (ctx2, {
 }
 });
 
-
-document.getElementById('inputForm').classList.add('hidden');
-
 }
 /*
 function generateReport (gainValues, afterCalculations, ROEValues, parsedValues){
