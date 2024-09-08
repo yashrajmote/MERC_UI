@@ -1021,9 +1021,11 @@ function handleSubmit(event) {
 }
 
 function updateSelectedLabel(selectElement) {
-    const selectedLabel = selectElement.options[selectElement.selectedIndex].text; 
-    localStorage.setItem('selectedLabel', JSON.stringify(selectedLabel));
+    const selectedLabel = selectElement.options[selectElement.selectedIndex].text;
+    const selectId = selectElement.id; // Get the ID or some unique identifier
+    localStorage.setItem('selectedLabel_' + selectId, JSON.stringify(selectedLabel));
 }
+
 
 function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) {
 

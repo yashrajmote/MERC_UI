@@ -80,12 +80,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const selectedLabel = JSON.parse(localStorage.getItem('selectedLabel'));
     console.log(selectedLabel)
 
+    const selects = document.querySelectorAll('select');
+    selects.forEach(select => {
+        
+    })
     if (selectedLabel) {
         document.getElementById('selectedLabel').textContent = selectedLabel;
     }
     
     if (reportData) {
-        // Generate the report using the retrieved data
         generateReport(
             reportData.gainValues,
             reportData.afterCalculations,
