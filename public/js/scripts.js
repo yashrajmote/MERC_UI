@@ -1046,10 +1046,10 @@ const gainLossData = [
 
 // Incentive Gains Report Data
 const incentiveGainsData = [
-{ srNo: 6, parameter: 'MTBF', unit: 'days', minNormativeValue: 45, achieved: AMTBF, gain: gainMTBF.toFixed(3)  },
-{ srNo: 7, parameter: 'Ramp rate above 1%', unit: '%/min', description: 'above 1% ramp rate', achieved: ARR, gain: gainRampRate.toFixed(3)  },
-{ srNo: 8, parameter: 'Peak AVF', unit: '%', minNormativeValue: 75, achieved: APAVF, gain: gainPeakAVF.toFixed(3)  },
-{ srNo: 9, parameter: 'FGMO status', unit: '-', description: 'In service', achieved: 'y', gain: gainFGMO.toFixed(3) }
+{ srNo: 6, parameter: 'MTBF', unit: 'days', normativeValue: 45, achieved: AMTBF, gain: gainMTBF.toFixed(3)  },
+{ srNo: 7, parameter: 'Ramp rate above 1%', normativeValue: '%/min', description: 'above 1% ramp rate', achieved: ARR, gain: gainRampRate.toFixed(3)  },
+{ srNo: 8, parameter: 'Peak AVF', unit: '%', normativeValue: 75, achieved: APAVF, gain: gainPeakAVF.toFixed(3)  },
+{ srNo: 9, parameter: 'FGMO status', unit: '-', normativeValue: 'In service', achieved: 'y', gain: gainFGMO.toFixed(3) }
 ];
 
 // Net Gain/Loss
@@ -1061,52 +1061,55 @@ const netGainLoss = normGainLoss - incentiveGainLoss;
 
 // Constructing Gain/Loss Report HTML
 let gainLossHTML = `
+<div class="relative overflow-x-auto">
 <h2 class="text-md font-semibold">Gain/ Loss Report as per Norms</h2>
 <table class="mt-1 border-collapse border border-gray-300 shadow-md rounded-md">
-    <thead>
-        <tr class="bg-gray-200">
-            <th class="border border-gray-300 px-1 py-1">#</th>
-            <th class="border border-gray-300 px-1 py-1">Parameter</th>
-            <th class="border border-gray-300 px-1 py-1">Unit</th>
-            <th class="border border-gray-300 px-1 py-1">Normative</th>
-            <th class="border border-gray-300 px-1 py-1">Achieved</th>
-            <th class="border border-gray-300 px-1 py-1">Gain/ Loss (Cr.)</th>
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+            <th scope="col" class="border border-gray-300 py-1">Parameter</th>
+            <th scope="col" class="border border-gray-300 py-1">Unit</th>
+            <th scope="col" class="border border-gray-300 px-1 py-1">Normative</th>
+            <th scope="col" class="border border-gray-300 py-1">Achieved</th>
+            <th scope="col" class="border border-gray-300 py-1">Gain/ Loss(Cr.)</th>
         </tr>
     </thead>
+    
     <tbody>
-`;
+`
 
 gainLossData.forEach(item => {
 gainLossHTML += `
     <tr>
-        <td class="border border-gray-300 px-2 py-1">${item.srNo}</td>
-        <td class="border border-gray-300 px-2 py-1">${item.parameter}</td>
-        <td class="border border-gray-300 px-2 py-1">${item.unit}</td>
-        <td class="border border-gray-300 px-2 py-1">${item.normativeValue}</td>
-        <td class="border border-gray-300 px-2 py-1">${item.achieved}</td>
-        <td class="border border-gray-300 px-2 py-1">${item.gainLoss}</td>
+        <td class="border border-gray-300 px-1 py-1">${item.parameter}</td>
+        <td class="border border-gray-300 px-1 py-1">${item.unit}</td>
+        <td class="border border-gray-300 px-1 py-1">${item.normativeValue}</td>
+        <td class="border border-gray-300 px-1 py-1">${item.achieved}</td>
+        <td class="border border-gray-300 px-1 py-1">${item.gainLoss}</td>
     </tr>
-`;
-});
+`
+})
 
 gainLossHTML += `
     <tr>
-        <td colspan="5" class="border border-gray-300 px-2 py-1 text-right font-semibold">Total</td>
-        <td class="border border-gray-300 px-2 py-1 font-semibold">${normGainLoss.toFixed(4)}</td>
+        <td colspan="4" class="border border-gray-300 px-2 py-1 text-right font-semibold">Total</td>
+        <td class="border border-gray-300 px-2 py-1 font-semibold">${normGainLoss.toFixed(3)}</td>
     </tr>
+
 </tbody>
 </table>
-`;
+</div>
+`
 
 // Constructing Incentive Gains Report HTML
 let incentiveGainsHTML = `
-<h2 class="text-md font-semibold mt-8">Incentive Gains Report as per Regulations</h2>
-<table class="mt-6 border-collapse border border-gray-300 shadow-md rounded-md">
-    <thead>
+<div class="relative overflow-x-auto">
+<h2 class="text-md font-semibold"">Incentive Gains Report as per Regulations</h2>
+<table class="mt-1 border-collapse border border-gray-300 shadow-md rounded-md">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr class="bg-gray-200">
-            <th class="border border-gray-300 px-2 py-1">#</th>
             <th class="border border-gray-300 px-2 py-1">Parameter</th>
             <th class="border border-gray-300 px-2 py-1">Unit</th>
+            <th class="border border-gray-300 px-2 py-1">Note</th>
             <th class="border border-gray-300 px-2 py-1">Achieved</th>
             <th class="border border-gray-300 px-2 py-1">Gain</th>
         </tr>
@@ -1117,9 +1120,9 @@ let incentiveGainsHTML = `
 incentiveGainsData.forEach(item => {
 incentiveGainsHTML += `
     <tr>
-        <td class="border border-gray-300 px-2 py-1">${item.srNo}</td>
         <td class="border border-gray-300 px-2 py-1">${item.parameter}</td>
         <td class="border border-gray-300 px-2 py-1">${item.unit}</td>
+        <td class="border border-gray-300 px-1 py-1">${item.normativeValue}</td>
         <td class="border border-gray-300 px-2 py-1">${item.achieved}</td>
         <td class="border border-gray-300 px-2 py-1">${item.gain}</td>
     </tr>
@@ -1129,21 +1132,18 @@ incentiveGainsHTML += `
 incentiveGainsHTML += `
     <tr>
         <td colspan="4" class="border border-gray-300 px-2 py-1 text-right font-semibold">Total</td>
-        <td class="border border-gray-300 px-2 py-1 font-semibold">${incentiveGainLoss.toFixed(4)}</td>
+        <td class="border border-gray-300 px-2 py-1 font-semibold">${incentiveGainLoss.toFixed(3)}</td>
     </tr>
 </tbody>
 </table>
+</div>
 `;
 
 // Net Gain/Loss
 let netGainLossHTML = `
 <h2 class="text-lg font-semibold mt-8">Net Gain/ Loss</h2>
-<p class="mt-4">Net Gain/ Loss: <span class="font-semibold">${netGainLoss.toFixed(4)}</span></p>
+<p class="mt-4">Net Gain/ Loss: <span class="font-semibold">${netGainLoss.toFixed(3)}</span></p>
 `;
-
-// Outputting to the report container
-const reportContainer = document.getElementById('reportContainer');
-reportContainer.classList.remove('hidden');
 
 const reportOutput = document.getElementById('reportOutput');
 reportOutput.innerHTML = gainLossHTML + incentiveGainsHTML;
@@ -1175,8 +1175,16 @@ new Chart (ctx, {
         }]
     }, 
     options: {
+        plugins: {
+            legend: {
+                display: false 
+            }
+        },
         indexAxis: 'y', 
         responsive: true, 
+        scales: {
+            xAxes: [{ ticks: { beginAtZero: true } }]
+        }
         
     }
 })
@@ -1201,7 +1209,6 @@ new Chart (ctx1, {
         maintainAspectRatio: true,
         plugins: {
             legend: {
-              position: 'top'
             }
     }
 }
@@ -1209,26 +1216,40 @@ new Chart (ctx1, {
 
 const ctx2 = document.getElementById(`chart7`).getContext('2d');
 
-new Chart (ctx2, {
-    type: 'bar', 
-    data: { 
-        labels: ['Availability Factor', 'Heat Rate', 'Auxilliary Power Consumption', 'Specific Oil Consumption', 'Transit Loss'], 
+new Chart(ctx2, {
+    type: 'bar',
+    data: {
+        labels: ['Avail Factor', 'Heat Rate', 'Aux Power Con', 'Spec Oil Con', 'Transit Loss'],
         datasets: [{
-            label: 'Gains', // change this
-            data: [gainAVF, gainNSHR, gainAPC, gainSFOC, gainTL], 
-            backgroundColor: ['#1e40af', '#a21caf', '#9f1239', '#166534' ],
-            borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)' ],
+            label: 'Gain/Loss',
+            data: [gainAVF, gainNSHR, gainAPC, gainSFOC, gainTL],
+            backgroundColor: ['#1e40af', '#a21caf', '#9f1239', '#166534'],
+            borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)'],
             borderWidth: 2
         }]
-    }, 
+    },
     options: {
-        responsive: true, 
         plugins: {
             legend: {
-              position: 'top'
+                display: false 
             }
+        },
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    position: 'top',
+                },
+                stacked: true 
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Loss/Gain'
+                }
+            }
+        }
     }
-}
 });
 
 }

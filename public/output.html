@@ -21,52 +21,55 @@
                 </button>
             </div>
         </nav>
-        <main class="content mt-16 h-[calc(100vh-4rem)] p-4">
-            <div class="bg-white p-6 rounded-lg shadow-lg w-full">
-                <div class="text-gray-700">
-                    <!-- Report Output Container -->
-                    <div id="reportContainer" class="grid grid-cols-2 gap-4 text-sm font-bold leading-6 ">
-                        <pre id="reportOutput" class="mb-25 p-1 bg-gray-200 rounded"></pre>
-                        <div class="grid grid-cols-2 gap-1">
-                            <div class="bg-white shadow-sm rounded-sm p-4">
-                                <h2 class="text-lg font-semibold mb-2">Availability Factor</h2>
-                                <canvas id="chart1" class="w-full h-32"></canvas>
-                            </div>
-                            <div class="bg-white shadow-md rounded-sm p-4">
-                                <h2 class="text-lg font-semibold mb-2">Heat Rate</h2>
-                                <canvas id="chart2" class="w-full h-32"></canvas>
-                            </div>
-                            <div class="bg-white shadow-md rounded-sm p-4">
-                                <h2 class="text-lg font-semibold mb-2">Auxiliary Power Consumption</h2>
-                                <canvas id="chart3" class="w-full h-32"></canvas>
-                            </div>
-                            <div class="bg-white shadow-md rounded-sm p-4">
-                                <h2 class="text-lg font-semibold mb-2">Specific Oil Consumption</h2>
-                                <canvas id="chart4" class="w-full h-32"></canvas>
-                            </div>
-                            <div class="bg-white shadow-md rounded-sm p-4">
-                                <h2 class="text-lg font-semibold mb-2">Transit Loss</h2>
-                                <canvas id="chart5" class="w-full h-32"></canvas>
-                            </div>
-                            <div class=" bg-white shadow-md rounded-lg p-4">
-                                <h2 class="text-lg font-semibold mb-2">Incentives</h2>
-                                <canvas id="chart6" width="500" height="100"></canvas>
-                            </div>
-                            
-                        </div>
-                        <div class="grid grid-cols-2 gap-1">
-                            
-                            <div class="justify-right bg-white shadow-md rounded-lg">
-                                <h2 class="text-lg font-semibold mb-2">Additional Incentives</h2>
-                                <canvas id="chart7" width="200" height="200"></canvas>
-                            </div>
-                        </div>
-                        </div>
+        <main class="content mt-16 overflow-y-auto h-[calc(100vh-4rem)] p-4 flex">
+            <section class=" w-4/10 ">
+                <pre id="reportOutput" class="mt-2 p-4 bg-gray-100 rounded-lg shadow-inner text-gray-700"></pre>
+            </section>
+            
+            <section class="w-1/2 grid grid-rows-3 gap-1">
+
+                <section class="mt-2 h-50 grid grid-rows-1 gap-1">
+                    <div class="justify-right bg-white shadow-md rounded-lg">
+                        <h2 class="text-lg pl-4 font-semibold mb-2">Additional Incentives</h2>
+                        <canvas id="chart7" width="410" height="100"></canvas>
                     </div>
-                    
-                </div>
-           
+                </section>
+
+                <div id="reportContainer" class="grid grid-cols-2"> 
+                    <!-- Report Output Container -->
+                            <div class="h-48 bg-white shadow-md rounded-lg p-4 animate-fade-in">
+                                <h2 class="text-lg leading-tight text-center font-semibold text-gray-800 mb-1">Availability Factor</h2>
+                                <canvas id="chart1" width="400" height="175"></canvas>
+                            </div>
+                            <div class="h-48 bg-white shadow-md rounded-lg p-4 animate-fade-in">
+                                <h2 class="text-lg  leading-tight text-center font-semibold text-gray-800 mb-1">Heat Rate</h2>
+                                <canvas id="chart2" width="400" height="175"></canvas>
+                            </div>
+                            <div class="mt-1 h-48 bg-white shadow-md rounded-lg p-4 animate-fade-in">
+                                <h2 class="text-lg leading-tight text-center font-semibold text-gray-800 mb-1">Auxiliary Power Consumption</h2>
+                                <canvas id="chart3" width="400" height="175"></canvas>
+                            </div>
+                            <div class="mt-1 h-48 bg-white shadow-md rounded-lg p-4 animate-fade-in">
+                                <h2 class="text-lg leading-tight text-center font-semibold text-gray-800 mb-1">Specific Oil Consumption</h2>
+                                <canvas id="chart4" width="400" height="175"></canvas>
+                            </div>
+                            <div class="mt-1 h-48 bg-white shadow-md rounded-lg p-4 animate-fade-in">
+                                <h2 class="text-lg leading-tight text-center font-semibold text-gray-800 mb-1">Transit Loss</h2>
+                                <canvas id="chart5" width="400" height="175"></canvas>
+                            </div>
+                            
+                            
+                        <div class="grid grid-cols-2 gap-1">
+                        
+                            <div class=" bg-white shadow-md rounded-lg p-4 animate-fade-in">
+                                <h2 class="text-lg font-semibold text-gray-800 mb-2">Incentives</h2>
+                                <canvas id="chart6" class="w-full h-12"></canvas>
+                            </div>
+                        </div>
+                    </div>      
+                    </section>          
         </main>
+    </div>
     </div>
     <script src="js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
