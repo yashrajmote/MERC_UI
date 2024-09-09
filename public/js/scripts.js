@@ -1060,9 +1060,10 @@ const incentiveGainLoss = gainMTBF + gainRampRate + gainPeakAVF + gainFGMO;
 const netGainLoss = normGainLoss - incentiveGainLoss;
 
 // Constructing Gain/Loss Report HTML
+
 let gainLossHTML = `
 <div class="relative overflow-x-auto">
-<h2 class="text-md font-semibold">Gain/ Loss Report as per Norms</h2>
+<h2 class="text-md text-center font-semibold">Gain/ Loss Report as per Norms</h2>
 <table class="mt-1 border-collapse border border-gray-300 shadow-md rounded-md">
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
@@ -1099,11 +1100,12 @@ gainLossHTML += `
 </table>
 </div>
 `
+document.getElementById('gain-loss-report').innerHTML = gainLossHTML;
 
 // Constructing Incentive Gains Report HTML
 let incentiveGainsHTML = `
 <div class="relative overflow-x-auto">
-<h2 class="text-md font-semibold"">Incentive Gains Report as per Regulations</h2>
+<h2 class="text-md text-center font-semibold"">Incentive Gains Report as per Regulations</h2>
 <table class="mt-1 border-collapse border border-gray-300 shadow-md rounded-md">
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr class="bg-gray-200">
@@ -1111,7 +1113,7 @@ let incentiveGainsHTML = `
             <th class="border border-gray-300 px-2 py-1">Unit</th>
             <th class="border border-gray-300 px-2 py-1">Note</th>
             <th class="border border-gray-300 px-2 py-1">Achieved</th>
-            <th class="border border-gray-300 px-2 py-1">Gain</th>
+            <th class="border border-gray-300 px-2 py-1">Gain/Loss</th>
         </tr>
     </thead>
     <tbody>
@@ -1139,14 +1141,16 @@ incentiveGainsHTML += `
 </div>
 `;
 
+document.getElementById('incentive-gains-report').innerHTML = incentiveGainsHTML;
+
 // Net Gain/Loss
 let netGainLossHTML = `
 <h2 class="text-lg font-semibold mt-8">Net Gain/ Loss</h2>
 <p class="mt-4">Net Gain/ Loss: <span class="font-semibold">${netGainLoss.toFixed(3)}</span></p>
 `;
 
-const reportOutput = document.getElementById('reportOutput');
-reportOutput.innerHTML = gainLossHTML + incentiveGainsHTML;
+//const reportOutput = document.getElementById('reportOutput');
+//reportOutput.innerHTML = gainLossHTML + incentiveGainsHTML;
 
 gainLossData.forEach(chart => {
 const ctx = document.getElementById(`chart${chart.srNo}`).getContext('2d');
