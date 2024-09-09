@@ -1209,7 +1209,7 @@ new Chart (ctx1, {
         }]
     }, 
     options: {
-        responsive: true, 
+        responsive: false, 
         maintainAspectRatio: true,
         plugins: {
             legend: {
