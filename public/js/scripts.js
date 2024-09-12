@@ -13,7 +13,7 @@ selectKPKD.addEventListener('change', function() {
             NFC: 543.56,
             NFCEWC: 538.98,
             ROE: 150,
-            NADLURGCV: 600,
+            NADLURGCV: 650,
             NADLUWGCV: 300,
             // NORMATIVE/REGULATORY VALUES
             AGEN: 300,
@@ -75,7 +75,7 @@ selectKPKD2.addEventListener('change', function() {
             NFC: 543.56,
             NFCEWC: 538.98,
             ROE: 150,
-            NADLURGCV: 600,
+            NADLURGCV: 650,
             NADLUWGCV: 300,
             // NORMATIVE/REGULATORY VALUES
             AGEN: 300,
@@ -137,7 +137,7 @@ selectBSL.addEventListener('change', function() {
             NFC: 543.56,
             NFCEWC: 538.98,
             ROE: 150,
-            NADLURGCV: 600,
+            NADLURGCV: 650,
             NADLUWGCV: 300,
             // NORMATIVE/REGULATORY VALUES
             AGEN: 300,
@@ -198,7 +198,7 @@ selectBSL2.addEventListener('change', function() {
             NFC: 1045.6,
             NFCEWC: 1042.46,
             ROE: 194.07,
-            NADLURGCV: 600,
+            NADLURGCV: 650,
             NADLUWGCV: 300,
             // NORMATIVE/REGULATORY VALUES
             AGEN: 300,
@@ -381,7 +381,7 @@ selectKTPS.addEventListener('change', function() {
             NFC: 308.26,
             NFCEWC: 269.53,
             ROE: 41.97,
-            NADLURGCV: 600,
+            NADLURGCV: 650,
             NADLUWGCV: 300,
             // NORMATIVE/REGULATORY VALUES
             AGEN: 300,
@@ -442,7 +442,7 @@ selectKTPS2.addEventListener('change', function() {
             NFC: 1970.52,
             NFCEWC: 1888.72,
             ROE: 456.47,
-            NADLURGCV: 600,
+            NADLURGCV: 650,
             NADLUWGCV: 300,
             // NORMATIVE/REGULATORY VALUES
             AGEN: 300,
@@ -503,7 +503,7 @@ selectNTPS.addEventListener('change', function() {
             NFC: 492.58,
             NFCEWC: 478.93,
             ROE: 36.7,
-            NADLURGCV: 600,
+            NADLURGCV: 650,
             NADLUWGCV: 300,
             // NORMATIVE/REGULATORY VALUES
             AGEN: 300,
@@ -564,7 +564,7 @@ selectPARAS.addEventListener('change', function() {
             NFC: 482.26,
             NFCEWC: 468.64,
             ROE: 136.22,
-            NADLURGCV: 600,
+            NADLURGCV: 650,
             NADLUWGCV: 300,
             // NORMATIVE/REGULATORY VALUES
             AGEN: 300,
@@ -625,7 +625,7 @@ selectPARALI.addEventListener('change', function() {
             NFC: 562.63,
             NFCEWC: 558.35,
             ROE: 143.88,
-            NADLURGCV: 600,
+            NADLURGCV: 650,
             NADLUWGCV: 300,
             // NORMATIVE/REGULATORY VALUES
             AGEN: 300,
@@ -686,7 +686,7 @@ selectPARALI2.addEventListener('change', function() {
             NFC: 384.66,
             NFCEWC: 376.21,
             ROE: 61.24,
-            NADLURGCV: 600,
+            NADLURGCV: 650,
             NADLUWGCV: 300,
             // NORMATIVE/REGULATORY VALUES
             AGEN: 300,
