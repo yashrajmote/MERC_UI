@@ -915,7 +915,7 @@ function calculations(parsedValues, TDR, TDFY) {
     const AHCLDO = ALDOC * ALDOGCV * 0.853 / 1000;
     const AHCFO = AFOC * AFOGCV * 0.933 / 1000;
     const ATHCF = AHCRC + AHCWC + AHCIC + AHCLDO + AHCFO;
-    const ASHR = ATHCF / AGEN;
+    const ASHR = ((((ARCC + AWCC + AICC) * NCGCV) + AHCLDO + AHCFO) / AGEN) / 1000 ;
     const ASLDOC = ALDOC / AGEN;
     const ASFOC = AFOC / AGEN;
     const ACSFOC = ASLDOC + ASFOC;
@@ -936,7 +936,7 @@ function calculations(parsedValues, TDR, TDFY) {
 
     return { NTHCF, NAPCM, AHCWC, NLDOC, NHCLDO, NFOC, NHCFO, AHCRC, AHCIC, NHCWC, NHCIC, NHCRC, NRGCVR, 
              NWGCVR, ASL, APSL, NCGCV, NRCC, NRCCC, NRCLC, NWCC, NWCCC, NICC, NICCC, NLDOCC, NFOCC, TNFCC, APECR, 
-             ALDOCC, AFOCC, ARAAVFTDR, MPRAAVFTDR, AAPC, AAVFTDR, ASHR, ASFOC, NTL, ARCCC, AICCC, AWCCC, AAPCM };
+             ALDOCC, AFOCC, ARAAVFTDR, MPRAAVFTDR, AAPC, AAVFTDR, ASHR, ASFOC, NTL, ARCCC, AICCC, AWCCC, AAPCM, AHCLDO, AHCFO, ATHCF };
 }
 
 function calculateGainValues(parsedValues, afterCalculations, ROEValues) {
@@ -1153,7 +1153,7 @@ gainLossData.forEach(chart => {
 const ctx = document.getElementById(`chart${chart.srNo}`).getContext('2d');
 
 const getChartColor = (chartId, achieved, normativeValue) => {
-    if (chartId === 'chart2') {
+    if (chartId === 'chart1') {
         return achieved > normativeValue ? '#16a34a' : '#dc2626';
     } else {
         return achieved > normativeValue ? '#dc2626' : '#16a34a';
@@ -1171,7 +1171,6 @@ new Chart (ctx, {
             label: chart.parameter, 
             data: [chart.normativeValue, chart.achieved], 
             backgroundColor: ['#6366f1', getChartColor(`chart${chart.srNo}`, chart.achieved, chart.normativeValue)],
-            borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)'],
             borderWidth: 2
         }]
     }, 
@@ -1202,7 +1201,6 @@ new Chart (ctx1, {
             data: [gainMTBF, gainRampRate, gainPeakAVF, gainFGMO], 
             backgroundColor: ['#ef4444', '#facc15', '#4ade80', '#3b82f6' ],
             borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)' ],
-            borderWidth: 2
         }]
     }, 
     options: {
@@ -1225,8 +1223,6 @@ new Chart(ctx2, {
             label: 'Gain/Loss',
             data: [gainAVF, gainNSHR, gainAPC, gainSFOC, gainTL],
             backgroundColor: ['#1e40af', '#a21caf', '#9f1239', '#166534'],
-            borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)'],
-            borderWidth: 2
         }]
     },
     options: {

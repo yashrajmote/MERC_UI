@@ -69,10 +69,7 @@
                         </div>
                     </div>
                     <form id="inputForm" x-data="{ openSection: 'regulations' }">
-                        <!-- Submit Button -->
-                        <div class="flex pt-4">
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">Generate Report</button>
-                        </div>
+                        
                         <!-- Accordion for Sections -->
                         <div class="mt-5" >
                             <div @click="openSection = openSection === 'regulations' ? '' : 'regulations'" class="cursor-pointer bg-gray-200 p-2 rounded mb-2">
@@ -323,11 +320,12 @@
                                     <input type="number" name="ADCLDS" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Avg 24-Hour DC (LDS)" required>
                                 </div>
                             </div>
+                        </div>
+                        <!-- Submit Button -->
+                        <div class="flex pt-4 justify-end">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">Generate Report</button>
                         </div>         
-                    </form>
-
-                   <!-- Report Output Container -->
-            
+                    </form>            
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
