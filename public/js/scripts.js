@@ -259,36 +259,36 @@ selectCSTPS.addEventListener('change', function() {
             NFC: 1134.32,
             NFCEWC: 1123.35,
             ROE: 161.54,
-            NADLURGCV: 600,
+            NADLURGCV: 650,
             NADLUWGCV: 300,
             // NORMATIVE/REGULATORY VALUES
-            AGEN: 300,
-            AAPCM: 15,
-            ARCC: 136258.84,
-            AWCC: 31042.3,
-            AICC: 54540.25,
+            AGEN: 715.58,
+            AAPCM: 86.756,
+            ARCC: 646679.00,
+            AWCC: 0,
+            AICC: 26244,
             ALDOC: 0,
-            AFOC: 145.2,
-            ARGCVB: 3742, 
-            AWGCVB: 3387, 
-            AIGCVB: 0, 
-            ARGCVR: 3041, 
-            AWGCVR: 4075, 
-            AIGCVR: 4701, 
+            AFOC: 0,
+            ARGCVB: 4060, 
+            AWGCVB: 3550, 
+            AIGCVB: 4693, 
+            ARGCVR: 4060, 
+            AWGCVR: 3766, 
+            AIGCVR: 4693, 
             ALDOGCV: 10657, 
             AFOGCV: 10593, 
-            ACGCV: 2927,
-            ARCLC: 3717, 
-            AWCLC: 4621.63, 
-            AICLC: 16214.12, 
+            ACGCV: 3185,
+            ARCLC: 4495, 
+            AWCLC: 4580, 
+            AICLC: 111340, 
             ALDOLC: 49015.35, 
             AFOLC: 39047.69, 
-            IRCCC: 3607, 
-            IWCCC: 4534.95, 
-            IICCC: 16127.44, 
-            OVC: 19229430.98, 
-            ATL: 0.78,
-            ATLC: 0.32,
+            IRCCC: 4495.00, 
+            IWCCC: 4580, 
+            IICCC: 111340, 
+            OVC: 0, 
+            ATL: 0.89,
+            ATLC: 2.59,
             AMTBF: 56, 
             ARR: 0.5, 
             APAVF: 86, 
@@ -320,36 +320,36 @@ selectCSTPS2.addEventListener('change', function() {
                 NFC: 1228.24,
                 NFCEWC: 1222.56,
                 ROE: 198.9,
-                NADLURGCV: 600,
+                NADLURGCV: 650,
                 NADLUWGCV: 300,
                 // NORMATIVE/REGULATORY VALUES
-                AGEN: 300,
-                AAPCM: 15,
-                ARCC: 136258.84,
-                AWCC: 31042.3,
-                AICC: 54540.25,
+                AGEN: 527.13,
+                AAPCM: 32.648,
+                ARCC: 310700.00,
+                AWCC: 0,
+                AICC: 48000,
                 ALDOC: 0,
-                AFOC: 145.2,
-                ARGCVB: 3742, 
-                AWGCVB: 3387, 
-                AIGCVB: 0, 
-                ARGCVR: 3041, 
-                AWGCVR: 4075, 
-                AIGCVR: 4701, 
+                AFOC: 0,
+                ARGCVB: 4109, 
+                AWGCVB: 3696, 
+                AIGCVB: 4678, 
+                ARGCVR: 3445, 
+                AWGCVR: 2686, 
+                AIGCVR: 4678, 
                 ALDOGCV: 10657, 
                 AFOGCV: 10593, 
-                ACGCV: 2927,
-                ARCLC: 3717, 
-                AWCLC: 4621.63, 
-                AICLC: 16214.12, 
+                ACGCV: 3491,
+                ARCLC: 3982, 
+                AWCLC: 4130, 
+                AICLC: 11179, 
                 ALDOLC: 49015.35, 
                 AFOLC: 39047.69, 
-                IRCCC: 3607, 
-                IWCCC: 4534.95, 
-                IICCC: 16127.44, 
-                OVC: 19229430.98, 
-                ATL: 0.78,
-                ATLC: 0.32,
+                IRCCC: 3982.00, 
+                IWCCC: 4130, 
+                IICCC: 11179, 
+                OVC: 0, 
+                ATL: 1.51,
+                ATLC: 1.87,
                 AMTBF: 56, 
                 ARR: 0.5, 
                 APAVF: 86, 
@@ -733,7 +733,6 @@ selectPARALI2.addEventListener('change', function() {
     }
 });
 
-
 function convertToPercentage(percentageValues){
     return percentageValues.map(value => value / 100);
 }
@@ -1012,11 +1011,9 @@ function handleSubmit(event) {
         selectElement
     };
 
-
     localStorage.setItem('reportData', JSON.stringify(reportData));
     
     window.location.href = 'output.html';
-    
 
 }
 
@@ -1039,7 +1036,7 @@ const { ATL, ATLC, AMTBF, ARR, APAVF, NAVF, NSHR, NAPC, NSFOC, NTL } = parsedVal
 const gainLossData = [
 { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: AAVFTDR, gainLoss: gainAVF.toFixed(3)  },
 { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: ASHR.toFixed(3) , gainLoss: gainNSHR.toFixed(3)  },
-{ srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: AAPC, gainLoss: gainAPC.toFixed(3)  },
+{ srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: AAPC.toFixed(3), gainLoss: gainAPC.toFixed(3)  },
 { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: NSFOC, achieved: ASFOC, gainLoss: gainSFOC.toFixed(3)  },
 { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: NTL, achieved: ATL, gainLoss: gainTL.toFixed(3)  }
 ];
@@ -1047,7 +1044,7 @@ const gainLossData = [
 // Incentive Gains Report Data
 const incentiveGainsData = [
 { srNo: 6, parameter: 'MTBF', unit: 'days', normativeValue: 45, achieved: AMTBF, gain: gainMTBF.toFixed(3)  },
-{ srNo: 7, parameter: 'Ramp rate above 1%', normativeValue: '%/min', description: 'above 1% ramp rate', achieved: ARR, gain: gainRampRate.toFixed(3)  },
+{ srNo: 7, parameter: 'Ramp rate above 1%', normativeValue: '%/min', description: 'above 1% ramp rate', achieved: ARR.toFixed(3), gain: gainRampRate.toFixed(3)  },
 { srNo: 8, parameter: 'Peak AVF', unit: '%', normativeValue: 75, achieved: APAVF, gain: gainPeakAVF.toFixed(3)  },
 { srNo: 9, parameter: 'FGMO status', unit: '-', normativeValue: 'In service', achieved: 'y', gain: gainFGMO.toFixed(3) }
 ];
@@ -1093,7 +1090,7 @@ gainLossHTML += `
 gainLossHTML += `
     <tr>
         <td colspan="4" class="border border-gray-300 px-2 py-1 text-right font-semibold">Total</td>
-        <td class="border border-gray-300 px-2 py-1 font-semibold">${normGainLoss.toFixed(3)}</td>
+        <td class="border border-gray-300 px-2 py-1 font-semibold">${normGainLoss.toFixed(4)}</td>
     </tr>
 
 </tbody>
@@ -1134,7 +1131,7 @@ incentiveGainsHTML += `
 incentiveGainsHTML += `
     <tr>
         <td colspan="4" class="border border-gray-300 px-2 py-1 text-right font-semibold">Total</td>
-        <td class="border border-gray-300 px-2 py-1 font-semibold">${incentiveGainLoss.toFixed(3)}</td>
+        <td class="border border-gray-300 px-2 py-1 font-semibold">${incentiveGainLoss.toFixed(4)}</td>
     </tr>
 </tbody>
 </table>
@@ -1146,7 +1143,7 @@ document.getElementById('incentive-gains-report').innerHTML = incentiveGainsHTML
 // Net Gain/Loss
 let netGainLossHTML = `
 <h2 class="text-lg font-semibold mt-8">Net Gain/ Loss</h2>
-<p class="mt-4">Net Gain/ Loss: <span class="font-semibold">${netGainLoss.toFixed(3)}</span></p>
+<p class="mt-4">Net Gain/ Loss: <span class="font-semibold">${netGainLoss.toFixed(4)}</span></p>
 `;
 
 //const reportOutput = document.getElementById('reportOutput');
