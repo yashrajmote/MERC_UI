@@ -21,8 +21,8 @@
                 </button>
             </div>
         </nav>
-        <main class="content mt-16 overflow-y-auto h-[calc(100vh-4rem)] p-4 flex">
-            <section class="mt-1 w-1/2 ">
+        <main class="content mt-16 overflow-y-auto h-[calc(100vh-4rem)] p-4 flex h-screen items-center and justify-center">
+            <section class="mt-80 w-6/14 justify-center">
                 <div class=" grid grid-rows-2 bg-gray-100 rounded-lg shadow-inner text-gray-700 leading-6">
                     <!-- Row -->
                     <div class="p-4 rounded-lg shadow-lg">
@@ -34,50 +34,33 @@
                         <div id="incentive-gains-report" class="h-full relative overflow-x-auto w-full max-w-4xl">
                         </div>
                     </div>
-                    <div class="mt-1 p-4 rounded-lg shadow-lg bg-white h-full flex flex-col">
-                        <h2 class="text-lg font-semibold text-gray-800 mb-2 self-start">Incentives</h2>
-                        <div class="flex-grow flex items-center justify-center">
-                        <canvas id="chart6"></canvas>
-                        </div>
-                    </div>
                 </div>
             </section>
             
-            <section class="w-7/12 grid grid-rows-3 gap-1">
+            <section class="mt-60 w-8/14 grid grid-rows-2 gap-1">
 
-                <section class="mt-1 grid grid-rows-1 gap-1">
-                    <div class="justify-right h-50  bg-white shadow-md rounded-lg ">
+                <section class="mt-1 gap-1">
+                    <div class="justify-right  bg-white shadow-md rounded-lg h-full">
                         <h2 class="text-lg pl-4 font-semibold mb-2">GAIN/LOSS Report (in Cr.)</h2>
-                        <canvas id="chart7" width="430" height="83"></canvas>
+                        <canvas id="chart7" width="430" height="190"></canvas>
                     </div>
                 </section>
 
                 <div id="reportContainer" class="grid grid-cols-2"> 
                     <!-- Report Output Container -->
-                            <div class="h-48 bg-white shadow-md rounded-lg p-2">
-                                <h2 class="text-lg leading-tight text-center font-semibold text-gray-800 mb-1">Availability Factor</h2>
-                                <canvas id="chart1" width="400" height="95"></canvas>
+                            <div class=" bg-white shadow-md rounded-lg p-2">
+                                <h2 id="chartTitle" class="text-lg leading-tight text-center font-semibold text-gray-800 mb-1"></h2>
+                                <canvas id="dynamicIncentives" width="400" height="95"></canvas>
                             </div>
-                            <div class="h-48 bg-white shadow-md rounded-lg p-2">
-                                <h2 class="text-lg  leading-tight text-center font-semibold text-gray-800 mb-1">Heat Rate</h2>
-                                <canvas id="chart2" width="400" height="95"></canvas>
-                            </div>
-                            <div class="mt-1 h-48 bg-white shadow-md rounded-lg p-2">
-                                <h2 class="text-lg leading-tight text-center font-semibold text-gray-800 mb-1">Auxiliary Power Consumption</h2>
-                                <canvas id="chart3" width="400" height="95"></canvas>
-                            </div>
-                            <div class="mt-1 h-48 bg-white shadow-md rounded-lg p-2">
-                                <h2 class="text-lg leading-tight text-center font-semibold text-gray-800 mb-1">Specific Oil Consumption</h2>
-                                <canvas id="chart4" width="400" height="95"></canvas>
-                            </div>
-                            <div class="mt-1 h-48 bg-white shadow-md rounded-lg p-2">
-                                <h2 class="text-lg leading-tight text-center font-semibold text-gray-800 mb-1">Transit Loss</h2>
-                                <canvas id="chart5" width="400" height="95"></canvas>
+                            <div class=" p-4 rounded-lg shadow-lg bg-white h-full flex flex-col">
+                                <h2 class="text-lg font-semibold text-gray-800 mb-2 self-start">Incentives</h2>
+                                <div class="flex-grow flex items-center justify-center">
+                                <canvas id="chart6"></canvas>
+                                </div>
                             </div>
                     </div>      
-                    </section>          
+                </section>          
         </main>
-    </div>
     </div>
     <script src="js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -113,5 +96,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
     </script>
+
 </body>
 </html>

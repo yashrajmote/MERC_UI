@@ -1,3 +1,125 @@
+const insightData = [
+    {
+        parameter: "AVF",
+        primaryTrigger: "AVF < Normative value",
+        data: [
+            { mode: "Low GCV", 
+              sourceSheet: "External Factor loss sheet", 
+              actionPlan: [
+                "Resampling of coal samples to be done",
+                "Review the past GCV data for the similar coal received",
+                "Check the loading of coal mills",
+                "Check the blending ratio / required change in blending",
+                "Review the coal procurement strategy"
+            ] },
+            { mode: "Non-availability of equipment", 
+              sourceSheet: "O&M loss sheet", 
+              actionPlan: [
+                "Review the auxiliary outage/ partial losses for the unit",
+                "Review the frequency of recurring auxiliary outage for the unit",
+                "Review the Inventory and corresponding spare consumption pattern",
+                "Review the procurement pattern with regards to spares"
+            ] },
+            { mode: "Low Coal stock", 
+              sourceSheet: "External Factor loss sheet", 
+              actionPlan: [
+                "Ensure proper coordination with the coal company ensuring proper supply of coal",
+                "Optimize available stock to get maximum possible generation"
+            ] },
+            { mode: "Wet Coal", 
+              sourceSheet: "External Factor loss sheet", 
+              actionPlan: [
+                "Check the coal blending ratio and usage of available coal (Direct bunkering / Reclaiming)",
+                "Maintain coal mill availability by thorough monitoring of coal bunkers/feeders"
+            ] }
+        ]
+    },
+
+    {
+        parameter: "SHR",
+        primaryTrigger: "SHR > Normative value",
+        data: [
+            { mode: "High Coal Consumption", 
+              sourceSheet: "Unit performance report", 
+              actionPlan: [
+                "Review the receieved coal parameters with historical data",
+                "Check the Coal mill operation and loading of coal mills",
+                "Review the Boiler operational parameters and check for deviations"
+            ] },
+            { mode: "GCV variation", 
+              sourceSheet: "Unit performance report", 
+              actionPlan: [
+                "Resampling of coal samples to be done",
+                "Review the past GCV data for the similar coal recieved",
+                "Check the loading of coal mills",
+                "Check the blending ratio / required change in blending",
+                "Review the coal procurement strategy"
+            ] },
+            { mode: "Generation loss", 
+              sourceSheet: "External and O&M generation loss sheet", 
+              actionPlan: [
+                "Review Availability of equipments of the unit",
+                "Review minor partial losses due to auxiliary changeover/ tripping for the unit",
+                "Check weightage of External loss factors like GCV, LDBD, Wet Coal etc."
+            ] }
+        ]
+    },
+
+    {
+        parameter: "APC",
+        primaryTrigger: "APC > Normative value",
+        data: [
+            { mode: "High Auxilliary Consumption", 
+              sourceSheet: "Unit performance report / Energy Management system report", 
+              actionPlan: [
+                "Review the sectorwise auxiliary power consumption (CHP, Coal mill, ODP) of the unit"
+            ] },
+            { mode: "Low Generation", 
+              sourceSheet: "External and O&M generation loss sheet", 
+              actionPlan: [
+                "Review Availability of equipments of the unit",
+                "Review minor partial losses due to auxiliary changeover/ tripping for the unit",
+                "Check weightage of External loss factors like GCV, LDBD, Wet Coal etc."
+            ] }
+        ]
+    },
+
+    {
+        parameter: "SOC",
+        primaryTrigger: "SOC > Normative value",
+        data: [
+            { mode: "High Secondary Consumption", 
+              sourceSheet: "Specific Oil Consumption report", 
+              actionPlan: [
+                "Review the secondary oil consumption reasons for flame stability"
+            ] },
+            { mode: "Plant Outages", 
+              sourceSheet: "External and O&M generation loss sheet", 
+              actionPlan: [
+                "Review the plant outage factors",
+                "Review the time required for startup",
+               " Review the set stabilization period"
+            ] }
+        ]
+    }, 
+
+    {
+        parameter: "TL",
+        primaryTrigger: "Coal TL > Normative Value",
+        data: [
+            { mode: "High Coal TL", 
+              sourceSheet: "Unit performance report / Coal receipt and accounting report", 
+              actionPlan: [
+                "Co-ordinate with transport agency for ensuring no transport losses",
+                "Verify the loading end weighing data with coal company",
+                "Arrange for mutual calibration of weigh bridges at coal loading end",
+                "Ensure proper and periodic calibration of weigh bridges at unloading end"
+            ] }
+        ]
+    }
+
+]
+
 const selectKPKD = document.querySelectorAll('select')[2]; 
 selectKPKD.addEventListener('change', function() {
     if (this.value === 'preset1') {
@@ -1017,12 +1139,111 @@ function handleSubmit(event) {
 
 }
 
+
+function updateSmallerChart(chartID, label, parsedValues, afterCalculations) { 
+
+    const { ASHR, AAPC, ASFOC } = afterCalculations;
+    const { ATL, APAVF, NAVF, NSHR, NAPC, NSFOC, NTL } = parsedValues;     
+
+    const newData = {
+        'Avail Factor': {normativeValue: NAVF, achieved: APAVF},
+        'Heat Rate':{normativeValue: NSHR, achieved: ASHR},
+        'Aux Power Con': {normativeValue: NAPC, achieved: AAPC},
+        'Spec Oil Con': {normativeValue: NSFOC, achieved: ASFOC},
+        'Transit Loss': {normativeValue: NTL, achieved: ATL},        
+    };
+
+    const dataToUpdate = newData[label]
+    ? [newData[label].normativeValue, newData[label].achieved] 
+    : [0, 0];
+
+    console.log(dataToUpdate);
+
+    
+    const ctx = document.getElementById(`dynamicIncentives`).getContext('2d');
+    const chartTitle = document.getElementById(`chartTitle`)
+
+    chartTitle.textContent = label;
+
+    const getChartColor = (chartID, achieved, normativeValue) => {
+        if (chartID === 'chart1') {
+            return achieved > normativeValue ? '#16a34a' : '#dc2626';
+        } else {
+            return achieved > normativeValue ? '#dc2626' : '#16a34a';
+        }
+    };
+
+    const achievedColor =  getChartColor(chartID, dataToUpdate.achieved, dataToUpdate.normativeValue); 
+    
+    new Chart (ctx, {
+        type: 'bar', 
+        data: { 
+            labels: ['Normative', 'Achieved'], 
+            datasets: [{
+                label: label, 
+                data: [dataToUpdate[0], dataToUpdate[1]], 
+                backgroundColor: ['#6366f1', achievedColor],
+                borderWidth: 2
+            }]
+        }, 
+        options: {
+            plugins: {
+                legend: {
+                    display: false 
+                }
+            },
+            indexAxis: 'y', 
+            responsive: true, 
+            scales: {
+                x: { // Updated from xAxes
+                    beginAtZero: true
+                },
+                y: { // Updated from yAxes
+                    beginAtZero: true
+                }
+            }
+        }
+    })
+}
+
 function updateSelectedLabel(selectElement) {
     const selectedLabel = selectElement.options[selectElement.selectedIndex].text;
     const selectId = selectElement.id; // Get the ID or some unique identifier
     localStorage.setItem('selectedLabel_' + selectId, JSON.stringify(selectedLabel));
 }
 
+function moreInfoPage(parameter){
+    const matchingObject = insightData.find(item => item.parameter === parameter);
+    console.log(matchingObject)
+
+    if (matchingObject) {
+            localStorage.setItem('insightData', JSON.stringify(matchingObject));
+        }
+
+        window.location.href = 'third.html'
+
+}
+
+function populateTable(data){
+const tableBody = document.querySelector('#insightTableBody');
+
+data.forEach(item => {
+    item.data.forEach(mode => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+        <td>${mode.mode}</td>
+        <td>${mode.sourceSheet}</td>
+        <td>
+            <ul>
+                ${mode.actionPlan.map(action => `<li>${action}</li>`).join('')}
+            </ul>
+        </td>
+    `;
+
+    tableBody.appendChild(row);
+    })
+})
+}
 
 function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) {
 
@@ -1069,6 +1290,7 @@ let gainLossHTML = `
             <th scope="col" class="border border-gray-300 px-1 py-1">Normative</th>
             <th scope="col" class="border border-gray-300 py-1">Achieved</th>
             <th scope="col" class="border border-gray-300 py-1">Gain/ Loss(Cr.)</th>
+            <th scope="col" class="border border-gray-300 py-1">More Info</th>
         </tr>
     </thead>
     
@@ -1083,6 +1305,8 @@ gainLossHTML += `
         <td class="border border-gray-300 px-1 py-1">${item.normativeValue}</td>
         <td class="border border-gray-300 px-1 py-1">${item.achieved}</td>
         <td class="border border-gray-300 px-1 py-1">${item.gainLoss}</td>
+        <td onClick="moreInfoPage('${item.parameter}')" class="border border-gray-300 px-2 py-1">
+        <a class="text-decoration: underline color: text-blue-500 cursor-pointer">More info</a></td>
     </tr>
 `
 })
@@ -1149,46 +1373,6 @@ let netGainLossHTML = `
 //const reportOutput = document.getElementById('reportOutput');
 //reportOutput.innerHTML = gainLossHTML + incentiveGainsHTML;
 
-gainLossData.forEach(chart => {
-const ctx = document.getElementById(`chart${chart.srNo}`).getContext('2d');
-
-const getChartColor = (chartId, achieved, normativeValue) => {
-    if (chartId === 'chart1') {
-        return achieved > normativeValue ? '#16a34a' : '#dc2626';
-    } else {
-        return achieved > normativeValue ? '#dc2626' : '#16a34a';
-    }
-};
-
-
-const achievedColor = chart.achieved > chart.normativeValue ? '#dc2626' : '#16a34a'; 
-
-new Chart (ctx, {
-    type: 'bar', 
-    data: { 
-        labels: ['Normative', 'Achieved'], 
-        datasets: [{
-            label: chart.parameter, 
-            data: [chart.normativeValue, chart.achieved], 
-            backgroundColor: ['#6366f1', getChartColor(`chart${chart.srNo}`, chart.achieved, chart.normativeValue)],
-            borderWidth: 2
-        }]
-    }, 
-    options: {
-        plugins: {
-            legend: {
-                display: false 
-            }
-        },
-        indexAxis: 'y', 
-        responsive: true, 
-        scales: {
-            xAxes: [{ ticks: { beginAtZero: true } }]
-        }
-        
-    }
-})
-})
 
 const ctx1 = document.getElementById(`chart6`).getContext('2d');
 
@@ -1215,7 +1399,7 @@ new Chart (ctx1, {
 
 const ctx2 = document.getElementById(`chart7`).getContext('2d');
 
-new Chart(ctx2, {
+const incentivesChart = new Chart(ctx2, {
     type: 'bar',
     data: {
         labels: ['Avail Factor', 'Heat Rate', 'Aux Power Con', 'Spec Oil Con', 'Transit Loss'],
@@ -1223,6 +1407,7 @@ new Chart(ctx2, {
             label: 'Gain/Loss',
             data: [gainAVF, gainNSHR, gainAPC, gainSFOC, gainTL],
             backgroundColor: ['#1e40af', '#a21caf', '#9f1239', '#166534'],
+            minBarLength: 7,
         }]
     },
     options: {
@@ -1245,9 +1430,34 @@ new Chart(ctx2, {
                     text: 'Loss/Gain'
                 }
             }
+        },
+        onClick: function(e) {
+            const points = incentivesChart.getElementsAtEventForMode(e, 'nearest', {intersect: true}, true);
+            
+            if (points.length) { 
+                const firstPoint = points[0];
+                const label = incentivesChart.data.labels[firstPoint.index];
+
+                const chartMapping = {
+                    'Avail Factor': 'chart1',
+                    'Heat Rate': 'chart2',
+                    'Aux Power Con': 'chart3',
+                    'Spec Oil Con': 'chart4',
+                    'Transit Loss': 'chart5'
+                };
+
+                const chartID = chartMapping[label];
+
+                console.log(chartID);
+
+                if (chartID) {
+                    updateSmallerChart(chartID, label, parsedValues, afterCalculations);
+                }
+            }
         }
     }
 });
+
 
 }
 /*
