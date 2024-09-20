@@ -1,6 +1,6 @@
 const insightData = [
     {
-        parameter: "AVF",
+        parameter: "Availability Factor",
         primaryTrigger: "AVF < Normative value",
         data: [
             { mode: "Low GCV", 
@@ -36,7 +36,7 @@ const insightData = [
     },
 
     {
-        parameter: "SHR",
+        parameter: "Heat Rate",
         primaryTrigger: "SHR > Normative value",
         data: [
             { mode: "High Coal Consumption", 
@@ -66,7 +66,7 @@ const insightData = [
     },
 
     {
-        parameter: "APC",
+        parameter: "Auxiliary Power Consumption",
         primaryTrigger: "APC > Normative value",
         data: [
             { mode: "High Auxilliary Consumption", 
@@ -85,7 +85,7 @@ const insightData = [
     },
 
     {
-        parameter: "SOC",
+        parameter: "Specific Oil Consumption",
         primaryTrigger: "SOC > Normative value",
         data: [
             { mode: "High Secondary Consumption", 
@@ -104,7 +104,7 @@ const insightData = [
     }, 
 
     {
-        parameter: "TL",
+        parameter: "Transit Loss",
         primaryTrigger: "Coal TL > Normative Value",
         data: [
             { mode: "High Coal TL", 
@@ -1213,14 +1213,15 @@ function updateSelectedLabel(selectElement) {
 }
 
 function moreInfoPage(parameter){
+    console.log(parameter)
+    console.log(insightData)
     const matchingObject = insightData.find(item => item.parameter === parameter);
     console.log(matchingObject)
 
     if (matchingObject) {
             localStorage.setItem('insightData', JSON.stringify(matchingObject));
         }
-
-        window.location.href = 'third.html'
+        window.location.href = 'third.html';
 
 }
 
@@ -1231,10 +1232,10 @@ data.forEach(item => {
     item.data.forEach(mode => {
         const row = document.createElement('tr');
         row.innerHTML = `
-        <td>${mode.mode}</td>
-        <td>${mode.sourceSheet}</td>
+        <td class="border border-gray-300 px-1 py-1">${mode.mode}</td>
+        <td class="bg-gray-50 border border-gray-300 px-1 py-1">${mode.sourceSheet}</td>
         <td>
-            <ul>
+            <ul class="list-disc pl-5 border border-gray-300 px-1 py-1";>
                 ${mode.actionPlan.map(action => `<li>${action}</li>`).join('')}
             </ul>
         </td>

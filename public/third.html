@@ -21,10 +21,10 @@
                 </button>
             </div>
         </nav>
-        <main class="flex h-screen grid grid-cols-2 bg-white p-8 overflow-y-auto">
+        <main class="flex h-screen bg-gra p-3 overflow-y-auto">
 
-            <section class="mt-10 w-6/14 justify-center">
-                <div class=" bg-gray-100 rounded-lg shadow-inner text-gray-700 leading-6">
+            <section class="mt-10 grid w-4/6 justify-center">
+                <div class="bg-gray-100 rounded-lg shadow-inner text-gray-700 leading-6">
                     <!-- Row -->
                     <div class="p-4 rounded-lg shadow-lg">
                         <div id="" class="  overflow-x-auto w-full max-w-4xl">
@@ -32,10 +32,10 @@
                                 <div class="min-w-full inline-block align-middle">
                                     <div class="overflow-hidden border rounded-lg border-gray-300">
                                         <table class=" min-w-full  rounded-xl">
-                                            <thead id="insightTable">
+                                            <thead class="border border-gray-300 px-1 py-1" id="insightTable">
                                                 <tr class="">
-                                                    <th scope="col" class="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Failure Modes </th>
-                                                    <th scope="col " class="p-5 bg-gray-50 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Source Sheet </th>
+                                                    <th scope="col" class="border border-gray-300 p-5 text-left px-1 py-1 text-sm leading-6 font-semibold text-gray-900 capitalize"> Failure Modes </th>
+                                                    <th scope="col " class="p-5 border border-gray-300 px-1 py-1 bg-gray-50 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Source Sheet </th>
                                                     <th scope="col" class="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Action Plan </th>
                                                 </tr>
                                             </thead>
@@ -51,6 +51,14 @@
                 
                 </div>
             </section>
+            <section class="mt-10 w-8/14 gap-1 p-4">
+
+                <section class="mt-1 gap-1">
+                    <div class=" bg-white shadow-md rounded-lg p-2">
+                        <h2 id="chartTitle" class="text-lg leading-tight text-center font-semibold text-gray-800 mb-1"></h2>
+                        <canvas id="dynamicIncentives" width="400" height="95"></canvas>
+                    </div>
+                </section>
 
         </main>
     </div>
@@ -61,7 +69,7 @@
         if (storedData) {
             const parsedData = JSON.parse(storedData);
             
-            populateTable(parsedData);
+            populateTable([parsedData]);
         }
     });
 
