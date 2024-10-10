@@ -32,7 +32,27 @@ const insightData = [
                 "Check the coal blending ratio and usage of available coal (Direct bunkering / Reclaiming)",
                 "Maintain coal mill availability by thorough monitoring of coal bunkers/feeders"
             ] }
+        ], 
+        header: [
+            "Normative AVF (kcal/kwh)", 
+            "Achieved AVF (kcal/kwh)",
+            "Deviation (kcal/kwh)", 
+            "Gain/Loss (in Rs.Crs.)"
+        ], 
+        values: [
+            "85", "80.3", "-4.7", "8.76"
+        ], 
+
+        secondTable: [
+            "Achieved Generation (Mus)", "Average AVF achieved", "AVF achieved in HDS", "AVF achieved in LDS"
+        ], 
+        secondValues: [
+            "300", "80.3", "86.57", "78.9"
+        ], 
+        graphValues1: [
+            80.3, 86.57, 78.9
         ]
+
     },
 
     {
@@ -62,6 +82,29 @@ const insightData = [
                 "Review minor partial losses due to auxiliary changeover/ tripping for the unit",
                 "Check weightage of External loss factors like GCV, LDBD, Wet Coal etc."
             ] }
+        ],
+        header: [
+            "Normative SHR (kcal/kwh)", 
+            "Achieved SHR (kcal/kwh)",
+            "Deviation (kcal/kwh)", 
+            "Gain/Loss (in Rs.Crs.)", 
+            "Total Loss (in Rs.Crs.)"
+        ], 
+        values: [
+            "2375", "2580", "-205", "-89.66", "-112.36"        
+        ], 
+        secondTable: [
+            "Achieved Generation (Mus)", "Coal factor achieved (%)", "Approved Coal factor (%)", "Difference in Loading end and Unloading end GCV", "Normative Rs./Mkcal", 
+            "Effective Rs./Mkcal"
+        ], 
+        secondValues: [
+            "300", "0.78", "0.68", "860", "1050", "1280"		
+        ], 
+        graphValues1: [
+            2375, 2580
+        ], 
+        graphValues2: [
+            1050, 128
         ]
     },
 
@@ -81,6 +124,28 @@ const insightData = [
                 "Review minor partial losses due to auxiliary changeover/ tripping for the unit",
                 "Check weightage of External loss factors like GCV, LDBD, Wet Coal etc."
             ] }
+        ],
+        header: [
+            "Normative APC (%)", 
+            "Achieved APC (%)",
+            "Deviation (%)", 
+            "Gain/Loss (in Rs.Crs.)", 
+            "Total Loss (in Rs.Crs.)"
+        ], 
+        values: [
+            "6", "6.2", "-0.2", "-1.42", "-112.36"
+        ], 
+        secondTable: [
+            "Achieved Generation (Mus)", "APC achieved (Mus)", "Approved APC (Mus)", "Loss due to External factors (%)", "Loss due to O&M factors (%)"
+        ], 
+        secondValues: [
+            "300", "18.6", "18", "9.87", "6.796"
+        ], 
+        graphValues1: [
+            6, 6.2
+        ], 
+        graphValues2: [
+            9.87, 6.796
         ]
     },
 
@@ -100,6 +165,28 @@ const insightData = [
                 "Review the time required for startup",
                " Review the set stabilization period"
             ] }
+        ],
+        header: [
+            "Normative SOC (ml/kwh)", 
+            "Achieved SOC (ml/kwh)",
+            "Deviation (ml/kwh)", 
+            "Gain/Loss (in Rs.Crs.)", 
+            "Total Loss (in Rs.Crs.)"
+        ], 
+        values: [
+            "0.5", "0.78", "-0.28", "-2.36", "-112.36"
+        ], 
+        secondTable: [
+            "SOC achieved (ml/kwh)", "Approved SOC (ml/kwh)", "Oil Consumption reasons", "Unit startup", "Set stabilization", "Flame stability"
+        ], 
+        secondValues: [
+            "0.78", "0.5", "0.38", "0.24", "0.16"
+        ], 
+        graphValues1: [
+            0.5, 0.78
+        ], 
+        graphValues2: [
+            0.38, 0.24, 0.16
         ]
     }, 
 
@@ -115,6 +202,22 @@ const insightData = [
                 "Arrange for mutual calibration of weigh bridges at coal loading end",
                 "Ensure proper and periodic calibration of weigh bridges at unloading end"
             ] }
+        ],
+        header: [
+            "Normative SHR (%)", 
+            "Achieved SHR (%)",
+            "Deviation (%)", 
+            "Gain/Loss (in Rs.Crs.)", 
+            "Total Loss (in Rs.Crs.)"
+        ], 
+        values: [
+            "0.8", "1.2", "-0.4", "-5.93", "-112.36"
+        ], 
+        secondTable: [
+            "TL achieved (%)", "Approved TL (%)", "TL analysis", "Coal Source", "WCL", "MCL"
+        ], 
+        graphValues: [
+            0.8, 1.2
         ]
     }
 
@@ -1232,13 +1335,12 @@ data.forEach(item => {
     item.data.forEach(mode => {
         const row = document.createElement('tr');
         row.innerHTML = `
-        <td class="border border-gray-300 px-1 py-1">${mode.mode}</td>
-        <td class="bg-gray-50 border border-gray-300 px-1 py-1">${mode.sourceSheet}</td>
-        <td>
+        <td class="border border-gray-300 px-1 py-1"><small>${mode.mode}</small></td>
+        <td> <small>
             <ul class="list-disc pl-5 border border-gray-300 px-1 py-1";>
                 ${mode.actionPlan.map(action => `<li>${action}</li>`).join('')}
             </ul>
-        </td>
+        </small></td>
     `;
 
     tableBody.appendChild(row);
