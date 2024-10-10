@@ -1396,7 +1396,7 @@ let gainLossHTML = `
             <th scope="col" class="border border-gray-300 px-1 py-1">Normative</th>
             <th scope="col" class="border border-gray-300 py-1">Achieved</th>
             <th scope="col" class="border border-gray-300 py-1">Gain/ Loss(Cr.)</th>
-            <th scope="col" class="border border-gray-300 py-1">More Info</th>
+            <th scope="col" class="border border-gray-300 py-1"></th>
         </tr>
     </thead>
     
