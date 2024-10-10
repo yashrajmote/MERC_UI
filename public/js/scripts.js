@@ -180,7 +180,7 @@ const insightData = [
             "SOC achieved (ml/kwh)", "Approved SOC (ml/kwh)", "Oil Consumption reasons", "Unit startup", "Set stabilization", "Flame stability"
         ], 
         secondValues: [
-            "0.78", "0.5", "0.38", "0.24", "0.16"
+            "0.78", "0.5", "", "0.38", "0.24", "0.16"
         ], 
         graphValues1: [
             0.5, 0.78
@@ -216,7 +216,10 @@ const insightData = [
         secondTable: [
             "TL achieved (%)", "Approved TL (%)", "TL analysis", "Coal Source", "WCL", "MCL"
         ], 
-        graphValues: [
+        secondValues: [
+            "0.8", "1.2", ""
+        ],
+        graphValues1: [
             0.8, 1.2
         ]
     }
