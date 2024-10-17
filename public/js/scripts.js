@@ -1143,14 +1143,15 @@ function calculations(parsedValues, TDR, TDFY) {
     const AHCLDO = ALDOC * ALDOGCV * 0.853 / 1000;
     const AHCFO = AFOC * AFOGCV * 0.933 / 1000;
     const ATHCF = AHCRC + AHCWC + AHCIC + AHCLDO + AHCFO;
-    const ASHR = ((((ARCC + AWCC + AICC) * NCGCV) + AHCLDO + AHCFO) / AGEN) / 1000 ;
+    const ASHR = (((ARCC + AWCC + AICC) * NCGCV) / AGEN) / 1000 ; 
     const ASLDOC = ALDOC / AGEN;
     const ASFOC = AFOC / AGEN;
     const ACSFOC = ASLDOC + ASFOC;
 
 
     const ECTDR = IC * ( 1 - NAPC ) * TDR;
-    const AAVFTDR = 100  * ( ADCTDR / ECTDR );
+    const AAVFTDR = 100  * ( ADCTDR / ECTDR ); // disable and apply new formula
+
     const OPAVFTDR = 100 * ( OPDCTDR / ECTDR );
     const MPROPAVFTDR = 0.8 * NFCEWC * TDR / TDFY;
 
@@ -1185,7 +1186,7 @@ function calculateGainValues(parsedValues, afterCalculations, ROEValues) {
     const gainNSHR = NRCCC + NWCCC + NICCC - ARCCC - AWCCC - AICCC - gainTL;
     const gainAVF = ARAAVFTDR - MPRAAVFTDR;
 
-    return { gainMTBF, gainRampRate, gainPeakAVF, gainFGMO, gainAPC, gainSFOC, gainTL, gainNSHR, gainAVF };
+    return { gainMTBF, gainRampRate, gainPeakAVF, gainFGMO, gainAPC, gainSFOC, gainTL, gainNSHR, gainAVF, gainSFOC };
 }
 
 function fillForm(data) {
@@ -1239,12 +1240,16 @@ function handleSubmit(event) {
         selectElement
     };
 
+    localStorage.setItem('parsedValues', JSON.stringify(parsedValues));
+    localStorage.setItem('afterCalculations', JSON.stringify(afterCalculations));
+    localStorage.setItem('ROEValues', JSON.stringify(ROEValues));
+
+
     localStorage.setItem('reportData', JSON.stringify(reportData));
     
     window.location.href = 'output.html';
 
 }
-
 
 function updateSmallerChart(chartID, label, parsedValues, afterCalculations) { 
 
@@ -1319,8 +1324,10 @@ function updateSelectedLabel(selectElement) {
 }
 
 function moreInfoPage(parameter){
+    
     console.log(parameter)
     console.log(insightData)
+
     const matchingObject = insightData.find(item => item.parameter === parameter);
     console.log(matchingObject)
 
@@ -1352,6 +1359,8 @@ data.forEach(item => {
 }
 
 function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) {
+
+const { ROE_RP, converted_ROE_MTBF, converted_ROE_RR, converted_ROE_PAVF } = ROEValues;
 
 const { gainMTBF, gainRampRate, gainPeakAVF, gainFGMO, gainAPC, gainSFOC, gainTL, gainNSHR, gainAVF } = gainValues;
 

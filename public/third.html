@@ -50,9 +50,9 @@
                     </table>
                 </div>
             </section>
-                <div class="mt-1 bg-gray-100 rounded-lg shadow-inner text-gray-700 leading-6 col-span-2">
+                <div class="mt-1 bg-gray-100 rounded-lg shadow-inner text-gray-700 ">
                     <!-- Row -->
-                    <div class="p-4 rounded-lg shadow-lg">
+                    <div class="p-4 rounded-lg shadow-lg ">
                         <div id="" class="  overflow-x-auto w-full">
                                     <div class="overflow-hidden border rounded-lg border-gray-300">
                                         <table class=" min-w-full  rounded-xl">
@@ -89,11 +89,17 @@
         document.addEventListener('DOMContentLoaded', () => {
         const storedData = localStorage.getItem('insightData');
         const reportData = JSON.parse(localStorage.getItem('reportData'));
+
+        const parsedValues = reportData.parsedValues || {}; 
+        const afterCalculations = reportData.afterCalculations || {}; 
+        const ROEValues = reportData.ROEValues || {};
+        const gainValues = reportData.gainValues || {};
+
         if (storedData) {
             const parsedData = JSON.parse(storedData);
             console.log(parsedData)
             populateTable([parsedData]);
-            populateAnalysisTable([parsedData], reportData);
+            populateAnalysisTable([parsedData], parsedValues, afterCalculations, ROEValues, gainValues);
             populateGraphs([parsedData])
         }
     });
@@ -119,7 +125,52 @@
             });
         }
 
-        function populateAnalysisTable(data, reportData) {
+        function populateAnalysisTable(data, newparsedValues, newafterCalculations, newROEValues, gainValues) {
+
+            const { gainMTBF, gainRampRate, gainPeakAVF, gainFGMO, gainAPC, gainSFOC, gainTL, gainNSHR, gainAVF } = gainValues;    
+            const { ROE_RP, converted_ROE_MTBF, converted_ROE_RR, converted_ROE_PAVF } = newROEValues;
+            const { ASHR, AAPC, ASFOC } = newafterCalculations;
+            const { ATL, APAVF, NAVF, NSHR, NAPC, NSFOC, NTL } = newparsedValues; 
+
+            const normGainLoss = gainAPC + gainSFOC + gainTL + gainNSHR + gainAVF ;
+            const incentiveGainLoss = gainMTBF + gainRampRate + gainPeakAVF + gainFGMO;
+            const netGainLoss = normGainLoss - incentiveGainLoss;
+
+            const AVFDeviation = APAVF - NAVF;
+            const SHRDeviation = ASHR - NSHR;
+            const APCDeviation = AAPC - NAPC;
+            const DOCDeviation = ASFOC - NSFOC;
+            const TLDeviation = NTL - ATL;
+
+            const insightData = [
+            {
+                parameter: "Availability Factor",
+                firstTable: [ NAVF, APAVF, AVFDeviation, gainAVF ]
+        
+            },
+
+            {
+                parameter: "Heat Rate",
+                firstTable: [ ASHR, NSHR, SHRDeviation, gainNSHR] 
+            }, 
+
+            {
+                parameter: "Auxiliary Power Consumption",
+                firstTable: [ NAVF, APAVF, AVFDeviation, gainAVF ] 
+            }, 
+
+            {
+                parameter: "Specific Oil Consumption",
+                firstTable: [ NAVF, APAVF, AVFDeviation, gainAVF ] 
+            }, 
+
+            {
+                parameter: "Transit Loss",
+                firstTable: [ NAVF, APAVF, AVFDeviation, gainAVF ] 
+            }
+
+            ]
+
             console.log(data);
             const analysisHeader = document.querySelector('#analysisTable');
             const analysisBody = document.querySelector('#analysisBody');
