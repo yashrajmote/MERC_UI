@@ -278,7 +278,6 @@ selectKPKD.addEventListener('change', function() {
             PDCTDR: 0,
             OPDCTDR: 0, 
             ADCTDR: 0, 
-            PDCHDS: 0,
             OPDCHDS: 0, 
             ADCHDS: 0,
             PDCLDS: 0,
@@ -340,7 +339,6 @@ selectKPKD2.addEventListener('change', function() {
             PDCTDR: 0,
             OPDCTDR: 0, 
             ADCTDR: 0, 
-            PDCHDS: 0,
             OPDCHDS: 0, 
             ADCHDS: 0,
             PDCLDS: 0,
@@ -402,7 +400,6 @@ selectBSL.addEventListener('change', function() {
             PDCTDR: 0,
             OPDCTDR: 0, 
             ADCTDR: 0, 
-            PDCHDS: 0,
             OPDCHDS: 0, 
             ADCHDS: 0,
             PDCLDS: 0,
@@ -463,7 +460,6 @@ selectBSL2.addEventListener('change', function() {
             PDCTDR: 0,
             OPDCTDR: 0, 
             ADCTDR: 0, 
-            PDCHDS: 0,
             OPDCHDS: 0, 
             ADCHDS: 0,
             PDCLDS: 0,
@@ -524,7 +520,6 @@ selectCSTPS.addEventListener('change', function() {
             PDCTDR: 0,
             OPDCTDR: 0, 
             ADCTDR: 0, 
-            PDCHDS: 0,
             OPDCHDS: 0, 
             ADCHDS: 0,
             PDCLDS: 0,
@@ -585,7 +580,6 @@ selectCSTPS2.addEventListener('change', function() {
                 PDCTDR: 0,
                 OPDCTDR: 0, 
                 ADCTDR: 0, 
-                PDCHDS: 0,
                 OPDCHDS: 0, 
                 ADCHDS: 0,
                 PDCLDS: 0,
@@ -646,7 +640,6 @@ selectKTPS.addEventListener('change', function() {
             PDCTDR: 0,
             OPDCTDR: 0, 
             ADCTDR: 0, 
-            PDCHDS: 0,
             OPDCHDS: 0, 
             ADCHDS: 0,
             PDCLDS: 0,
@@ -707,7 +700,6 @@ selectKTPS2.addEventListener('change', function() {
             PDCTDR: 0,
             OPDCTDR: 0, 
             ADCTDR: 0, 
-            PDCHDS: 0,
             OPDCHDS: 0, 
             ADCHDS: 0,
             PDCLDS: 0,
@@ -768,7 +760,6 @@ selectNTPS.addEventListener('change', function() {
             PDCTDR: 0,
             OPDCTDR: 0, 
             ADCTDR: 0, 
-            PDCHDS: 0,
             OPDCHDS: 0, 
             ADCHDS: 0,
             PDCLDS: 0,
@@ -829,7 +820,6 @@ selectPARAS.addEventListener('change', function() {
             PDCTDR: 0,
             OPDCTDR: 0, 
             ADCTDR: 0, 
-            PDCHDS: 0,
             OPDCHDS: 0, 
             ADCHDS: 0,
             PDCLDS: 0,
@@ -890,7 +880,6 @@ selectPARALI.addEventListener('change', function() {
             PDCTDR: 0,
             OPDCTDR: 0, 
             ADCTDR: 0, 
-            PDCHDS: 0,
             OPDCHDS: 0, 
             ADCHDS: 0,
             PDCLDS: 0,
@@ -951,7 +940,6 @@ selectPARALI2.addEventListener('change', function() {
             PDCTDR: 0,
             OPDCTDR: 0, 
             ADCTDR: 0, 
-            PDCHDS: 0,
             OPDCHDS: 0, 
             ADCHDS: 0,
             PDCLDS: 0,
@@ -1099,7 +1087,7 @@ function calculations(parsedValues, TDR, TDFY) {
     const { IC, AICC, AGEN, NAVF, NSHR, NAPC, AWCC, ACGCV, ALDOC, ALDOLC, NSFOC, ARCC, AFOGCV, AWGCVR, 
         AIGCVR, ARGCVB, OPDCTDR, NADLURGCV, ARGCVR, AIGCVB, NADLUWGCV, ATLC, NTL, OVC, AFOC, AFOLC, APGEN, NRGCVB, 
         NWGCVB, NIGCVB, NIGCVR, NFCEWC, NLDOGCV, NFOGCV, PDCTDR, NWCLC, NICLC, NLDOLC, NFOLC, NSL, AAPCM, ADCTDR, ALDOGCV, 
-        ARCLC, AWCLC, AICLC, IRCCC } = parsedValues;
+        ARCLC, AWCLC, AICLC, IRCCC, PDCHDS } = parsedValues;
 
     const AWCCC = ( AWCC * AWCLC ) / 10 ** 7;
     const AICCC = ( AICC * AICLC ) / 10 ** 7;
@@ -1150,7 +1138,9 @@ function calculations(parsedValues, TDR, TDFY) {
 
 
     const ECTDR = IC * ( 1 - NAPC ) * TDR;
-    const AAVFTDR = 100  * ( ADCTDR / ECTDR ); // disable and apply new formula
+    // const AAVFTDR = 100  * ( ADCTDR / ECTDR ); // disable and apply new formula
+
+    const AAVFTDR = PDCHDS; 
 
     const OPAVFTDR = 100 * ( OPDCTDR / ECTDR );
     const MPROPAVFTDR = 0.8 * NFCEWC * TDR / TDFY;
@@ -1168,10 +1158,10 @@ function calculations(parsedValues, TDR, TDFY) {
              ALDOCC, AFOCC, ARAAVFTDR, MPRAAVFTDR, AAPC, AAVFTDR, ASHR, ASFOC, NTL, ARCCC, AICCC, AWCCC, AAPCM, AHCLDO, AHCFO, ATHCF };
 }
 
-function calculateGainValues(parsedValues, afterCalculations, ROEValues) {
+function calculateGainValues(parsedValues, afterCalculations, ROEValues, TDR, TDFY) {
     const { ROE_RP, converted_ROE_MTBF, converted_ROE_RR, converted_ROE_PAVF } = ROEValues;
     const { NAPCM, APECR, NLDOCC, NFOCC, ALDOCC, AFOCC, NRCCC, NWCCC, NICCC, ARAAVFTDR, MPRAAVFTDR, AAPCM, AICCC, AWCCC, ARCCC } = afterCalculations;
-    const { ARCC, ATLC, NTL, IRCCC, IWCCC, IICCC } = parsedValues;
+    const { ARCC, ATLC, NTL, IRCCC, NFCEWC, PDCHDS, NAVF  } = parsedValues;
 
 
     const ROE_FGMO = FGMOstatus();
@@ -1184,7 +1174,13 @@ function calculateGainValues(parsedValues, afterCalculations, ROEValues) {
     const gainSFOC = NLDOCC + NFOCC - ALDOCC - AFOCC;
     const gainTL = ((((IRCCC * ARCC) / (1 - (NTL / 100))) - (IRCCC * ARCC)) / 10 ** 7) - ATLC;
     const gainNSHR = NRCCC + NWCCC + NICCC - ARCCC - AWCCC - AICCC - gainTL;
-    const gainAVF = ARAAVFTDR - MPRAAVFTDR;
+    // const gainAVF = ARAAVFTDR - MPRAAVFTDR;
+
+    let gainAVF = 0;
+
+    if (PDCHDS < NAVF) { 
+     gainAVF = (NFCEWC * TDR) / TDFY * - (1 - ( PDCHDS / NAVF ));
+    }
 
     return { gainMTBF, gainRampRate, gainPeakAVF, gainFGMO, gainAPC, gainSFOC, gainTL, gainNSHR, gainAVF, gainSFOC };
 }
@@ -1220,7 +1216,7 @@ function handleSubmit(event) {
     const afterCalculations = calculations(parsedValues, TDR, TDFY);
     console.log(afterCalculations); 
 
-    const gainValues = calculateGainValues(parsedValues, afterCalculations, ROEValues)
+    const gainValues = calculateGainValues(parsedValues, afterCalculations, ROEValues, TDR, TDFY)
     console.log(gainValues);
 
     const selectElement = document.querySelector('select'); 
