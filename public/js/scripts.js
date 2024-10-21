@@ -40,7 +40,7 @@ const insightData = [
             "Gain/Loss (in Rs.Crs.)"
         ], 
         values: [
-            "85", "80.3", "-4.7", "8.76"
+            "85", "80.3", "-4.7", "-8.76"
         ], 
 
         secondTable: [
@@ -1366,10 +1366,10 @@ const { ATL, ATLC, AMTBF, ARR, APAVF, NAVF, NSHR, NAPC, NSFOC, NTL } = parsedVal
 
 // Gain/Loss Report Data
 const gainLossData = [
-{ srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: AAVFTDR, gainLoss: gainAVF.toFixed(3)  },
+{ srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: AAVFTDR.toFixed(3), gainLoss: gainAVF.toFixed(3)  },
 { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: ASHR.toFixed(3) , gainLoss: gainNSHR.toFixed(3)  },
 { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: AAPC.toFixed(3), gainLoss: gainAPC.toFixed(3)  },
-{ srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: NSFOC, achieved: ASFOC, gainLoss: gainSFOC.toFixed(3)  },
+{ srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: NSFOC, achieved: ASFOC.toFixed(3), gainLoss: gainSFOC.toFixed(3)  },
 { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: NTL, achieved: ATL, gainLoss: gainTL.toFixed(3)  }
 ];
 
@@ -1487,15 +1487,32 @@ let netGainLossHTML = `
 
 const ctx1 = document.getElementById(`chart6`).getContext('2d');
 
+const dataValues1 = [gainMTBF, gainRampRate, gainPeakAVF, gainFGMO];
+
+const getDoughnutColor = (values) => {
+    const indexedValues = values.map((value, index) => ({ value, index }));
+
+    indexedValues.sort((a, b) => b.value - a.value);
+
+    const colors = new Array(values.length).fill('#000000'); 
+    if (indexedValues.length > 0) colors[indexedValues[0].index] = '#7f6519'; // Highest
+    if (indexedValues.length > 1) colors[indexedValues[1].index] = '#848406'; // 2nd highest
+    if (indexedValues.length > 2) colors[indexedValues[2].index] = '#e4c97b'; // 3rd highest
+    if (indexedValues.length > 3) colors[indexedValues[3].index] = '#f3f017'; // 4th highest
+
+    return colors;
+};
+
+
+
 new Chart (ctx1, {
     type: 'doughnut', 
     data: { 
         labels: ['MTBF', 'Ramp Rate', 'Peak AVF', 'FGMO Status'], 
         datasets: [{
             label: 'Gains', 
-            data: [gainMTBF, gainRampRate, gainPeakAVF, gainFGMO], 
-            backgroundColor: ['#ef4444', '#facc15', '#4ade80', '#3b82f6' ],
-            borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)' ],
+            data: dataValues1, 
+            backgroundColor: getDoughnutColor(dataValues1),
         }]
     }, 
     options: {
@@ -1510,14 +1527,20 @@ new Chart (ctx1, {
 
 const ctx2 = document.getElementById(`chart7`).getContext('2d');
 
+const dataValues = [gainAVF, gainNSHR, gainAPC, gainSFOC, gainTL];
+
+const getColor = (value) => {
+    return value > 0 ? '#16a34a' : '#dc2626'; 
+};
+
 const incentivesChart = new Chart(ctx2, {
     type: 'bar',
     data: {
         labels: ['Avail Factor', 'Heat Rate', 'Aux Power Con', 'Spec Oil Con', 'Transit Loss'],
         datasets: [{
             label: 'Gain/Loss',
-            data: [gainAVF, gainNSHR, gainAPC, gainSFOC, gainTL],
-            backgroundColor: ['#1e40af', '#a21caf', '#9f1239', '#166534'],
+            data: dataValues,
+            backgroundColor: dataValues.map(getColor),
             minBarLength: 7,
         }]
     },
