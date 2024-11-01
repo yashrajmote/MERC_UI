@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="icon" href="images/abhitech-mahagenco-combined-logo.png" type="image/png">
+    <title>Mahagenco</title>
+</head>
+<body class="bg-gray-100">
+    <div class="max-h-screen flex flex-col">
+        <nav class="sticky top-0 left-0 w-full z-50 bg-white shadow">
+            <div class="mb-4 flex  w-full h-5 bg-white-50 ">
+                <img src="images/abhitech-mahagenco-combined-logo.png" alt="Logo" class="h-9 w-auto">
+            </div>
+        </nav>
+        <main class="content mt-7 overflow-y-auto h-[calc(100vh-4rem)] p-4">
+            <div class="sticky flex">
+                <section class="w-5/6 p-4 bg-white shadow">         
+                    <div class="flex justify-center text-2xl font-bold text-gray-700">Enter Input</div>
+                    
+                    <form id="formInput" x-data="{ openSection: 'regulations' }">
+                        
+                        <!-- Accordion for Sections -->
+                        <div class="mt-5" >
+                            <div @click="openSection = openSection === 'regulations' ? '' : 'regulations'" class="cursor-pointer bg-gray-200 p-2 rounded mb-2">
+                                <h2 id="regulations" class="text-lg font-semibold">Input (Ctrl. + s -> Prefill) </h2>
+                            </div>
+                            <div x-show="openSection === 'regulations'" class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">SiO2 (%)</label>
+                                    <input type="number" name="SIO" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="SiO2" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Al2O3 (%)</label>
+                                    <input type="number" name="ALO" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Al2O3" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Fe2O3 (%)</label>
+                                    <input type="number" name="FEO" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Fe2O3" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">CaO (%)</label>
+                                    <input type="number" name="CAO" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="CaO" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">MgO (%)<label>
+                                    <input type="number" name="MGO" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="MgO" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Na2O (%)<label>
+                                    <input type="number" name="NAO" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Na2O" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">K2O (%)<label>
+                                    <input type="number" name="KO" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="K2O" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">TiO2 (%)<label>
+                                    <input type="number" name="TIO" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="TiO2" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">MnO3 (%)<label>
+                                    <input type="number" name="MNO" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="MnO3" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">SO3 (%)<label>
+                                    <input type="number" name="SO" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="SO3" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">P2O5 (%)<label>
+                                    <input type="number" name="PO" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="P2O5" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Initial Deformation Temperature (Deg C)<label>
+                                    <input type="number" name="IDT" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Initial Deformation Temperature (Deg C)" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Softening Temperature (Deg C)<label>
+                                    <input type="number" name="ST" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Softening Temperature (Deg C)" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Hemispherical Temperature (Deg C)<label>
+                                    <input type="number" name="HT" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Hemispherical Temperature" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Fluid Temperature (Deg C)<label>
+                                    <input type="number" name="FT" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Fluid Temperature (Deg C)" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Sulphur<label>
+                                    <input type="number" name="S" step="0.0001" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Sulphur" required>
+                                </div>
+                            </div>
+
+
+                            <div id="slaggingPotential" style="display: none;" class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                                <h2 class="text-lg text-center font-bold text-gray-700 uppercase bg-blue-300 dark:text-gray-400">
+                                    Slagging Potential (Results in to Clinker Formation)
+                                </h2>
+                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr>
+                                            <th scope="col" class="px-3 py-3">
+                                                Slagging Indices
+                                            </th>
+                                            <th scope="col" class="px-3 py-3">
+                                                Test Coal
+                                            </th>
+                                            <th scope="col" class="px-3 py-3">
+                                                Aggregrate Score
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                                            <th scope="row" class="px-3 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                T250 Temperature
+                                            </th>
+                                            <td class="px-3 py-2">
+                                                1484
+                                            </td>
+                                            <td class="px-3 py-2">
+                                                0
+                                            </td>
+                                        </tr>
+                                        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                                            <th scope="row" class="px-3 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                Base/Acid Ratio
+                                            </th>
+                                            <td class="px-3 py-2">
+                                                0.33
+                                            </td>
+                                            <td class="px-3 py-2">
+                                                0
+                                            </td>
+                                        </tr>
+                                        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                                            <th scope="row" class="px-3 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                Slagging Factor (B/A ratio * S in coal, d%)
+                                            </th>
+                                            <td class="px-3 py-2">
+                                                0.29
+                                            </td>
+                                            <td class="px-3 py-2">
+                                                0
+                                            </td>
+                                        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                                            <th scope="row" class="px-3 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                Slagging Index
+                                            </th>
+                                            <td class="px-3 py-1">
+                                                1356.40
+                                            </td>
+                                            <td class="px-3 py-1">
+                                                0
+                                            </td>
+                                        </tr>
+                                        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                                            <th scope="row" class="px-3 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                Silica % 
+                                            </th>
+                                            <td class="px-3 py-2">
+                                                76.81
+                                            </td>
+                                            <td class="px-3 py-2">
+                                                0.5
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="px-3 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                Iron Calculium Ratio
+                                            </th>
+                                            <td class="px-3 py-2">
+                                                0.56
+                                            </td>
+                                            <td class="px-3 py-2">
+                                                0.5
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="px-3 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                Iron plus Calculium 
+                                            </th>
+                                            <td class="px-3 py-2">
+                                                13
+                                            </td>
+                                            <td class="px-3 py-2">
+                                                1
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                            <div id="foulingPotential" style="display: none;" class="mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
+                                <h2 class="text-lg text-center font-bold text-gray-700 uppercase bg-blue-300 dark:text-gray-400">
+                                    Fouling Potential (Requires increased soot blowing)					
+                                </h2>
+                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+                                        <tr>
+                                            <th scope="col" class="px-3 py-3 bg-gray-50 dark:bg-gray-800">
+                                                Fouling Indices
+                                            </th>
+                                            <th scope="col" class="px-3 py-3">
+                                                Test Coal
+                                            </th>
+                                            <th scope="col" class="px-3 py-3 bg-gray-50 dark:bg-gray-800">
+                                                Aggregrate Score
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                                            <th scope="row" class="px-3 py-2 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+                                                Sodium in Ash
+                                            </th>
+                                            <td class="px-3 py-2">
+                                                3.6
+                                            </td>
+                                            <td class="px-3 py-2 bg-gray-50 dark:bg-gray-800">
+                                                0.5
+                                            </td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                                            <th scope="row" class="px-3 py-2 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+                                                Total Alkali
+                                            </th>
+                                            <td class="px-3 py-2">
+                                                33.4
+                                            </td>
+                                            <td class="px-3 py-2 bg-gray-50 dark:bg-gray-800">
+                                                1
+                                            </td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                                            <th scope="row" class="px-3 py-2 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+                                                Fouling Factor (B/A*Na)
+                                            </th>
+                                            <td class="px-3 py-2">
+                                                1.18
+                                            </td>
+                                            <td class="px-3 py-2 bg-gray-50 dark:bg-gray-800">
+                                                1
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="flex pt-4 justify-end">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">Generate Report</button>
+                        </div>         
+                    </form>            
+        </main>
+    </div>
+    <script>
+            document.getElementById("formInput").addEventListener("submit", function(event) {
+            event.preventDefault(); 
+            document.getElementById("slaggingPotential").style.display = "block"; 
+            document.getElementById("foulingPotential").style.display = "block"; 
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
+    <script src="js/slagging.js" ></script>
