@@ -17,7 +17,7 @@ document.addEventListener('keydown', function(event) {
         ST: 1490,
         HT: 1590,
         FT: 1570,
-        S: 0.9,
+        S: 0.9
       })
     }
   });

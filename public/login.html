@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="icon" href="images/abhitech-mahagenco-combined-logo.png" type="image/png">
+    <title>Mahagenco</title>
+</head>
+<body class="bg-gray-100">
+    <div class="max-h-screen flex flex-col">
+        <nav class="sticky top-0 left-0 w-full z-50 bg-white shadow">
+            <div class="mb-4 flex  w-full h-5 bg-white-50 ">
+                <img src="images/abhitech-mahagenco-combined-logo.png" alt="Logo" class="h-9 w-auto">
+            </div>
+        </nav>
+        <main class="content items-center justify-center mt-7 overflow-y-auto h-[calc(100vh-4rem)] p-4">
+            <div class="sticky flex">
+                <section class="w-5/6 p-4 bg-white shadow">
+                    <h1>Login</h1>
+                        <div id="firebaseui-auth-container"></div>
+                        <div id="loader">Loading...</div>
+                </section>        
+        </main>
+    </div>
+    <script src="https://cdn.firebase.com/js/firebase-app.js"></script>
+    <script src="https://cdn.firebase.com/js/firebase-auth.js"></script>
+    <script src="https://cdn.firebase.com/js/firebaseui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
+    <script src="js/login.js" ></script>
