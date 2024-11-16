@@ -1,42 +1,22 @@
-// Import Firebase and FirebaseUI using ES module syntax
-import firebase from 'firebase/app'; // Import only core Firebase features
-import 'firebase/auth'; // Import Firebase authentication
-import * as firebaseui from 'firebaseui'; // Import FirebaseUI
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your Firebase configuration
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: 'YOUR_API_KEY',
-    authDomain: 'YOUR_AUTH_DOMAIN',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_STORAGE_BUCKET',
-    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-    appId: 'YOUR_APP_ID'
+  apiKey: "AIzaSyBv8k4WsEHuZhCrzYG1i9ayEIV3vWxolqU",
+  authDomain: "mahagenco-92fcc.firebaseapp.com",
+  databaseURL: "https://mahagenco-92fcc-default-rtdb.firebaseio.com",
+  projectId: "mahagenco-92fcc",
+  storageBucket: "mahagenco-92fcc.firebasestorage.app",
+  messagingSenderId: "5187307027",
+  appId: "1:5187307027:web:bb68927611e2ba297e61e6",
+  measurementId: "G-PVEQFZFKNR"
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
-// Initialize the FirebaseUI Widget
-const ui = new firebaseui.auth.AuthUI(firebase.auth());
-
-// Configuration for FirebaseUI
-const uiConfig = {
-    callbacks: {
-        signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-            // User successfully signed in.
-            return true; // Redirect automatically
-        },
-        uiShown: function() {
-            // Hide the loader
-            document.getElementById('loader').style.display = 'none';
-        }
-    },
-    signInFlow: 'popup',
-    signInSuccessUrl: 'index.html',
-    signInOptions: [
-        firebase.auth.EmailAuthProvider.PROVIDER_ID,
-    ],
-};
-
-// Start the FirebaseUI authentication
-ui.start('#firebaseui-auth-container', uiConfig);
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
