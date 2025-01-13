@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,116 +8,187 @@
     <link rel="icon" href="images/abhitech-mahagenco-combined-logo.png" type="image/png">
     <title>Mahagenco</title>
 </head>
-<body class="bg-gray-100 overflow-hidden">
+
+<body class="bg-gray-100 h-screen w-screen overflow-hidden">
     <div class="fixed inset-0 flex flex-col">
-        <nav class="sticky top-0 left-0 w-full z-50 bg-white">
+        <!-- <nav class="sticky top-0 left-0 w-full z-50 bg-white">
             <div class="mb-3 flex w-full h-20">
                 <img src="images/abhitech-mahagenco-combined-logo.png" alt="Logo" class="h-20 w-auto">
             </div>
             
-        </nav>
+        </nav> -->
 
         <div class="flex flex-grow">
 
-            <!-- Main content that shifts when sidebar is open -->
-            <main 
-                class="content flex-1 items-center justify-center overflow-y-auto h-[calc(100vh-4rem)] p-4"
-            >
-                <!-- Main content goes here -->
-                <section class="dark:bg-gray-900">
-                    <div id="sign-in-form" class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
-                        <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                            <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
-                            Login    
-                        </a>
-                        <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-                            <div id="toast_success" class="hidden flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
-                                <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
-                                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                                    </svg>
-                                    <span class="sr-only">Check icon</span>
-                                </div>
-                                <div class="ms-3 text-sm font-normal">Logged in Successfully</div>
-                                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
-                                    <span class="sr-only">Close</span>
-                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                                    </svg>
-                                </button>
-                            </div>
-        
-                            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                                    Sign in to your account
-                                </h1>
-                                <form class="space-y-4 md:space-y-6" action="#">
-                                    <div>
-                                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                                        <input type="email" name="email" id="registeredEmail" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="">
-                                    </div>
-                                    <div>
-                                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                                        <input type="password" name="password" id="registeredPassword" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-start">
-                                            <div class="flex items-center h-5">
-                                              <input id="remember" aria-describedby="remember" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="">
-                                            </div>
-                                            <div class="ml-3 text-sm">
-                                              <label for="remember" class="text-gray-500 dark:text-gray-300">Remember me</label>
-                                            </div>
+            <div class="fixed inset-0 flex flex-col">
+                <div class="flex bg-gray-100 flex-grow justify-center items-center">
+                    <aside
+                        class="hidden bg-blue-900 h-4/6  py-18 lg:flex flex-col justify-center items-center w-1/3 bg-gray-100 dark:bg-gray-700 p-6">
+                        <h2 class="text-2xl font-bold text-white dark:text-white mb-4">Welcome Back!</h2>
+                        <p class="text-white dark:text-gray-300 text-center">
+                            Manage your account, track your progress, and stay connected. Login or create an account to
+                            get started.
+                        </p>
+                        <img src="./images/abhitech-mahagenco-combined-logo.png" alt="Welcome Image" class="mt-6 w-3/4">
+                    </aside>
+
+                    <main
+                        class="content bg-white h-4/6 z-1 flex-col justify-center items-center w-2/3 lg:w-1/3 bg-white   p-6 dark:bg-gray-800 dark:border-gray-700">
+                        <!-- Main content goes here -->
+                        <section class="dark:bg-gray-900">
+                            <div id="sign-in-form"
+                                class="flex flex-col items-center justify-center px-2  mx-auto lg:py-0">
+                                <a href="#"
+                                    class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+                                    <img class="w-8  mr-2"
+                                        src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
+                                    Login
+                                </a>
+                                <div
+                                    class="w-full bg-white rounded-lg  dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                                    <div id="toast_success"
+                                        class="hidden flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg  dark:text-gray-400 dark:bg-white"
+                                        role="alert">
+                                        <div
+                                            class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                fill="currentColor" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                                            </svg>
+                                            <span class="sr-only">Check icon</span>
                                         </div>
-                                        <a href="#" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
+                                        <div class="ms-3 text-sm font-normal">Logged in Successfully</div>
+                                        <button type="button"
+                                            class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+                                            data-dismiss-target="#toast-success" aria-label="Close">
+                                            <span class="sr-only">Close</span>
+                                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                fill="none" viewBox="0 0 14 14">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                            </svg>
+                                        </button>
                                     </div>
-                                    <div class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</div>
-                                    <button type="submit" id="login" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign in</button>
-                                    <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                                        Don’t have an account yet? <a href="#" onClick="toggleForms()" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
-                                    </p>
-                                </form>
+
+                                    <div class="space-y-1">
+                                        <h1
+                                            class="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                                            Sign in to your account
+                                        </h1>
+                                        <form class="space-y-4" action="#">
+                                            <div>
+                                                <label for="email"
+                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+                                                    email</label>
+                                                <input type="email" name="email" id="registeredEmail"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                    placeholder="name@company.com" required="">
+                                            </div>
+                                            <div>
+                                                <label for="password"
+                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                                                <input type="password" name="password" id="registeredPassword"
+                                                    placeholder="••••••••"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                    required="">
+                                            </div>
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-start">
+                                                    <div class="flex items-center h-5">
+                                                        <input id="remember" aria-describedby="remember" type="checkbox"
+                                                            class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                                                            required="">
+                                                    </div>
+                                                    <div class="ml-3 text-sm">
+                                                        <label for="remember"
+                                                            class="text-gray-500 dark:text-gray-300">Remember me</label>
+                                                    </div>
+                                                </div>
+                                                <a href="#"
+                                                    class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot
+                                                    password?</a>
+                                            </div>
+                                            <!-- <div
+                                                class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                                Sign in</div> -->
+                                            <button type="submit" id="login"
+                                                class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign
+                                                in</button>
+                                            <p class="text-sm text-center font-light text-gray-500 dark:text-gray-400">
+                                                Don’t have an account yet? <a href="#" onClick="toggleForms()"
+                                                    class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign
+                                                    up</a>
+                                            </p>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                   
-                    <div id="sign-up-form" class="hidden flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
-                        <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                            <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
-                            Signup    
-                        </a>
-                        <div class="w-full bg-white rounded-lg shadow dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-                            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                                    Create an account
-                                </h1>
-                                <form class="space-y-4 md:space-y-6" action="#">
-                                    <div>
-                                        <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
-                                        <input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Username" required="">
-                                    </div>
-                                    <div>
-                                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                                        <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="">
-                                    </div>
-                                    <div>
-                                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                                        <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
-                                    </div>
-                                    <button id="signUp" type="submit" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign up</button>
-                                    <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                                        Already have an account? <a href="#" onclick="toggleForms()" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign in</a>
-                                    </p>
-                                </form>
-                                <div class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign up</div>
-                            </div>
-                        </div>
-                    </div>                    
-                    
-                  </section>
+                </div>
+            </div>
+
+
+            </section>
+
             </main>
+            <main
+                class="content space-y-6 h-full z-1  flex flex-col justify-center items-center w-2/3 lg:w-1/3 bg-white   p-6 dark:bg-gray-800 dark:border-gray-700">
+            </main>
+            <div id="sign-up-form" class="hidden w-full z-10 h-full flex flex-col justify-center items-center">
+
+                <div
+                    class=" w-screen space-y-6  rounded-lg ml-28  dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                    <div class=" py-10 w-full h-full p-6 space-y-6 md:space-y-6 sm:p-8">
+                        <h1
+                            class="text-xl mt-10 text-center space-y-6 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                            Create an account
+                        </h1>
+                        <form class="space-y-2 md:space-y-2" action="#">
+                            <div>
+                                <label for="username"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+                                <input type="text" name="username" id="username"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Username" required="">
+                            </div>
+                            <div>
+                                <label for="email"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+                                    email</label>
+                                <input type="email" name="email" id="email"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="name@company.com" required="">
+                            </div>
+                            <div>
+                                <label for="password"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                                <input type="password" name="password" id="password" placeholder="••••••••"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    required="">
+                            </div>
+                            <button id="signUp" type="submit"
+                                class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign
+                                up</button>
+                            <p class="text-sm text-center font-light text-gray-500 dark:text-gray-400">
+                                Already have an account? <a href="#" onclick="toggleForms()"
+                                    class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign
+                                    in</a>
+                            </p>
+                        </form>
+                        <div
+                            class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                            Sign up</div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
+
+
     </div>
+
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
@@ -126,79 +198,79 @@
 
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
-      
+
         // Your web app's Firebase configuration
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
-          apiKey: "AIzaSyBv8k4WsEHuZhCrzYG1i9ayEIV3vWxolqU",
-          authDomain: "mahagenco-92fcc.firebaseapp.com",
-          databaseURL: "https://mahagenco-92fcc-default-rtdb.firebaseio.com",
-          projectId: "mahagenco-92fcc",
-          storageBucket: "mahagenco-92fcc.firebasestorage.app",
-          messagingSenderId: "5187307027",
-          appId: "1:5187307027:web:bb68927611e2ba297e61e6",
-          measurementId: "G-PVEQFZFKNR"
+            apiKey: "AIzaSyBv8k4WsEHuZhCrzYG1i9ayEIV3vWxolqU",
+            authDomain: "mahagenco-92fcc.firebaseapp.com",
+            databaseURL: "https://mahagenco-92fcc-default-rtdb.firebaseio.com",
+            projectId: "mahagenco-92fcc",
+            storageBucket: "mahagenco-92fcc.firebasestorage.app",
+            messagingSenderId: "5187307027",
+            appId: "1:5187307027:web:bb68927611e2ba297e61e6",
+            measurementId: "G-PVEQFZFKNR"
         };
-      
+
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const database = getDatabase(app);
         const auth = getAuth();
 
-        signUp.addEventListener('click',(e) => {
+        signUp.addEventListener('click', (e) => {
 
             var email = document.getElementById('email').value;
             var password = document.getElementById('password').value;
             var username = document.getElementById('username').value;
 
             createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-              // Signed up 
-              const user = userCredential.user;
+                .then((userCredential) => {
+                    // Signed up 
+                    const user = userCredential.user;
 
-              set(ref(database, 'users/' + user.uid), {
-                username: username, 
-                email: email
-              })
+                    set(ref(database, 'users/' + user.uid), {
+                        username: username,
+                        email: email
+                    })
 
-              alert('User Created')
-              // ...
-            })
-            .catch((error) => {
-              const errorCode = error.code;
-              const errorMessage = error.message;
+                    alert('User Created')
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
 
-              alert('Error')
+                    alert('Error')
 
-            });
+                });
         });
 
-        login.addEventListener('click',(e) => {
+        login.addEventListener('click', (e) => {
             var registeredEmail = document.getElementById('registeredEmail').value;
             var registeredPassword = document.getElementById('registeredPassword').value;
-            
+
             signInWithEmailAndPassword(auth, registeredEmail, registeredPassword)
-            .then((userCredential) => {
-              // Signed in 
-              const user = userCredential.user;
-              const toast_success = document.getElementById('toast_success');
-              toast_success.classList.toggle('hidden');
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    const toast_success = document.getElementById('toast_success');
+                    toast_success.classList.toggle('hidden');
 
-              window.location.href = 'selection.html';
+                    window.location.href = 'selection.html';
 
-              // ...
-            })
-            .catch((error) => {
-              const errorCode = error.code;
-              const errorMessage = error.message;
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
 
-              alert('Error');
+                    alert('Error');
 
-            });
+                });
         })
 
-      </script>
+    </script>
     <script>
         function toggleForms() {
             const signInForm = document.getElementById('sign-in-form');
@@ -207,9 +279,9 @@
             signUpForm.classList.toggle('hidden');
         }
     </script>
-    
-    <script src="js/scripts.js" ></script>
+
+    <script src="js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
 </body>
-</html>
 
+</html>

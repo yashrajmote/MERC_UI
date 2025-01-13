@@ -1,5 +1,6 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,119 +8,138 @@
     <link rel="icon" href="images/abhitech-mahagenco-combined-logo.png" type="image/png">
     <title>Output - Mahagenco</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
 </head>
-<body class="bg-gray-100">
+
+<body class="bg-gray-700">
     <div class="max-h-screen flex flex-col">
-        <nav class="fixed top-0 left-0 w-full z-50 bg-white shadow h-20">
-            <div class="mb-4 flex w-full h-3 bg-white-50">
-                <img src="images/abhitech-mahagenco-combined-logo.png" alt="Logo" class="h-20 ">
+        <nav class="fixed top-0 left-0 w-full h-14 bg-white shadow z-10">
+            <div class="mb-2 mt-2 flex w-full h-3 bg-white-50">
+                <img src="images/abhitech-mahagenco-combined-logo.png" alt="Logo" class="h-9 ">
             </div>
-            <div id="selectedLabel" class="flex justify-center text-2xl font-bold text-gray-700">
-            </div>
-            <div class="fixed top-7 right-4">
-                <button onclick="window.location.href='output.html'" >
-                    <img src="images/icons8-back-48.png" alt="Back" class="h-9 w-9 mr-2">
-                </button>
-            </div>
+            <!-- <div class=" fixed -mt-3 w-full text-center text-sm font-semibold text-gray-700">
+                <span id="datetime"></span>
+            </div> -->
         </nav>
-        <main class="flex h-screen grid grid-cols-2 grid-flow-row p-3 overflow-y-auto">
-
-            <section class="mt-12 grid grid-rows-2">
-                <section>
-                <div class=" bg-white shadow-md rounded-lg p-2 ">
-                    <table class=" min-w-full  rounded-xl">
-                        <thead class="border border-b p-3 text-center text-sm font-semibold text-gray-900 capitalize" id="analysisTable">
-                              
-                        </thead>
-                        <tbody class="border border-b text-center p-2" id="analysisBody">
-                            
-                        </tbody>
-                    </table>
+        <main class="mt-16 z-0">
+            <div x-data="{ selectedUnit: localStorage.getItem('selectedUnit') || 'Default Value' , 
+            gainLoss: localStorage.getItem('gainLoss') || 'Default Value' }"
+                class="flex justify-between p-4 pb-0 pt-1 items-center">
+                <span class="text-white text-lg text-bold font-medium">
+                    <span class="cursor-pointer">Regulatory Parameters </span> /
+                    <span class="cursor-pointer" x-text="selectedUnit"></span> /
+                    <span x-text="gainLoss"></span>
+                </span>
+                <div x-data="{daterange: localStorage.getItem('selectedDate') || 'Default Value' }" class="flex">
+                    <span x-text="daterange" class="text-white text-sm text-bold font-medium mr-2"></span>
+                    <!-- <span class="text-white text-md"><span class="cursor-pointer">Dashboard </span>/ B4-Unit</span> -->
+                    <button onclick="window.location.href='output.html'" class="hover:text-blue-600 transition">
+                        <img src="images/back.svg" alt="Back" class="h-5 w-5">
+                    </button>
                 </div>
+            </div>
+            <section class="grid grid-cols-2 gap-3 p-4 pb-2">
 
-                <div class="mt-1 bg-white shadow-md rounded-lg p-2 h-full">
-                    <table class="border-collapse border border-gray-300 min-w-full  rounded-xl">
-                        <thead class="border border-gray-300 p-3 text-center text-sm font-semibold text-gray-900 capitalize" id="secondTable">
-                              <th>
-                                Perfomance Analytics
-                              </th>
-                        </thead class="border-collapse border border-gray-300">
-                        <tbody class="border border-gray-300 text-left p-2" id="secondBody">
-                            
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-                <div class="mt-1 bg-gray-100 rounded-lg shadow-inner text-gray-700 ">
-                    <!-- Row -->
-                    <div class="p-4 rounded-lg shadow-lg ">
-                        <div id="" class="  overflow-x-auto w-full">
-                                    <div class="overflow-hidden border rounded-lg border-gray-300">
-                                        <table class=" min-w-full  rounded-xl">
-                                            <thead class=" px-1 py-1" id="insightTable">
-                                                    <th scope="col" class="border border-gray-300 p-5 text-center px-1 py-1 text-sm leading-6 font-semibold text-gray-900 capitalize"> Failure Modes </th>
-                                                    <th scope="col" class="p-5 text-center text-sm leading-6 font-semibold text-gray-900 capitalize"> Action Plan </th>
-                                            </thead>
-                                            <tbody id="insightTableBody">
-                                                
-                                            </tbody>
-                                        </table>
-                                    </div>
-                        </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-white shadow-xl rounded-lg p-3 w-full">
+                        <h2 class="text-md text-center font-semibold">Analysis</h2>
+                        <table class="mt-1 border-collapse border border-gray-300 shadow-md rounded-md w-full">
+                            <thead
+                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr class="bg-gray-200" id="analysisTable">
+                                    <th scope="col" class="border py-1">Analytics</th>
+                                    <th scope="col" class="border border-gray-300 py-1">Values</th>
+                                </tr>
+                            </thead>
+                            <tbody class="border-t text-sm text-gray-700" id="analysisBody">
+                            </tbody>
+                        </table>
                     </div>
-                
-                </div>
-            </section>
+                    <div class="bg-white shadow-xl rounded-lg p-3 h-full w-full">
+                        <h3 class="text-md text-center font-semibold">Performance Analytics</h3>
+                        <table class="mt-1 border-collapse border border-gray-300 shadow-md rounded-md w-full h-50">
+                            <thead
+                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr class="bg-gray-200" id="secondTable">
+                                    <th scope="col" class="border border-gray-300 py-1">Performance Analytics</th>
+                                    <th scope="col" class="border border-gray-300 py-1">Values</th>
+                                </tr>
+                            </thead>
+                            <tbody class="border-t  text-sm text-gray-700" id="secondBody">
+                            </tbody>
+                        </table>
+                    </div>
 
-            <section class="mt-10 grid grid-cols-2 justify-center">
-                <div class=" bg-white shadow-md rounded-lg mt-2 p-2 h-1/2">
-                    <h2 class="text-lg leading-tight text-center font-semibold text-gray-800 mb-1"></h2>
-                    <canvas id="chart1" width="100" height="95"></canvas>
+
+                    <div class="bg-white shadow-xl rounded-lg p-3">
+                        <h3 class="text-md text-center font-semibold mb-1">Availability Factor</h3>
+                        <canvas id="chart1"></canvas>
+                    </div>
+                    <div class="bg-white shadow-xl rounded-lg p-3">
+                        <h3 class="text-md text-center font-semibold mb-1">Heat Rate</h3>
+                        <canvas id="chart2"></canvas>
+                    </div>
                 </div>
-                <div class=" bg-white shadow-md rounded-lg mt-2 p-2 h-1/2">
-                    <h2 class="text-lg leading-tight text-center font-semibold text-gray-800 mb-1"></h2>
-                    <canvas id="chart2" width="100" height="95"></canvas>
+
+                <div class="bg-white shadow-xl rounded-lg p-3 w-full">
+                    <h3 class="text-md text-center font-semibold">Failure Modes and Action Plan</h3>
+                    <div style="height: 70vh;" class=" overflow-y-auto">
+                        <table class="mt-1 border-collapse border border-gray-300 shadow-md rounded-md w-full">
+                            <thead
+                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr class="bg-gray-200">
+                                    <th scope="col" class="border border-gray-300 py-1">Failure Modes</th>
+                                    <th scope="col" class="border border-gray-300 py-1">Action Plan</th>
+                                    <th scope="col" class="border border-gray-300 py-1">Pointers</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-left text-sm text-gray-700" id="insightTableBody">
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
-            
 
         </main>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-        const storedData = localStorage.getItem('insightData');
-        const reportData = JSON.parse(localStorage.getItem('reportData'));
+            const storedData = localStorage.getItem('insightData');
+            const reportData = JSON.parse(localStorage.getItem('reportData'));
 
-        const parsedValues = reportData.parsedValues || {}; 
-        const afterCalculations = reportData.afterCalculations || {}; 
-        const ROEValues = reportData.ROEValues || {};
-        const gainValues = reportData.gainValues || {};
+            const parsedValues = reportData.parsedValues || {};
+            const afterCalculations = reportData.afterCalculations || {};
+            const ROEValues = reportData.ROEValues || {};
+            const gainValues = reportData.gainValues || {};
 
-        if (storedData) {
-            const parsedData = JSON.parse(storedData);
-            console.log(parsedData)
-            populateTable([parsedData]);
-            populateAnalysisTable([parsedData], parsedValues, afterCalculations, ROEValues, gainValues);
-            populateGraphs([parsedData])
-        }
-    });
+            if (storedData) {
+                const parsedData = JSON.parse(storedData);
+                console.log(parsedData)
+                populateTable([parsedData]);
+                populateAnalysisTable([parsedData], parsedValues, afterCalculations, ROEValues, gainValues);
+                populateGraphs([parsedData])
+            }
+        });
 
         function populateTable(data) {
             const tableBody = document.querySelector('#insightTableBody');
-    
+
             data.forEach(item => {
                 item.data.forEach(mode => {
                     const row = document.createElement('tr');
+                    row.classList.add()
+                    row.classList.add("font-sans", "text-sm");
                     row.innerHTML = `
-                        <td>${mode.mode}</td>
-                        <td>${mode.sourceSheet}</td>
-                        <td>
-                            <ul>
+                        <td class="border border-gray-300 px-1 py-1">${mode.mode}</td>
+                        <td class="border border-gray-300 px-1 py-1">${mode.sourceSheet}</td>
+                        <td class="border border-gray-300 px-1 py-1">
+                            <ul class="list-disc pl-5">
                                 ${mode.actionPlan.map(action => `<li>${action}</li>`).join('')}
                             </ul>
                         </td>
                     `;
-    
+
                     tableBody.appendChild(row);
                 });
             });
@@ -127,12 +147,12 @@
 
         function populateAnalysisTable(data, newparsedValues, newafterCalculations, newROEValues, gainValues) {
 
-            const { gainMTBF, gainRampRate, gainPeakAVF, gainFGMO, gainAPC, gainSFOC, gainTL, gainNSHR, gainAVF } = gainValues;    
+            const { gainMTBF, gainRampRate, gainPeakAVF, gainFGMO, gainAPC, gainSFOC, gainTL, gainNSHR, gainAVF } = gainValues;
             const { ROE_RP, converted_ROE_MTBF, converted_ROE_RR, converted_ROE_PAVF } = newROEValues;
             const { ASHR, AAPC, ASFOC } = newafterCalculations;
-            const { ATL, APAVF, NAVF, NSHR, NAPC, NSFOC, NTL } = newparsedValues; 
+            const { ATL, APAVF, NAVF, NSHR, NAPC, NSFOC, NTL } = newparsedValues;
 
-            const normGainLoss = gainAPC + gainSFOC + gainTL + gainNSHR + gainAVF ;
+            const normGainLoss = gainAPC + gainSFOC + gainTL + gainNSHR + gainAVF;
             const incentiveGainLoss = gainMTBF + gainRampRate + gainPeakAVF + gainFGMO;
             const netGainLoss = normGainLoss - incentiveGainLoss;
 
@@ -143,86 +163,86 @@
             const TLDeviation = NTL - ATL;
 
             const insightData = [
-            {
-                parameter: "Availability Factor",
-                firstTable: [ NAVF, APAVF, AVFDeviation, gainAVF ]
-        
-            },
+                {
+                    parameter: "Availability Factor",
+                    firstTable: [NAVF, APAVF, AVFDeviation, gainAVF]
+                },
+                {
+                    parameter: "Heat Rate",
+                    firstTable: [ASHR, NSHR, SHRDeviation, gainNSHR]
+                },
+                {
+                    parameter: "Auxiliary Power Consumption",
+                    firstTable: [NAVF, APAVF, AVFDeviation, gainAVF]
+                },
+                {
+                    parameter: "Specific Oil Consumption",
+                    firstTable: [NAVF, APAVF, AVFDeviation, gainAVF]
+                },
+                {
+                    parameter: "Transit Loss",
+                    firstTable: [NAVF, APAVF, AVFDeviation, gainAVF]
+                }
+            ];
 
-            {
-                parameter: "Heat Rate",
-                firstTable: [ ASHR, NSHR, SHRDeviation, gainNSHR] 
-            }, 
-
-            {
-                parameter: "Auxiliary Power Consumption",
-                firstTable: [ NAVF, APAVF, AVFDeviation, gainAVF ] 
-            }, 
-
-            {
-                parameter: "Specific Oil Consumption",
-                firstTable: [ NAVF, APAVF, AVFDeviation, gainAVF ] 
-            }, 
-
-            {
-                parameter: "Transit Loss",
-                firstTable: [ NAVF, APAVF, AVFDeviation, gainAVF ] 
-            }
-
-            ]
-
-            console.log(data);
             const analysisHeader = document.querySelector('#analysisTable');
             const analysisBody = document.querySelector('#analysisBody');
             const secondHeader = document.querySelector('#secondTable');
             const secondBody = document.querySelector('#secondBody');
 
-            const headerRow = document.createElement('tr');
-            data.forEach(item => { 
-                item.header.forEach(headerText => { 
+            // const headerRow = document.createElement('tr');
+            // data.forEach(item => {
+            //     item.header.forEach(headerText => {
+            //         const headers = document.createElement('th');
+            //         headers.classList.add('border', 'border-gray-300', 'py-1');
+            //         headers.textContent = headerText;
+            //         analysisHeader.appendChild(headers)
+            //     });
+            // });
 
-                    const headers = document.createElement('th');
-                    headers.textContent = headerText;
-                    headerRow.appendChild(headers)
-                });
-            });
-
-            analysisHeader.appendChild(headerRow)
-            
-            const body = document.createElement('tr');
-            data.forEach(item => { 
-                item.values.forEach(bodyValue => { 
-                    const row = document.createElement('td');
-
-                    row.textContent = bodyValue;
-                    body.appendChild(row);
-                });
-            });
-
-            analysisBody.appendChild(body)
+            // analysisHeader.appendChild(headerRow)
 
             data.forEach(item => {
-                const { secondTable, secondValues } = item; // Destructure the arrays
+                item.values.forEach((bodyValue, i) => {
+                    const body = document.createElement('tr');
+                    body.classList.add("font-sans", "text-sm")
 
-                // Loop through the secondTable and secondValues
+                    const cell1 = document.createElement('td');
+                    cell1.classList.add('border', 'border-gray-300', 'px-1', 'py-1');
+                    cell1.textContent = item.header[i];
+
+                    const cell2 = document.createElement('td');
+                    cell2.classList.add('border', 'border-gray-300', 'px-1', 'py-1');
+                    cell2.textContent = bodyValue;
+
+                    body.appendChild(cell1);
+                    body.appendChild(cell2);
+
+                    analysisBody.appendChild(body)
+                });
+            });
+
+
+            data.forEach(item => {
+                const { secondTable, secondValues } = item;
+
                 for (let i = 0; i < secondTable.length; i++) {
-                    const secondRow = document.createElement('tr'); // Create a new row
-            
-                    const cell1 = document.createElement('td'); // Create first cell for secondTable value
-                    cell1.textContent = secondTable[i]; // Set the text content to secondTable value
-            
-                    const cell2 = document.createElement('td'); // Create second cell for secondValues value
-                    cell2.textContent = secondValues[i]; // Set the text content to secondValues value
-            
-                    // Append cells to the row
+                    const secondRow = document.createElement('tr');
+                    secondRow.classList.add("font-sans", "text-sm")
+                    const cell1 = document.createElement('td');
+                    cell1.classList.add('border', 'border-gray-300', 'px-1', 'py-1');
+                    cell1.textContent = secondTable[i];
+
+                    const cell2 = document.createElement('td');
+                    cell2.classList.add('border', 'border-gray-300', 'px-1', 'py-1');
+                    cell2.textContent = secondValues[i];
+
                     secondRow.appendChild(cell1);
                     secondRow.appendChild(cell2);
-            
-                    // Append the row to the table body
+
                     secondBody.appendChild(secondRow);
                 }
             });
-
         }
 
         function populateGraphs(data) {
@@ -230,18 +250,16 @@
             const ctx = document.getElementById(`chart1`).getContext('2d');
             const ctx1 = document.getElementById(`chart2`).getContext('2d');
 
-        
             data.forEach(item => {
                 if (item.parameter === "Availability Factor") {
-        
                     new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: ['Avg AVF achieved', 'AVF achieved in HDS', 'AVF achieved in LDS'], 
+                            labels: ['Avg AVF achieved', 'AVF achieved in HDS', 'AVF achieved in LDS'],
                             datasets: [{
-                                label: 'AVF ', 
+                                label: 'AVF ',
                                 data: item.graphValues1,
-                                backgroundColor: ['#FF0000', '#00FF00', '#FF0000'], 
+                                backgroundColor: ['#FF0000', '#00FF00', '#FF0000'],
                                 borderWidth: 2
                             }]
                         },
@@ -253,10 +271,10 @@
                             },
                             responsive: true,
                             scales: {
-                                x: { // X-axis config
+                                x: {
                                     beginAtZero: true
                                 },
-                                y: { // Y-axis config
+                                y: {
                                     beginAtZero: true
                                 }
                             }
@@ -265,44 +283,14 @@
                 }
 
                 if (item.parameter === "Heat Rate") {
-        
                     new Chart(ctx, {
                         type: 'bar',
                         data: {
                             labels: ['Normative SHR (kcal/kwh)', 'Achieved SHR (kcal/kwh)'],
                             datasets: [{
-                                label: 'AVF ', 
-                                data: item.graphValues1, 
-                                backgroundColor: ['#FF0000', '#00FF00'], 
-                                borderWidth: 2
-                            }]
-                        },
-                        options: {
-                            plugins: {
-                                legend: {
-                                    display: false
-                                }
-                            },
-                            responsive: true,
-                            scales: {
-                                x: { 
-                                    beginAtZero: true
-                                },
-                                y: { 
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                    });
-
-                    new Chart(ctx1, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Normative Rd./Mkcal', 'Effective Rd/Mkcal'], 
-                            datasets: [{
-                                label: 'SHR ', 
-                                data: item.graphValues2, 
-                                backgroundColor: ['#FF4C4C', '#00CC66'], 
+                                label: 'AVF ',
+                                data: item.graphValues1,
+                                backgroundColor: ['#FF0000', '#00FF00'],
                                 borderWidth: 2
                             }]
                         },
@@ -316,172 +304,17 @@
                             scales: {
                                 x: {
                                     beginAtZero: true
-                                },
-                                y: { 
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                    });
-                }
-
-                if (item.parameter === "Auxiliary Power Consumption") {
-        
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Normative APC (%)', 'Achieved APC (%)'],
-                            datasets: [{
-                                label: 'APC ', 
-                                data: item.graphValues1, 
-                                backgroundColor: ['#FF0000', '#00FF00'], 
-                                borderWidth: 2
-                            }]
-                        },
-                        options: {
-                            plugins: {
-                                legend: {
-                                    display: false
-                                }
-                            },
-                            responsive: true,
-                            scales: {
-                                x: { 
-                                    beginAtZero: true
-                                },
-                                y: { 
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                    });
-
-                    new Chart(ctx1, {
-                        type: 'pie',
-                        data: {
-                            labels: ['Loss due to external Factors (%)', 'Loss due to O&M factors (%)'], 
-                            datasets: [{
-                                label: 'SHR ', 
-                                data: item.graphValues2, 
-                                backgroundColor: ['#FF4C4C', '#00CC66'], 
-                                borderWidth: 2
-                            }]
-                        },
-                        options: {
-                            responsive: true, 
-                            plugins: {
-                                legend: {
-                                }
-                        }
-                    }
-                    });
-                }
-
-                if (item.parameter === "Specific Oil Consumption") {
-        
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Normative SOC (ml/kwh)', 'Achieved SOC (ml/kwh)'],
-                            datasets: [{
-                                label: 'SOC ', 
-                                data: item.graphValues1, 
-                                backgroundColor: ['#FF0000', '#00FF00'], 
-                                borderWidth: 2
-                            }]
-                        },
-                        options: {
-                            plugins: {
-                                legend: {
-                                    display: false
-                                }
-                            },
-                            responsive: true,
-                            scales: {
-                                x: { 
-                                    beginAtZero: true
-                                },
-                                y: { 
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                    });
-
-                    new Chart(ctx1, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Unit Startup', 'Set Stabilization', 'Flame Stability'], 
-                            datasets: [{
-                                label: 'SOC ', 
-                                data: item.graphValues2, 
-                                backgroundColor: ['#FF4C4C', '#00CC66', '#FF4C4C'], 
-                                borderWidth: 2
-                            }]
-                        },
-                        options: {
-                            plugins: {
-                                legend: {
-                                    display: false 
-                                }
-                            },
-                            scales: {
-                                x: {
-                                    title: {
-                                        display: true,
-                                        position: 'top',
-                                    },
-                                    stacked: true 
                                 },
                                 y: {
-                                    title: {
-                                        display: true,
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
-
-                if (item.parameter === "Transit Loss") {
-        
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Avg AVF achieved', 'AVF achieved in HDS', 'AVF achieved in LDS'], 
-                            datasets: [{
-                                label: 'AVF ', 
-                                data: item.graphValues1,
-                                backgroundColor: ['#FF0000', '#00FF00', '#FF0000'], 
-                                borderWidth: 2
-                            }]
-                        },
-                        options: {
-                            plugins: {
-                                legend: {
-                                    display: false
-                                }
-                            },
-                            responsive: true,
-                            scales: {
-                                x: { // X-axis config
-                                    beginAtZero: true
-                                },
-                                y: { // Y-axis config
                                     beginAtZero: true
                                 }
                             }
                         }
                     });
                 }
-
             });
         }
-        
-
-        
     </script>
-    <script src="js/scripts.js"></script>
-    </body>
-    </html>
-        
+</body>
+
+</html>
