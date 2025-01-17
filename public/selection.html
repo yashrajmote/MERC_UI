@@ -13,13 +13,30 @@
     <div class="max-h-screen flex flex-col">
         <nav class="fixed top-0 left-0 w-full h-14 bg-white shadow z-10">
             <div class="mb-2 mt-2 flex w-full h-3 bg-white-50">
-                <img src="images/abhitech-mahagenco-combined-logo.png" alt="Logo" class="h-9 ">
+                <img src="images/abhitech-mahagenco-combined-logo.png" alt="Logo" class="h-9">
+                <div x-data="{ isProfileOpen: false }" class="flex-grow flex justify-end">
+                    <div class="p-2 flex justify-center items-center">
+                        <span class="text-center mt-8">Welcome User</span>
+                    </div>
+                    <button @click="isProfileOpen = !isProfileOpen" class="p-2 rounded-full focus:outline-none focus:ring">
+                        <img src="./images/userprofile.svg" alt="Profile" class="h-8 w-8 rounded-full">
+                    </button>
+                    <!-- Profile Dropdown Menu -->
+                    <div x-show="isProfileOpen" x-transition @click.outside="isProfileOpen = false" 
+                         class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg overflow-hidden z-50">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                        <a href="./login.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                    </div>
+                </div>
+                
             </div>
-            <!-- <div class=" fixed -mt-3 w-full text-center text-sm font-semibold text-gray-700">
-                <span id="datetime"></span>
-            </div> -->
-
+            
         </nav>
+        
+        <!-- Include Alpine.js if not already included -->
+       
+        
         <!-- Main content that shifts when sidebar is open -->
         <main class="mt-16 z-0">
             <h1
@@ -86,5 +103,5 @@
         </main>
     </div>
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
 </html>

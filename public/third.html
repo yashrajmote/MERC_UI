@@ -27,13 +27,40 @@
                 class="flex justify-between p-4 pb-0 pt-1 items-center">
                 <span class="text-white text-lg text-bold font-medium">
                     <span class="cursor-pointer">Regulatory Parameters </span> /
-                    <span class="cursor-pointer" x-text="selectedUnit"></span> /
+                    <span class="cursor-pointer" x-text="selectedUnit"
+                        onclick="window.location.href='./output.html'"></span> /
                     <span x-text="gainLoss"></span>
                 </span>
-                <div x-data="{daterange: localStorage.getItem('selectedDate') || 'Default Value' }" class="flex">
+                <div x-data="{ 
+                    daterange: (() => {
+                      const storedDate = localStorage.getItem('selectedDate') || 'Default Value';
+                
+                      if (storedDate === 'Default Value') return storedDate;
+                
+                      const formatDate = (dateString) => {
+                        const [year, month, day] = dateString.split('/').map(Number);
+                        const date = new Date(year, month - 1, day); 
+                        if (!isNaN(date.getTime())) {
+                          const options = { day: '2-digit', month: 'long', year: 'numeric' };
+                          return new Intl.DateTimeFormat('en-GB', options).format(date);
+                        }
+                        return 'Invalid Date';
+                      };
+                
+                      const dates = storedDate.split(' - ');
+                      if (dates.length === 2) {
+                        const startDate = formatDate(dates[0]);
+                        const endDate = formatDate(dates[1]);
+                        if (startDate !== 'Invalid Date' && endDate !== 'Invalid Date') {
+                          return `${startDate} - ${endDate}`;
+                        }
+                      }
+                
+                      return 'Invalid Date'; 
+                    })() 
+                  }" class="flex">
                     <span x-text="daterange" class="text-white text-sm text-bold font-medium mr-2"></span>
-                    <!-- <span class="text-white text-md"><span class="cursor-pointer">Dashboard </span>/ B4-Unit</span> -->
-                    <button onclick="window.location.href='output.html'" class="hover:text-blue-600 transition">
+                    <button onclick="window.location.href='regParams.html'" class="hover:text-blue-600 transition">
                         <img src="images/back.svg" alt="Back" class="h-5 w-5">
                     </button>
                 </div>
