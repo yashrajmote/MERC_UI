@@ -1,30 +1,30 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="icon" href="images/abhitech-mahagenco-combined-logo.png" type="image/png">
-    <title>Output - Mahagenco</title>
+    <title>Mahagenco</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-gray-100">
-    <div class="max-h-screen flex flex-col">
-        <nav class="fixed top-0 left-0 w-full z-50 bg-white shadow h-20">
-            <div class="mb-4 flex w-full h-3 bg-white-50">
-                <img src="images/abhitech-mahagenco-combined-logo.png" alt="Logo" class="h-20 ">
+    <div x-data="{ isSidebarOpen: false }" class="max-h-screen flex flex-col">
+        <nav class="sticky top-0 left-0 w-full z-50 bg-white">
+            <div class="mb-4 flex w-full h-5">
+                <img src="images/abhitech-mahagenco-combined-logo.png" alt="Logo" class="h-9 w-auto">
             </div>
-            <div id="selectedLabel" class="flex justify-center text-2xl font-bold text-gray-700">
-            </div>
-            <div class="fixed top-7 right-4">
-                <button onclick="window.location.href='output.html'" >
-                    <img src="images/icons8-back-48.png" alt="Back" class="h-9 w-9 mr-2">
+            <div class="flex border border-gray-300 w-full h-10">
+                <button @click="isSidebarOpen = !isSidebarOpen" class="p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
                 </button>
             </div>
         </nav>
-        <main class="flex h-screen grid grid-cols-2 grid-flow-row p-3 overflow-y-auto">
-
-            <section class="mt-12 grid grid-rows-2">
+        <main class="flex grid grid-cols-2 grid-flow-row p-3 overflow-y-auto">
+            
+            <section class="grid grid grid-rows-2">
                 <section>
                 <div class=" bg-white shadow-md rounded-lg p-2 ">
                     <table class=" min-w-full  rounded-xl">
@@ -35,6 +35,12 @@
                             
                         </tbody>
                     </table>
+                    <div class="mt-2 relative w-3/4 pb-3">
+                        <label id="rangeLabel" for="small-range" class="text-center block text-sm font-medium text-gray-900 dark:text-white"></label>
+                        <input id="rangeInput" type="range" value="500" min="0" max="1000" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+                        <label id="min" class="text-sm text-gray-500 dark:text-gray-400 absolute left-0 -bottom-1"></label>
+                        <label id="max" class="text-sm text-gray-500 dark:text-gray-400 absolute right-0 -bottom-1"></label>
+                    </div>
                 </div>
 
                 <div class="mt-1 bg-white shadow-md rounded-lg p-2 h-full">
@@ -44,10 +50,12 @@
                                 Perfomance Analytics
                               </th>
                         </thead class="border-collapse border border-gray-300">
-                        <tbody class="border border-gray-300 text-left p-2" id="secondBody">
+                        <tbody class="border border-gray-300 text-left p-5" id="secondBody">
                             
                         </tbody>
                     </table>
+
+
                 </div>
             </section>
                 <div class="mt-1 bg-gray-100 rounded-lg shadow-inner text-gray-700 ">
@@ -71,18 +79,19 @@
                 </div>
             </section>
 
-            <section class="mt-10 grid grid-cols-2 justify-center">
-                <div class=" bg-white shadow-md rounded-lg mt-2 p-2 h-1/2">
+            <section class="grid grid-cols-2 grid-rows-2 justify-center">
+                <div class=" bg-white shadow-md rounded-lg mt-2 p-2 ">
                     <h2 class="text-lg leading-tight text-center font-semibold text-gray-800 mb-1"></h2>
                     <canvas id="chart1" width="100" height="95"></canvas>
                 </div>
-                <div class=" bg-white shadow-md rounded-lg mt-2 p-2 h-1/2">
+                <div class=" bg-white shadow-md rounded-lg mt-2 p-2 ">
                     <h2 class="text-lg leading-tight text-center font-semibold text-gray-800 mb-1"></h2>
                     <canvas id="chart2" width="100" height="95"></canvas>
                 </div>
             </section>
-            
 
+        
+            
         </main>
     </div>
     <script>
@@ -101,6 +110,7 @@
             populateTable([parsedData]);
             populateAnalysisTable([parsedData], parsedValues, afterCalculations, ROEValues, gainValues);
             populateGraphs([parsedData])
+            updateRangeLabels([parsedData])
         }
     });
 
@@ -478,7 +488,45 @@
             });
         }
         
+        function updateRangeLabels(data) {
+            data.forEach(item => {
+                label = item.parameter;
+            });            
+            const rangeInput = document.getElementById('rangeInput');
+            const rangeLabel = document.getElementById('rangeLabel');
+            const minLabel = document.getElementById('min');
+            const maxLabel = document.getElementById('max');        
+        
+            // Define the range and labels for each parameter
+            const parameterRanges = {
+                "Availability Factor": { min: 0, max: 100, step: 1, unit: "%" },
+                "Heat Rate": { min: 1500, max: 3000, step: 50, unit: "kcal/kWh" },
+                "Auxiliary Power Consumption": { min: 0, max: 15, step: 0.5, unit: "%" },
+                "Specific Oil Consumption": { min: 0, max: 2, step: 0.1, unit: "ml/kWh" },
+                "Transit Loss": { min: 0, max: 10, step: 0.5, unit: "%" }
+            };
+        
+            // Check if the parameter exists in the range configuration
+            if (parameterRanges[label]) {
 
+                const { min, max, step, unit } = parameterRanges[label];
+        
+                // Update the range input attributes
+                rangeInput.min = min;
+                rangeInput.max = max;
+                rangeInput.step = step;
+                rangeInput.value = min; // Reset to min value
+
+                // Update the label
+                rangeLabel.textContent = `${label} (${unit})`;
+                console.log(rangeLabel)
+        
+                // Update the min and max text below the slider
+                minLabel.textContent = `Min (${min}${unit})`;
+                maxLabel.textContent = `Max (${max}${unit})`;
+            }
+        }
+        
         
     </script>
     <script src="js/scripts.js"></script>
