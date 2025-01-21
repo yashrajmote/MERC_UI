@@ -102,9 +102,15 @@
                         <h3 class="text-md text-center font-semibold mb-1">Availability Factor</h3>
                         <canvas id="chart1"></canvas>
                     </div>
-                    <div class="bg-white shadow-xl rounded-lg p-3">
-                        <h3 class="text-md text-center font-semibold mb-1">Heat Rate</h3>
-                        <canvas id="chart2"></canvas>
+                    <div class="bg-white shadow-xl rounded-lg p-3 flex flex-col items-center">
+                        <h3 class="text-md text-center font-semibold mb-1">Gain/Loss Change</h3>
+                        <div class="mt-8 relative w-5/6 pb-3">
+                            <label id="rangeLabel" for="small-range" class="text-center block text-sm font-medium text-gray-900 dark:text-white"></label>
+                            <input id="rangeInput" type="range" value="500" min="0" max="1000" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+                            <label id="min" class="text-sm text-gray-500 dark:text-gray-400 absolute left-0 -bottom-1"></label>
+                            <label id="max" class="text-sm text-gray-500 dark:text-gray-400 absolute right-0 -bottom-1"></label>
+                        </div>
+    
                     </div>
                 </div>
 
@@ -132,6 +138,21 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const slider = document.getElementById('rangeInput');
+
+            slider.addEventListener('input', (event) => {
+                
+                const tableRows = document.querySelectorAll('#analysisBody tr');
+                const sliderValue = event.target.value;
+
+                    const secondRow = tableRows[1];
+
+                    const valueCell = secondRow.querySelector('td:nth-child(2)');
+                    console.log(valueCell)
+                    valueCell.textContent = sliderValue;
+
+            });
+
             const storedData = localStorage.getItem('insightData');
             const reportData = JSON.parse(localStorage.getItem('reportData'));
 
@@ -276,7 +297,6 @@
         function populateGraphs(data) {
             console.log(data);
             const ctx = document.getElementById(`chart1`).getContext('2d');
-            const ctx1 = document.getElementById(`chart2`).getContext('2d');
 
             data.forEach(item => {
                 if (item.parameter === "Availability Factor") {
