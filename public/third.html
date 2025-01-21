@@ -146,6 +146,7 @@
                 populateTable([parsedData]);
                 populateAnalysisTable([parsedData], parsedValues, afterCalculations, ROEValues, gainValues);
                 populateGraphs([parsedData])
+                updateRangeLabels([parsedData])
             }
         });
 
@@ -340,6 +341,40 @@
                     });
                 }
             });
+        }
+
+        function updateRangeLabels(data) {
+            data.forEach(item => {
+                label = item.parameter;
+            });            
+            const rangeInput = document.getElementById('rangeInput');
+            const rangeLabel = document.getElementById('rangeLabel');
+            const minLabel = document.getElementById('min');
+            const maxLabel = document.getElementById('max');        
+        
+            const parameterRanges = {
+                "Availability Factor": { min: 0, max: 100, step: 1, unit: "%" },
+                "Heat Rate": { min: 1500, max: 3000, step: 50, unit: "kcal/kWh" },
+                "Auxiliary Power Consumption": { min: 0, max: 15, step: 0.5, unit: "%" },
+                "Specific Oil Consumption": { min: 0, max: 2, step: 0.1, unit: "ml/kWh" },
+                "Transit Loss": { min: 0, max: 10, step: 0.5, unit: "%" }
+            };
+        
+            if (parameterRanges[label]) {
+
+                const { min, max, step, unit } = parameterRanges[label];
+        
+                rangeInput.min = min;
+                rangeInput.max = max;
+                rangeInput.step = step;
+                rangeInput.value = min; 
+
+                rangeLabel.textContent = `${label} (${unit})`;
+                console.log(rangeLabel)
+        
+                minLabel.textContent = `Min (${min}${unit})`;
+                maxLabel.textContent = `Max (${max}${unit})`;
+            }
         }
     </script>
 </body>
