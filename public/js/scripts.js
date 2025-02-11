@@ -4,40 +4,149 @@ const insightData = [
         primaryTrigger: "AVF < Normative value",
         data: [
             {
-                mode: "Low GCV",
-                sourceSheet: "External Factor loss sheet",
+                mode: "GCV",
+                sourceSheet: "External Factor",
+                lossMus: "0.5",
+                lossMussPer: "4.17",
                 actionPlan: [
-                    "Resampling of coal samples to be done",
-                    "Review the past GCV data for the similar coal received",
-                    "Check the loading of coal mills",
-                    "Check the blending ratio / required change in blending",
-                    "Review the coal procurement strategy"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Check Loading of Coal Mills.",
+                            "Check the blending ratio/ Change the blending ratio.",
+                            "Recheck the GCV if required."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Review the GCV data of the coal source used."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Review the coal procurement strategy using AI model."
+                        ]
+                    }
+
                 ]
             },
             {
-                mode: "Non-availability of equipment",
-                sourceSheet: "O&M loss sheet",
+                mode: "LDBD",
+                sourceSheet: "External Factor",
+                lossMus: "0.18",
+                lossMussPer: "1.5",
                 actionPlan: [
-                    "Review the auxiliary outage/ partial losses for the unit",
-                    "Review the frequency of recurring auxiliary outage for the unit",
-                    "Review the Inventory and corresponding spare consumption pattern",
-                    "Review the procurement pattern with regards to spares"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Check the ramping rate / response of the unit",
+                            "Check for DSM gain/ loss during the transition."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Review the MOD rate calculations for upcoming period."
+                        ]
+                    },
+                    {
+                        name: "Long term",
+                        data: [
+                            "NA"
+                        ]
+                    }
+
                 ]
             },
             {
-                mode: "Low Coal stock",
-                sourceSheet: "External Factor loss sheet",
+                mode: "Coal feeder problem",
+                sourceSheet: "O&M",
+                lossMus: "0.69",
+                lossMussPer: "5.75",
                 actionPlan: [
-                    "Ensure proper coordination with the coal company ensuring proper supply of coal",
-                    "Optimize available stock to get maximum possible generation"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Verify the efficient resolution of occurred problem.",
+                            "Reinspect the equipment if necessary."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Observe all the equipments for similar symptoms.",
+                            "Carryout equipment changeover if similar symptoms persist in any of the equipment and carry out required repairs.",
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Ensure optimized inventory of required spares and fast track proposals is required."
+                        ]
+                    }
+
                 ]
             },
             {
-                mode: "Wet Coal",
-                sourceSheet: "External Factor loss sheet",
+                mode: "FG temp. High",
+                sourceSheet: "O&M",
+                lossMus: "0.25",
+                lossMussPer: "2.08",
                 actionPlan: [
-                    "Check the coal blending ratio and usage of available coal (Direct bunkering / Reclaiming)",
-                    "Maintain coal mill availability by thorough monitoring of coal bunkers/feeders"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Monitor the furnace operating parameters to optimize the FG exit temperature.",
+                            "Ensure no slagging on pressure parts.",
+                            "Ensure sootblowing operation (Waterwall + APH) is properly optimized."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Check for APH basket chokeup, excessive slag buildup on pressure parts.",
+                            "Conduct APH basket washing if possible."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Plan for required APH basket replacement.",
+                            "Plan for carrying out CAVT if required."
+                        ]
+                    }
+
+                ]
+            },
+            {
+                mode: "CHP Problem",
+                sourceSheet: "O&M",
+                lossMus: "0.38",
+                lossMussPer: "3.17",
+                actionPlan: [
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Verify the efficient resolution of occurred problem.",
+                            "Reinspect the equipment if necessary.",
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Observe all the equipments for similar symptoms.",
+                            "Carryout equipment changeover if similar symptoms persist in any of the equipment and carry out required repairs."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Ensure optimized inventory of required spares and fast track proposals is required.",
+                        ]
+                    }
+
                 ]
             }
         ],
@@ -48,17 +157,33 @@ const insightData = [
             "Gain/Loss (in Rs.Crs.)"
         ],
         values: [
-            "85", "80.3", "-4.7", "-8.76"
+            "85", "83.33", "-1.67", "-0.03"
         ],
 
         secondTable: [
             "Achieved Generation (Mus)", "Average AVF achieved", "AVF achieved in HDS", "AVF achieved in LDS"
         ],
         secondValues: [
-            "300", "80.3", "86.57", "78.9"
+            "10", "83.33", "86.57", "80.6"
+        ],
+        thirdTable: [
+            "Total Loss",
+            "Total Loss impacting AVF",
+            "C/F problem",
+            "FG temp. High",
+            "CHP problem"
+        ],
+        thirdValues1: [
+            "2", "1.82", "0.69", "0.25","0.38"
+        ],
+        thirdValues2: [
+            "16.67", "15.17", "5.75", "2.08","3.17"
         ],
         graphValues1: [
             80.3, 86.57, 78.9
+        ],
+        graphValues2: [
+            1.45,-0.03
         ]
 
     },
@@ -1001,7 +1126,7 @@ function setTDR() {
     const startDateInput = document.getElementById('start-date').value;
     const endDateInput = document.getElementById('end-date').value;
 
-    localStorage.setItem('selectedDate',`${startDateInput.replace(/-/g, '/')} - ${endDateInput.replace(/-/g, '/')}`)
+    localStorage.setItem('selectedDate', `${startDateInput.replace(/-/g, '/')} - ${endDateInput.replace(/-/g, '/')}`)
 
     const startDate = new Date(startDateInput);
     const endDate = new Date(endDateInput);
@@ -1359,7 +1484,7 @@ function moreInfoPage(parameter) {
 
     console.log(parameter)
     console.log(insightData)
-    localStorage.setItem('gainLoss',parameter)
+    localStorage.setItem('gainLoss', parameter)
     const matchingObject = insightData.find(item => item.parameter === parameter);
     console.log(matchingObject)
 

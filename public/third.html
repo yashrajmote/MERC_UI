@@ -9,6 +9,14 @@
     <title>Output - Mahagenco</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
+
+    <style>
+        canvas#chart2 {
+            height: 17vh !important;
+            width: 180px !important;
+            margin: auto !important;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-700">
@@ -68,7 +76,7 @@
             <section class="grid grid-cols-2 gap-3 p-4 pb-2">
 
                 <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-white shadow-xl rounded-lg p-3 w-full">
+                    <div class="bg-white shadow-xl rounded-lg w-full p-3">
                         <!-- <h2 class="text-md text-center font-semibold">Analysis</h2> -->
                         <table class="mt-1 border-collapse border border-gray-300 shadow-md rounded-md w-full">
                             <thead
@@ -81,10 +89,8 @@
                             <tbody class="border-t text-sm text-gray-700" id="analysisBody">
                             </tbody>
                         </table>
-                    </div>
-                    <div class="bg-white shadow-xl rounded-lg p-3 h-full w-full">
-                        <!-- <h3 class="text-md text-center font-semibold">Performance Analytics</h3> -->
-                        <table class="mt-1 border-collapse border border-gray-300 shadow-md rounded-md w-full h-50">
+
+                        <table class="mt-2 border-collapse border border-gray-300 shadow-md rounded-md w-full h-50">
                             <thead
                                 class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr class="bg-gray-200" id="secondTable">
@@ -95,36 +101,83 @@
                             <tbody class="border-t  text-sm text-gray-700" id="secondBody">
                             </tbody>
                         </table>
+
+                        <table class="mt-2 border-collapse border border-gray-300 shadow-md rounded-md w-full h-50">
+                            <thead
+                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr class="bg-gray-200" id="thirdTable">
+                                    <th scope="col" class="border border-gray-300 py-1">Particulars</th>
+                                    <th scope="col" class="border border-gray-300 py-1">Mus</th>
+                                    <th scope="col" class="border border-gray-300 py-1">%</th>
+                                </tr>
+                            </thead>
+                            <tbody class="border-t  text-sm text-gray-700" id="thirdBody">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="grid grid-flow-col grid-rows-2 gap-3">
+                        <div class="bg-white shadow-xl rounded-lg p-3">
+                            <h3 class="text-md text-center font-semibold mb-1">Availability Factor</h3>
+                            <canvas id="chart1"></canvas>
+                        </div>
+                        <div class="bg-white shadow-xl rounded-lg p-1 grid grid-row-2 gap-1">
+                            <div>
+                                <h3 class="text-md text-center font-semibold mb-1">AVF Disallowance</h3>
+                                <canvas id="chart2"></canvas>
+                            </div>
+                            <div class="px-2">
+                                <table class="mt-1 border-collapse border border-gray-300 shadow-md rounded-md w-full">
+                                    <thead
+                                        class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                        <!-- <tr class="bg-gray-200">
+                                            <th scope="col" class="border border-gray-300 py-1">Achieved AVF (%)</th>
+                                            <th scope="col" class="border border-gray-300 py-1">Type</th>
+                                        </tr> -->
+                                    </thead>
+                                    <tbody class="text-left text-sm text-gray-700">
+                                        <tr>
+                                            <td class="border border-gray-300">Achieved AVF (%)</td>
+                                            <td class="border border-gray-300">83.33</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300">AVF disallowance (Rs. Cr)</td>
+                                            <td class="border border-gray-300">-0.03</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
                     </div>
 
 
-                    <div class="bg-white shadow-xl rounded-lg p-3">
-                        <h3 class="text-md text-center font-semibold mb-1">Availability Factor</h3>
-                        <canvas id="chart1"></canvas>
-                    </div>
-                    <div class="bg-white shadow-xl rounded-lg p-3">
-                        <h3 class="text-md text-center font-semibold mb-1">Heat Rate</h3>
-                        <canvas id="chart2"></canvas>
-                    </div>
                 </div>
 
-                <div class="bg-white shadow-xl rounded-lg p-3 w-full">
-                    <h3 class="text-md text-center font-semibold">Failure Modes and Action Plan</h3>
-                    <div style="height: 70vh;" class=" overflow-y-auto">
+                <div class="bg-white shadow-xl rounded-lg p-3 w-full overflow-y-auto" style="height: 80vh;">
+                    <!-- <h3 class="text-md text-center font-semibold">Failure Modes and Action Plan</h3> -->
+                    <div style="height: 55vh;" class=" overflow-y-auto">
                         <table class="mt-1 border-collapse border border-gray-300 shadow-md rounded-md w-full">
                             <thead
                                 class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr class="bg-gray-200">
-                                    <th scope="col" class="border border-gray-300 py-1">Failure Modes</th>
-                                    <th scope="col" class="border border-gray-300 py-1">Action Plan</th>
-                                    <th scope="col" class="border border-gray-300 py-1">Pointers</th>
+
+                                    <th scope="col" class="border border-gray-300 py-1">Failure Mode</th>
+                                    <th scope="col" class="border border-gray-300 py-1">Type</th>
+                                    <th scope="col" class="border border-gray-300 py-1">Loss in Mus</th>
+                                    <th scope="col" class="border border-gray-300 py-1">Loss in %</th>
+                                    <th scope="col" class="border border-gray-300 py-1">Plan of Action</th>
                                 </tr>
                             </thead>
                             <tbody class="text-left text-sm text-gray-700" id="insightTableBody">
                             </tbody>
                         </table>
                     </div>
+
+                    <canvas id="chart3" style="height: 15vh !important; width: 100%; margin-top: 2%;"></canvas>
+
                 </div>
+
             </section>
 
         </main>
@@ -158,15 +211,20 @@
                     row.classList.add()
                     row.classList.add("font-sans", "text-sm");
                     row.innerHTML = `
-                        <td class="border border-gray-300 px-1 py-1">${mode.mode}</td>
-                        <td class="border border-gray-300 px-1 py-1">${mode.sourceSheet}</td>
-                        <td class="border border-gray-300 px-1 py-1">
-                            <ul class="list-disc pl-5">
-                                ${mode.actionPlan.map(action => `<li>${action}</li>`).join('')}
-                            </ul>
-                        </td>
+            <td class="border border-gray-300">${mode.mode}</td>
+            <td class="border border-gray-300">${mode.sourceSheet}</</td>
+            <td class="border border-gray-300">${mode.lossMus}</td>
+            <td class="border border-gray-300">${mode.lossMussPer}</td>
+            <td class="border border-gray-300">
+            ${mode.actionPlan.map(action => `
+            <strong>${action.name}:</strong>
+                <ul class="list-disc pl-5">
+            ${action.data.map(desc => `<li>${desc}</li>`).join('')}
+            </ul>
+            `).join('')
+                        }
+            </td>
                     `;
-
                     tableBody.appendChild(row);
                 });
             });
@@ -216,6 +274,8 @@
             const analysisBody = document.querySelector('#analysisBody');
             const secondHeader = document.querySelector('#secondTable');
             const secondBody = document.querySelector('#secondBody');
+            const thirdHeader = document.querySelector('#thirdTable');
+            const thirdBody = document.querySelector('#thirdBody');
 
             // const headerRow = document.createElement('tr');
             // data.forEach(item => {
@@ -270,12 +330,39 @@
                     secondBody.appendChild(secondRow);
                 }
             });
+
+            data.forEach(item => {
+                const { thirdTable, thirdValues1, thirdValues2 } = item;
+
+                for (let i = 0; i < thirdTable.length; i++) {
+                    const thirdRow = document.createElement('tr');
+                    thirdRow.classList.add("font-sans", "text-sm")
+                    const cell1 = document.createElement('td');
+                    cell1.classList.add('border', 'border-gray-300', 'px-1', 'py-1');
+                    cell1.textContent = thirdTable[i];
+
+                    const cell2 = document.createElement('td');
+                    cell2.classList.add('border', 'border-gray-300', 'px-1', 'py-1');
+                    cell2.textContent = thirdValues1[i];
+
+                    const cell3 = document.createElement('td');
+                    cell3.classList.add('border', 'border-gray-300', 'px-1', 'py-1');
+                    cell3.textContent = thirdValues2[i];
+
+                    thirdRow.appendChild(cell1);
+                    thirdRow.appendChild(cell2);
+                    thirdRow.appendChild(cell3);
+
+                    thirdBody.appendChild(thirdRow);
+                }
+            });
         }
 
         function populateGraphs(data) {
             console.log(data);
             const ctx = document.getElementById(`chart1`).getContext('2d');
             const ctx1 = document.getElementById(`chart2`).getContext('2d');
+            const ctx2 = document.getElementById(`chart3`).getContext('2d');
 
             data.forEach(item => {
                 if (item.parameter === "Availability Factor") {
@@ -286,7 +373,7 @@
                             datasets: [{
                                 label: 'AVF ',
                                 data: item.graphValues1,
-                                backgroundColor: ['#FF0000', '#00FF00', '#FF0000'],
+                                backgroundColor: ['#F70000', '#70AD47', '#F70000'],
                                 borderWidth: 2
                             }]
                         },
@@ -307,38 +394,100 @@
                             }
                         }
                     });
-                }
-
-                if (item.parameter === "Heat Rate") {
-                    new Chart(ctx, {
+                    new Chart(ctx1, {
+                        type: 'pie',
+                        data: {
+                            labels: ['Fixed cost recovered', 'Fixed cost disallowance'],
+                            datasets: [{
+                                label: 'AVF Disallowance',
+                                data: item.graphValues2,
+                                backgroundColor: ['#70AD47', '#ED7D31']
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false, // This allows setting a custom height
+                        },
+                    });
+                    new Chart(ctx2, {
                         type: 'bar',
                         data: {
-                            labels: ['Normative SHR (kcal/kwh)', 'Achieved SHR (kcal/kwh)'],
-                            datasets: [{
-                                label: 'AVF ',
-                                data: item.graphValues1,
-                                backgroundColor: ['#FF0000', '#00FF00'],
-                                borderWidth: 2
-                            }]
+                            labels: ["AVF Chart"], // Single label for one stacked bar
+                            datasets: [
+                                {
+                                    label: "Achieved AVF (%)",
+                                    data: [83.33], // First segment in the stack
+                                    backgroundColor: "#70AD47",
+                                },
+                                {
+                                    label: "C/F Problem",
+                                    data: [5.75], // Second segment in the stack
+                                    backgroundColor: "#F48239",
+                                },
+                                {
+                                    label: "FG Temp. High",
+                                    data: [2.08], // Third segment in the stack
+                                    backgroundColor: "#A6A6A6",
+                                },
+                                {
+                                    label: "CHP Problem",
+                                    data: [3.17], // Fourth segment in the stack
+                                    backgroundColor: "#FFC608",
+                                }
+                            ]
                         },
                         options: {
-                            plugins: {
-                                legend: {
-                                    display: false
-                                }
-                            },
+                            indexAxis: "y", // Converts to a horizontal bar chart
                             responsive: true,
+                            maintainAspectRatio: true, // Allows setting custom height
                             scales: {
                                 x: {
-                                    beginAtZero: true
+                                    stacked: true, // Enables stacking on the x-axis
+                                    beginAtZero: true,
+                                    max: 100 // Ensures the total fits within 100%
                                 },
                                 y: {
-                                    beginAtZero: true
+                                    stacked: true // Enables stacking on the y-axis
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: true // Shows the legend for each segment
                                 }
                             }
                         }
                     });
                 }
+                // if (item.parameter === "Heat Rate") {
+                //     new Chart(ctx, {
+                //         type: 'bar',
+                //         data: {
+                //             labels: ['Normative SHR (kcal/kwh)', 'Achieved SHR (kcal/kwh)'],
+                //             datasets: [{
+                //                 label: 'AVF ',
+                //                 data: item.graphValues1,
+                //                 backgroundColor: ['#FF0000', '#00FF00'],
+                //                 borderWidth: 2
+                //             }]
+                //         },
+                //         options: {
+                //             plugins: {
+                //                 legend: {
+                //                     display: false
+                //                 }
+                //             },
+                //             responsive: true,
+                //             scales: {
+                //                 x: {
+                //                     beginAtZero: true
+                //                 },
+                //                 y: {
+                //                     beginAtZero: true
+                //                 }
+                //             }
+                //         }
+                //     });
+                // }
             });
         }
     </script>
