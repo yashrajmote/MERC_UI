@@ -174,16 +174,16 @@ const insightData = [
             "CHP problem"
         ],
         thirdValues1: [
-            "2", "1.82", "0.69", "0.25","0.38"
+            "2", "1.82", "0.69", "0.25", "0.38"
         ],
         thirdValues2: [
-            "16.67", "15.17", "5.75", "2.08","3.17"
+            "16.67", "15.17", "5.75", "2.08", "3.17"
         ],
         graphValues1: [
             80.3, 86.57, 78.9
         ],
         graphValues2: [
-            1.45,-0.03
+            1.45, -0.03
         ]
 
     },
@@ -1428,7 +1428,15 @@ function updateSmallerChart(chartID, label, parsedValues, afterCalculations) {
 
     console.log(dataToUpdate);
 
-    const ctx = document.getElementById(`dynamicIncentives`).getContext('2d');
+    const chartId = "dynamicIncentives"; // ID of your canvas element
+
+    // Store chart instances globally
+    let existingChart = Chart.getChart(chartId);
+    if (existingChart) {
+        existingChart.destroy(); // Destroy the previous chart before creating a new one
+    }
+
+    const ctx = document.getElementById(chartId).getContext('2d');
     const chartTitle = document.getElementById(`chartTitle`)
 
     chartTitle.textContent = label;
