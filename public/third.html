@@ -12,8 +12,8 @@
 
     <style>
         canvas#chart2 {
-            height: 17vh !important;
-            width: 180px !important;
+            max-height: 24vh !important;
+            max-width: 100vh !important;
             margin: auto !important;
         }
     </style>
@@ -104,59 +104,61 @@
 
                         <table class="mt-2 border-collapse border border-gray-300 shadow-md rounded-md w-full h-50">
                             <thead
-                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr class="bg-gray-200" id="thirdTable">
-                                    <th scope="col" class="border border-gray-300 py-1">Particulars</th>
-                                    <th scope="col" class="border border-gray-300 py-1">Mus</th>
-                                    <th scope="col" class="border border-gray-300 py-1">%</th>
-                                </tr>
+                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                                id="thirdTableHead">
                             </thead>
                             <tbody class="border-t  text-sm text-gray-700" id="thirdBody">
                             </tbody>
                         </table>
                     </div>
 
-                    <div class="grid grid-flow-col grid-rows-2 gap-3">
+                    <!-- Graphs -->
+                    <div class="grid grid-flow-col grid-rows-2 gap-3"
+                        x-data="{ insightData: JSON.parse(localStorage.getItem('insightData')) || 'Default Value'}">
                         <div class="bg-white shadow-xl rounded-lg p-3">
-                            <h3 class="text-md text-center font-semibold mb-1">Availability Factor</h3>
+                            <h3 class="text-md text-center font-semibold mb-1" x-text="insightData.graphHeading1"></h3>
                             <canvas id="chart1"></canvas>
                         </div>
                         <div class="bg-white shadow-xl rounded-lg p-1 grid grid-row-2 gap-1">
                             <div>
-                                <h3 class="text-md text-center font-semibold mb-1">AVF Disallowance</h3>
+                                <h3 class="text-md text-center font-semibold mb-1" x-text="insightData.graphHeading2">
+                                </h3>
                                 <canvas id="chart2"></canvas>
                             </div>
-                            <div class="px-2">
-                                <table class="mt-1 border-collapse border border-gray-300 shadow-md rounded-md w-full">
-                                    <thead
-                                        class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                        <!-- <tr class="bg-gray-200">
+                            <template x-if="insightData.parameter === 'Availability Factor'">
+                                <div class="px-2">
+                                    <table
+                                        class="mt-1 border-collapse border border-gray-300 shadow-md rounded-md w-full">
+                                        <thead
+                                            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                            <!-- <tr class="bg-gray-200">
                                             <th scope="col" class="border border-gray-300 py-1">Achieved AVF (%)</th>
                                             <th scope="col" class="border border-gray-300 py-1">Type</th>
                                         </tr> -->
-                                    </thead>
-                                    <tbody class="text-left text-sm text-gray-700">
-                                        <tr>
-                                            <td class="border border-gray-300">Achieved AVF (%)</td>
-                                            <td class="border border-gray-300">83.33</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border border-gray-300">AVF disallowance (Rs. Cr)</td>
-                                            <td class="border border-gray-300">-0.03</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
+                                        </thead>
+                                        <tbody class="text-left text-sm text-gray-700">
+                                            <tr>
+                                                <td class="border border-gray-300">Achieved AVF (%)</td>
+                                                <td class="border border-gray-300">83.33</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border border-gray-300">AVF disallowance (Rs. Cr)</td>
+                                                <td class="border border-gray-300">-0.03</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </template>
                         </div>
                     </div>
 
 
                 </div>
 
-                <div class="bg-white shadow-xl rounded-lg p-3 w-full overflow-y-auto" style="height: 80vh;">
+                <div class="bg-white shadow-xl rounded-lg p-3 w-full overflow-y-auto" style="max-height: 80vh;"
+                    x-data="{ insightData: JSON.parse(localStorage.getItem('insightData')) || 'Default Value'}">
                     <!-- <h3 class="text-md text-center font-semibold">Failure Modes and Action Plan</h3> -->
-                    <div style="height: 55vh;" class=" overflow-y-auto">
+                    <div style="max-height: 71vh;" class=" overflow-y-auto">
                         <table class="mt-1 border-collapse border border-gray-300 shadow-md rounded-md w-full">
                             <thead
                                 class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -173,9 +175,9 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <canvas id="chart3" style="height: 15vh !important; width: 100%; margin-top: 2%;"></canvas>
-
+                    <template x-if="insightData.parameter === 'Availability Factor'">
+                        <canvas id="chart3" style="height: 15vh !important; width: 100%; margin-top: 2%;"></canvas>
+                    </template>
                 </div>
 
             </section>
@@ -274,7 +276,7 @@
             const analysisBody = document.querySelector('#analysisBody');
             const secondHeader = document.querySelector('#secondTable');
             const secondBody = document.querySelector('#secondBody');
-            const thirdHeader = document.querySelector('#thirdTable');
+            const thirdTableHead = document.querySelector('#thirdTableHead');
             const thirdBody = document.querySelector('#thirdBody');
 
             // const headerRow = document.createElement('tr');
@@ -332,7 +334,17 @@
             });
 
             data.forEach(item => {
-                const { thirdTable, thirdValues1, thirdValues2 } = item;
+                const { thirdTable, thirdTableHeader, thirdValues1, thirdValues2 } = item;
+
+                const thirdRowHeader = document.createElement('tr');
+                thirdRowHeader.classList.add("bg-gray-200");
+                thirdTableHeader.forEach(element => {
+                    const cell1 = document.createElement('th');
+                    cell1.classList.add('border', 'border-gray-300', 'py-1');
+                    cell1.textContent = element;
+                    thirdRowHeader.appendChild(cell1);
+                });
+                thirdTableHead.appendChild(thirdRowHeader)
 
                 for (let i = 0; i < thirdTable.length; i++) {
                     const thirdRow = document.createElement('tr');
@@ -362,38 +374,37 @@
             console.log(data);
             const ctx = document.getElementById(`chart1`).getContext('2d');
             const ctx1 = document.getElementById(`chart2`).getContext('2d');
-            const ctx2 = document.getElementById(`chart3`).getContext('2d');
 
             data.forEach(item => {
-                if (item.parameter === "Availability Factor") {
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Avg AVF achieved', 'AVF achieved in HDS', 'AVF achieved in LDS'],
-                            datasets: [{
-                                label: 'AVF ',
-                                data: item.graphValues1,
-                                backgroundColor: ['#F70000', '#70AD47', '#F70000'],
-                                borderWidth: 2
-                            }]
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: item.graphLegend1,
+                        datasets: [{
+                            label: 'AVF ',
+                            data: item.graphValues1,
+                            backgroundColor: ['#F70000', '#70AD47', '#F70000'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
                         },
-                        options: {
-                            plugins: {
-                                legend: {
-                                    display: false
-                                }
+                        responsive: true,
+                        scales: {
+                            x: {
+                                beginAtZero: true
                             },
-                            responsive: true,
-                            scales: {
-                                x: {
-                                    beginAtZero: true
-                                },
-                                y: {
-                                    beginAtZero: true
-                                }
+                            y: {
+                                beginAtZero: true
                             }
                         }
-                    });
+                    }
+                });
+                if (item.parameter !== "Transit Loss") {
                     new Chart(ctx1, {
                         type: 'pie',
                         data: {
@@ -409,6 +420,40 @@
                             maintainAspectRatio: false, // This allows setting a custom height
                         },
                     });
+                } else {
+                    new Chart(ctx1, {
+                        type: 'bar',
+                        data: {
+                            labels: ['WCL - Umred (Rail)', 'WCL - Gondegaon (Rail)', 'WCL - Gondegaon (Road)', 'WCL - Saoner (Road)'],
+                            datasets: [
+                                {
+                                    label: 'TL',
+                                    data: [843, 294, 498, 345],
+                                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: '%',
+                                    data: [0.43, 0.15, 0.25, 0.17],
+                                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                }
+                if (item.parameter === "Availability Factor") {
+                    const ctx2 = document.getElementById(`chart3`).getContext('2d');
                     new Chart(ctx2, {
                         type: 'bar',
                         data: {

@@ -205,6 +205,12 @@
                                             class="mt-2 block w-full p-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
                                             step="0.01">
                                     </div>
+                                    <div class="ml-5">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Current MOD (Rs./kWh)</label>
+                                        <input type="number" id="currentMod" value="3.18"
+                                            class="mt-2 block w-full p-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                                            step="0.01">
+                                    </div>
                                 </div>
                             </div>
                             <!-- <div class="card">
@@ -427,6 +433,15 @@
                                         <td class="border border-gray-300 px-1 py-1">Total Estimated Energy Charge Rate (Rs. /kwh)</td>
                                         <td class="border border-gray-300 px-1 py-1"><span id="estimatedECR"></span></td>
                                     </tr>
+                                    <tr class="font-sans text-sm">
+                                        <td class="border border-gray-300 px-1 py-1">Achieved Heat Rate (kcal/kWh)</td>
+                                        <td class="border border-gray-300 px-1 py-1"><span id="achievedHeatRate"></span></td>
+                                    </tr>
+                                    <tr class="font-sans text-sm">
+                                        <td class="border border-gray-300 px-1 py-1">Variance from Current MOD (Rs./kWh)</td>
+                                        <td class="border border-gray-300 px-1 py-1"><span id="varianceFromCurrentMod"></span></td>
+                                    </tr>
+
                                     <tbody>
                                     </tbody>
                                 </table>
@@ -458,9 +473,10 @@
         let rawCoalGCV = parseFloat(document.getElementById('rawCoalGCV').value);
         let washedCoalGCV = parseFloat(document.getElementById('washedCoalGCV').value);
         let importedCoalGCV = parseFloat(document.getElementById('importedCoalGCV').value);
+        let currentMod = parseFloat(document.getElementById('currentMod').value);
 
-
-
+        
+       
         let totalcoalConsumption = generation * targetCoalFactor * 1000;
         let rawcoalConsumption = totalcoalConsumption * rawCoalBlending;
         let washedcoalConsumption = totalcoalConsumption * washedCoalBlending;
@@ -470,7 +486,8 @@
         let Emissionsfactor = 2.5
         let totalEmissions = totalcoalConsumption * Emissionsfactor;
         let estimatedECR = ((rawcoalConsumption * rawCoalCost) + (washedcoalConsumption * washedCoalCost) + (importedcoalConsumption * importedCoalCost)) / (generation - apc) / 1000000;
-
+        let achievedHeatRate = targetCoalFactor * achievedblendedGCV;
+        let varianceFromCurrentMod = currentMod - estimatedECR;
         document.getElementById('totalcoalConsumption').innerText = totalcoalConsumption.toFixed(2);
         document.getElementById('totalCost').innerText = totalCost.toFixed(2);
         document.getElementById('rawcoalConsumption').innerText = rawcoalConsumption.toFixed(2);
@@ -479,6 +496,9 @@
         document.getElementById('achievedblendedGCV').innerText = achievedblendedGCV.toFixed(2);
         document.getElementById('totalEmissions').innerText = totalEmissions.toFixed(2);
         document.getElementById('estimatedECR').innerText = estimatedECR.toFixed(2);
+        document.getElementById('achievedHeatRate').innerText = achievedHeatRate.toFixed(2);
+        document.getElementById('varianceFromCurrentMod').innerText = varianceFromCurrentMod.toFixed(2);
+
     }
 </script>
 
