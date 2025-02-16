@@ -173,11 +173,22 @@ const insightData = [
             "FG temp. High",
             "CHP problem"
         ],
+        thirdTableHeader:[
+            "Particulars", "Mus","%"
+        ],
         thirdValues1: [
             "2", "1.82", "0.69", "0.25", "0.38"
         ],
         thirdValues2: [
             "16.67", "15.17", "5.75", "2.08", "3.17"
+        ],
+        graphHeading1:'Availability Factor',
+        graphHeading2:'AVF Disallowance',
+        graphLegend1:[
+            'Avg AVF achieved', 'AVF achieved in HDS', 'AVF achieved in LDS'
+        ],
+        graphLegend2:[
+            'Fixed cost recovered', 'Fixed cost disallowance'
         ],
         graphValues1: [
             80.3, 86.57, 78.9
@@ -194,56 +205,132 @@ const insightData = [
         data: [
             {
                 mode: "High Coal Consumption",
-                sourceSheet: "Unit performance report",
+                sourceSheet: "O&M",
+                lossMus: "0.65",
+                lossMussPer: "0.78",
                 actionPlan: [
-                    "Review the receieved coal parameters with historical data",
-                    "Check the Coal mill operation and loading of coal mills",
-                    "Review the Boiler operational parameters and check for deviations"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Check Loading of Coal Mills.",
+                            "Check the blending ratio/ Change the blending ratio.",
+                            "Recheck the GCV if required."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Review the GCV data of the coal source used."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Review the coal procurement strategy using AI model."
+                        ]
+                    }
+
+                ]
+            },
+            {
+                mode: "Generation",
+                sourceSheet: "O&M",
+                lossMus: "12",
+                lossMussPer: "10",
+                actionPlan: [
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Check for the O&M losses for auxiliary outages.",
+                            "Verify for resolution of O&M outages."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Review the maintenance issues for repeated outages.",
+                            "Ensure the capital overhauling of auxiliaries."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Ensure timely planning of overhauls."
+                        ]
+                    }
+
                 ]
             },
             {
                 mode: "GCV variation",
-                sourceSheet: "Unit performance report",
+                sourceSheet: "External",
+                lossMus: "3400",
+                lossMussPer: "3125",
                 actionPlan: [
-                    "Resampling of coal samples to be done",
-                    "Review the past GCV data for the similar coal recieved",
-                    "Check the loading of coal mills",
-                    "Check the blending ratio / required change in blending",
-                    "Review the coal procurement strategy"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Check Loading of Coal Mills.",
+                            "Check the blending ratio/ Change the blending ratio.",
+                            "Recheck the GCV if required."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Review the GCV data of the coal source used."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Review the coal procurement strategy using AI model."
+                        ]
+                    }
                 ]
             },
-            {
-                mode: "Generation loss",
-                sourceSheet: "External and O&M generation loss sheet",
-                actionPlan: [
-                    "Review Availability of equipments of the unit",
-                    "Review minor partial losses due to auxiliary changeover/ tripping for the unit",
-                    "Check weightage of External loss factors like GCV, LDBD, Wet Coal etc."
-                ]
-            }
         ],
         header: [
             "Normative SHR (kcal/kwh)",
-            "Achieved SHR (kcal/kwh)",
+            "Actual SHR (kcal/kwh)",
             "Deviation (kcal/kwh)",
-            "Gain/Loss (in Rs.Crs.)",
-            "Total Loss (in Rs.Crs.)"
+            "Gain/Loss (in Rs.Crs.)"
         ],
         values: [
-            "2375", "2580", "-205", "-89.66", "-112.36"
+            "2375", "2437.5", "-62.5", "-1.2"
         ],
         secondTable: [
-            "Achieved Generation (Mus)", "Coal factor achieved (%)", "Approved Coal factor (%)", "Difference in Loading end and Unloading end GCV", "Normative Rs./Mkcal",
-            "Effective Rs./Mkcal"
+            "Achieved Generation (Mus)", "Noramtive Rs./Mkcal", "Achieved Rs./Mkcal", "Deviation from Approved GCV (kacl/kg)"
         ],
         secondValues: [
-            "300", "0.78", "0.68", "860", "1050", "1280"
+            "10", "892", "1059", "-215"
+        ],
+        thirdTable: [
+            "Coal factor",
+            "Approved GCV"
+        ],
+        thirdTableHeader:[
+            "Particulars", "Normative","Actual"
+        ],
+        thirdValues1: [
+            "0.65", "3400"
+        ],
+        thirdValues2: [
+            "0.75", "3125"
+        ],
+        graphHeading1:'Normative vs Actual SHR',
+        graphHeading2:'Normative vs Actual Rs. /Mkcal',
+        graphLegend1:[
+            'Actual SHR (kcal/kWh)', 'Normative SHR (kcal/kWh)'
+        ],
+        graphLegend2:[
+            'Achieved Rs./Mkcal', 'Normative Rs./Mkcal'
         ],
         graphValues1: [
-            2375, 2580
+            2375.5, 2375
         ],
         graphValues2: [
-            1050, 128
+            1059, 892
         ]
     },
 
@@ -252,43 +339,198 @@ const insightData = [
         primaryTrigger: "APC > Normative value",
         data: [
             {
-                mode: "High Auxilliary Consumption",
-                sourceSheet: "Unit performance report / Energy Management system report",
+                mode: "GCV",
+                sourceSheet: "External Factor",
+                lossMus: "0.5",
+                lossMussPer: "4.17",
                 actionPlan: [
-                    "Review the sectorwise auxiliary power consumption (CHP, Coal mill, ODP) of the unit"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Check Loading of Coal Mills.",
+                            "Check the blending ratio/ Change the blending ratio.",
+                            "Recheck the GCV if required."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Review the GCV data of the coal source used."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Review the coal procurement strategy using AI model."
+                        ]
+                    }
+
                 ]
             },
             {
-                mode: "Low Generation",
-                sourceSheet: "External and O&M generation loss sheet",
+                mode: "LDBD",
+                sourceSheet: "External Factor",
+                lossMus: "0.18",
+                lossMussPer: "1.5",
                 actionPlan: [
-                    "Review Availability of equipments of the unit",
-                    "Review minor partial losses due to auxiliary changeover/ tripping for the unit",
-                    "Check weightage of External loss factors like GCV, LDBD, Wet Coal etc."
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Check the ramping rate / response of the unit",
+                            "Check for DSM gain/ loss during the transition."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Review the MOD rate calculations for upcoming period."
+                        ]
+                    },
+                    {
+                        name: "Long term",
+                        data: [
+                            "NA"
+                        ]
+                    }
+
+                ]
+            },
+            {
+                mode: "Coal feeder problem",
+                sourceSheet: "O&M",
+                lossMus: "0.69",
+                lossMussPer: "5.75",
+                actionPlan: [
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Verify the efficient resolution of occurred problem.",
+                            "Reinspect the equipment if necessary."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Observe all the equipments for similar symptoms.",
+                            "Carryout equipment changeover if similar symptoms persist in any of the equipment and carry out required repairs.",
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Ensure optimized inventory of required spares and fast track proposals is required."
+                        ]
+                    }
+
+                ]
+            },
+            {
+                mode: "FG temp. High",
+                sourceSheet: "O&M",
+                lossMus: "0.25",
+                lossMussPer: "2.08",
+                actionPlan: [
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Monitor the furnace operating parameters to optimize the FG exit temperature.",
+                            "Ensure no slagging on pressure parts.",
+                            "Ensure sootblowing operation (Waterwall + APH) is properly optimized."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Check for APH basket chokeup, excessive slag buildup on pressure parts.",
+                            "Conduct APH basket washing if possible."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Plan for required APH basket replacement.",
+                            "Plan for carrying out CAVT if required."
+                        ]
+                    }
+
+                ]
+            },
+            {
+                mode: "CHP Problem",
+                sourceSheet: "O&M",
+                lossMus: "0.38",
+                lossMussPer: "3.17",
+                actionPlan: [
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Verify the efficient resolution of occurred problem.",
+                            "Reinspect the equipment if necessary.",
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Observe all the equipments for similar symptoms.",
+                            "Carryout equipment changeover if similar symptoms persist in any of the equipment and carry out required repairs."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Ensure optimized inventory of required spares and fast track proposals is required.",
+                        ]
+                    }
+
                 ]
             }
         ],
         header: [
             "Normative APC (%)",
-            "Achieved APC (%)",
+            "Actual APC (%)",
             "Deviation (%)",
-            "Gain/Loss (in Rs.Crs.)",
-            "Total Loss (in Rs.Crs.)"
+            "Deviation (%)",
+            "Gain /Loss (in Rs.Crs)"
         ],
         values: [
-            "6", "6.2", "-0.2", "-1.42", "-112.36"
+            "6", "6.12", "-0.12", "-0.3"
         ],
         secondTable: [
-            "Achieved Generation (Mus)", "APC achieved (Mus)", "Approved APC (Mus)", "Loss due to External factors (%)", "Loss due to O&M factors (%)"
+            "Achieved Generation (Mus)", "Partial loss due to external factors (MUs)", "Partial loss due to external factors (Mus)", "Generation excluding LDBD loss (Mus)"
         ],
         secondValues: [
-            "300", "18.6", "18", "9.87", "6.796"
+            "10", "1.32", "0.68", "10.18"
+        ],
+        thirdTable: [
+            "Actual Generation",
+            "GCV",
+            "LDBD",
+            "C/F problem",
+            "Flue gas temp. high",
+            "CHP problem"
+        ],
+        thirdTableHeader:[
+            "Particulars", "MUs","%"
+        ],
+        thirdValues1: [
+            "10", "0.5", "0.18", "0.69", "0.25",'0.38'
+        ],
+        thirdValues2: [
+            "83.33", "4.17", "1.5", "5.75", "2.08","3.17"
+        ],
+        graphHeading1:'Normative vs Actual APC',
+        graphHeading2:'Loss Contribution',
+        graphLegend1:[
+            'Actual APC (%)', 'Normative APC (%)'
+        ],
+        graphLegend2:[
+            'Actual Generation', 'Losses'
         ],
         graphValues1: [
-            6, 6.2
+            6.12, 6
         ],
         graphValues2: [
-            9.87, 6.796
+            83.33, 16.67
         ]
     },
 
@@ -297,43 +539,105 @@ const insightData = [
         primaryTrigger: "SOC > Normative value",
         data: [
             {
-                mode: "High Secondary Consumption",
-                sourceSheet: "Specific Oil Consumption report",
+                mode: "Coal Feeder problem",
+                sourceSheet: "O&M",
+                lossMus: "0",
+                lossMussPer: "1.5",
                 actionPlan: [
-                    "Review the secondary oil consumption reasons for flame stability"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Verfiy the efficient resolution of occured problem.",
+                            "Re-inspect the equipment if necessary.",
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Observe all the equipments for similar symptoms.",
+                            "Carryout equipment changeover if similar symptoms persist in any of the equipment and carry out required repairs."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Ensure optimized inventory of required spares and fast track proposals is required."
+                        ]
+                    }
+
                 ]
             },
             {
-                mode: "Plant Outages",
-                sourceSheet: "External and O&M generation loss sheet",
+                mode: "CHP Problem",
+                sourceSheet: "O&M",
+                lossMus: "0",
+                lossMussPer: "3",
                 actionPlan: [
-                    "Review the plant outage factors",
-                    "Review the time required for startup",
-                    " Review the set stabilization period"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Verify the efficient resolution of occurred problem.",
+                            "Reinspect the equipment if necessary."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Observe all the equipments for similar symptoms.",
+                            "Carryout equipment changeover if similar symptoms persist in any of the equipment and carry out required repairs."
+                        ]
+                    },
+                    {
+                        name: "Long term",
+                        data: [
+                            "Ensure optimized inventory of required spares and fast track proposals is required."
+                        ]
+                    }
+
                 ]
             }
         ],
         header: [
             "Normative SOC (ml/kwh)",
-            "Achieved SOC (ml/kwh)",
+            "Actual SOC (ml/kwh)",
             "Deviation (ml/kwh)",
-            "Gain/Loss (in Rs.Crs.)",
-            "Total Loss (in Rs.Crs.)"
+            "Gain/Loss (in Rs.Crs.)"
         ],
         values: [
-            "0.5", "0.78", "-0.28", "-2.36", "-112.36"
+            "0.5", "0.45", "0.05", "0.12"
         ],
         secondTable: [
-            "SOC achieved (ml/kwh)", "Approved SOC (ml/kwh)", "Oil Consumption reasons", "Unit startup", "Set stabilization", "Flame stability"
+            "Achieved Generation (MUs)", "Total LDO consumption (kL)", "Total FO consumption (kL)", "Total Oil Consumption (kL)"
         ],
         secondValues: [
-            "0.78", "0.5", "", "0.38", "0.24", "0.16"
+            "10", "0", "", "4.5", "4.5"
+        ],
+        thirdTable: [
+            "Coal Feeder problem",
+            "CHP problem"
+        ],
+        thirdTableHeader:[
+            "Oil Consumption", "KL","SOC"
+        ],
+        thirdValues1: [
+            "1.5", "3"
+        ],
+        thirdValues2: [
+            "0.15", "0.3"
+        ],
+        graphHeading1:'Normative vs Actual SOC',
+        graphHeading2:'SOC Details',
+        graphLegend1:[
+            'Actual SOC (ml/kWh)', 'Normative SOC (ml/kWh)'
+        ],
+        graphLegend2:[
+            'Coal Feeder problem', 'CHP problem'
         ],
         graphValues1: [
-            0.5, 0.78
+            0.45, 0.5
         ],
         graphValues2: [
-            0.38, 0.24, 0.16
+            0.15, 0.3
         ]
     },
 
@@ -342,34 +646,78 @@ const insightData = [
         primaryTrigger: "Coal TL > Normative Value",
         data: [
             {
-                mode: "High Coal TL",
-                sourceSheet: "Unit performance report / Coal receipt and accounting report",
+                mode: "Transit Loss",
+                sourceSheet: "",
+                lossMus: "1980",
+                lossMussPer: "0.83",
                 actionPlan: [
-                    "Co-ordinate with transport agency for ensuring no transport losses",
-                    "Verify the loading end weighing data with coal company",
-                    "Arrange for mutual calibration of weigh bridges at coal loading end",
-                    "Ensure proper and periodic calibration of weigh bridges at unloading end"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Identify rakewise loading and unloading weights descrepancy.",
+                            "Check for load cell calibration values.",
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Maintain the calibration schedule.",
+                            "Analyze the transit loss data on minewise basis for past records."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Co-ordinate at loading end and optimize the supply chain matrix as per requirement."
+                        ]
+                    }
+
                 ]
             }
         ],
         header: [
-            "Normative SHR (%)",
-            "Achieved SHR (%)",
+            "Normative TL (%)",
+            "Actual SOC (%)",
             "Deviation (%)",
-            "Gain/Loss (in Rs.Crs.)",
-            "Total Loss (in Rs.Crs.)"
+            "Gain/Loss (in Rs.Crs.)"
         ],
         values: [
-            "0.8", "1.2", "-0.4", "-5.93", "-112.36"
+            "0.8", "0.83", "-0.03", "-0.26"
         ],
         secondTable: [
-            "TL achieved (%)", "Approved TL (%)", "TL analysis", "Coal Source", "WCL", "MCL"
+            "Raw coal TL railway (MT)", "Raw coal TL road (MT)","Total TL (MT)"
         ],
         secondValues: [
-            "0.8", "1.2", ""
+            "1137", "843", "1980"
+        ],
+        thirdTable: [
+            "WCL - Umred (Rail)",
+            "WCL - Gondegaon (Rail)",
+            "WCL - Gondegaon (Road)",
+            "WCL - Saoner (Road)"
+        ],
+        thirdTableHeader:[
+            "Coal Source", "TL","%"
+        ],
+        thirdValues1: [
+            "843", "294","498","345"
+        ],
+        thirdValues2: [
+            "0.43", "0.15","0.25","0.17"
+        ],
+        graphHeading1:'Normative vs Actual TL',
+        graphHeading2:'TL Details',
+        graphLegend1:[
+            'Actual SOC (%)', 'Normative SOC (%)'
+        ],
+        graphLegend2:[
+            'TL', '%'
         ],
         graphValues1: [
-            0.8, 1.2
+            0.8, 0.83
+        ],
+        graphValues2: [
+            0.15, 0.3
         ]
     }
 
