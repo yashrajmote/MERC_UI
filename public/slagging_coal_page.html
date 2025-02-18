@@ -633,7 +633,7 @@
                 
                 const fspGraphContainer = createGraph(FSP);
                 const fspDisplay = document.createElement("div");
-                fspDisplay.textContent = `Fuel Slagging Potential : ${FSP.toFixed(1)} (${FSPD})`;
+                fspDisplay.textContent = `Slagging Potential : ${FSP.toFixed(1)} (${FSPD})`;
                 rightContainerDiv.appendChild(fspDisplay);
                 rightContainerDiv.appendChild(fspGraphContainer);
                 let fspTableVisible = false;  // Track table visibility
@@ -657,7 +657,7 @@
 
                 const ffftsGraphContainer = createGraph(FFFTS);
                 const ffftsDisplay = document.createElement("div");
-                ffftsDisplay.textContent = `FFFTS: ${FFFTS.toFixed(1)} (${FFFD})`;
+                ffftsDisplay.textContent = `Fouling Potential: ${FFFTS.toFixed(1)} (${FFFD})`;
                 rightContainerDiv.appendChild(ffftsDisplay);
                 rightContainerDiv.appendChild(ffftsGraphContainer);
                 let ffftsTableVisible = false; 
