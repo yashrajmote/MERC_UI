@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('js'));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'coal_page.html'));
+  res.sendFile(path.join(__dirname, 'public', 'slagging_coal_page.html'));
 });
 
 app.get('/api/data', (req, res) => {
