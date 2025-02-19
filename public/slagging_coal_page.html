@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slagging Form</title>
+    
+    <style>
+        body {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            height: 120vh;
+            font-size: large;
+            padding: 10px;
+        }
+        
+        .left-container, .right-container {
+            width: 48%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            border-radius: 4px;
+            flex-direction: column;
+        }
+        
+        .blend-row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .blend {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 10px;
+            width: 100%;
+        }
+        
+        .blend select, .blend-entry select, .blend input, .blend-entry input {
+            flex: 2;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        button {
+            padding: 8px 12px;
+            cursor: pointer;
+            border: none;
+            background-color: #02008a;
+            color: white;
+            border-radius: 5px;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        #weightedAverageProperties {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        
+        /* Table Header */
+        table th {
+            background: #0153ac;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+            border: 1px solid #ddd;
+        }
+        
+        /* Table Rows */
+        table td {
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            color: #333;
+        }
+        
+        /* Alternate Row Background */
+        table tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+        
+        /* Hover Effect */
+        table tr:hover {
+            background: #d4e6ff;
+        }
+        
+        
+        /* Light blue background for table headers */
+        th[colspan="3"] {
+            background-color: rgb(24, 0, 158);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        
+        .close {
+            font-size: 30px;
+            cursor: pointer;
+            font-weight: bolder;
+        }
+        
+        .blendedcoalProperties {
+            overflow-x: auto;
+            margin-top: 10px;
+            white-space: nowrap;
+            padding: 10px;
+        }
+        
+        .blendedcoalProperties p {
+            display: inline-block;
+            margin-right: 20px;
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+        
+        .blendedcoalProperties::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        
+        .blendedcoalProperties::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 5px;
+        }
+        
+        .blendedcoalProperties::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+        
+        .blend .remove-blend-btn, .blend-entry .remove-blend-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .blend .remove-blend-btn:hover, .blend-entry .remove-blend-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .add-blend-btn {
+            padding: 8px 12px;
+            cursor: pointer;
+            border: none;
+            width: 20%;
+            margin-left: 40%;
+            background-color: #02008a;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            color: white;
+            border-radius: 5px;
+        }
+        
+        .calculate-properties-btn,.blendProperties {
+            padding: 8px 12px;
+            cursor: pointer;
+            border: none;
+            background-color: #02008a;
+            width: 50%;
+            margin-left: 25%;
+            margin-top: 20px;
+            color: white;
+            border-radius: 5px;
+        }
+        
+        #totalRangeContainer {
+            margin-top: 10px; 
+            text-align: center; 
+        }
+        
+        #totalRange {
+            font-weight: bold; 
+            margin-left: 5px;   
+        }
+
+        .right-container > table {
+            margin-bottom: 30px; 
+        }
+
+        .checkbox-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .checkbox-table td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .checkbox-table td:first-child {
+            width: 50px;
+            text-align: center;
+        }
+        
+        .checkbox-table input {
+            transform: scale(1.2); /* Makes checkboxes slightly larger */
+        }
+        
+
+</style>
+</head>
+<body>
+    <div class="left-container">
+        <form id="coalForm">
+            <div id="coalBlends">
+                <h2>Coal Type</h2>
+                <div class="blend-row"></div>
+                </div>
+                <button type="button" class="add-blend-btn" onclick="addBlend()">Add Coal</button>
+                <div id="totalRangeContainer">
+                    <label>Total Current Range:<span id="totalRange"></span>%</label>        
+                </div>
+                <button type="button" class="calculate-properties-btn" onclick="calculateWeightedAverage()">Calculate</button>  
+            </form>
+            <button type="button" id="blendPropertiesBtn" class="blendProperties" onclick="openBlendModal()" style="display: none;">
+                Blended Coal Properties
+            </button>
+            
+            <!-- Modal for displaying blended coal properties -->
+            <div id="blendPropertiesModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeBlendModal()">&times;</span>
+                    <div id="blendValues"></div>  <!-- This is where values will be inserted -->
+                </div>
+            </div>
+  
+            <div class="checkbox-container">
+                <h3>Operational Parameters</h3>
+                <table class="checkbox-table">
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox" name="question1"></td>
+                            <td>Coal Mill Fineness (+) 50 mesh less than 0.2%</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="question2"></td>
+                            <td>Coal Mill DPT Result normal</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="question3"></td>
+                            <td>Coal Mill preventive maintenance more than 20 days</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="question4"></td>
+                            <td>O2 at APH O/L less than Design O2 at APH O/L</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="question5"></td>
+                            <td>SADC properly operative</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="question6"></td>
+                            <td>Difference in FG temp. between Left and Right zones at RH and SH zones more than 50 deg.C</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="question7"></td>
+                            <td>Corrected APH O/L FG temp greater than 25 deg. + Design temp at APH O/L</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="question8"></td>
+                            <td>Overhaul conducted more than 1.5 years</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    <div class="right-container" id="resultsContainer"></div>
+
+    <div id="coalPropertiesModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Coal Properties</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div id="coalPropertiesContent"></div>
+        </div>
+    </div>  
+
+    <script>
+
+        function addBlend() {
+            const MAX_COALS = 5;
+            const currentCoals = document.querySelectorAll('.blend').length;
+        
+            if (currentCoals >= MAX_COALS) {
+                alert("You can only add up to 5 coal types.");
+                return;
+            }
+        
+            const index = currentCoals;
+            const blendDiv = document.createElement("div");
+            blendDiv.className = "blend";
+            blendDiv.innerHTML = `
+                <label for="coal${index}">Coal:</label>
+                <select name="coal${index}" id="coal${index}">
+                    <option value="">Select Coal Type</option>
+                </select>
+                <input type="number" id="currentrange${index}" placeholder="Current Range (%)">
+                <button type="button" class="remove-blend-btn" onclick="removeBlend(this)">X</button>
+                <button type="button" class="properties-btn" onclick="fetchCoalProperties(${index})">Properties</button>
+                <div id="properties${index}"></div>
+            `;
+        
+            const currentRangeInput = blendDiv.querySelector(`#currentrange${index}`);
+            currentRangeInput.addEventListener("input", updateTotalRange);
+        
+            const blendRow = document.querySelector(".blend-row");
+        
+            // Append the new blendDiv to the blendRow
+            blendRow.appendChild(blendDiv); // This will add it to the end
+        
+            populateDropdown(blendDiv.querySelector(`#coal${index}`));
+            updateTotalRange();
+        }
+
+        function updateTotalRange() {
+            totalCurrentRange = 0;
+            const ranges = document.querySelectorAll('input[id^="currentrange"]');
+            ranges.forEach(range => {
+                const rangeValue = parseFloat(range.value) || 0;
+                totalCurrentRange += rangeValue;
+            });
+            document.getElementById("totalRange").textContent = totalCurrentRange;
+        }
+
+        function openBlendModal() {
+            document.getElementById("blendPropertiesModal").style.display = "block";
+        }
+    
+        function closeBlendModal() {
+            document.getElementById("blendPropertiesModal").style.display = "none";
+        }
+
+        function calculateWeightedAverage() {
+            const rightContainerDiv = document.querySelector("#resultsContainer");
+            let blendValuesDiv = document.getElementById("blendValues");
+            
+
+            if (!rightContainerDiv) {
+                console.error("Element #resultsContainer not found.");
+                return;
+            }
+            if (!blendValuesDiv) {
+                console.error("Element #blendValues not found.");
+                return;
+            }
+
+            let totalPercentage = 0;
+            let propertySums = {
+                "SiO2": 0, "Al2O3": 0, "Fe2O3": 0, "CaO": 0, "MgO": 0, 
+                "Na2O": 0, "K2O": 0, "TiO2": 0, "SO3": 0, "P2O5": 0,
+                "Sulphur (S)":0, "MN3O4":0,"Initial Deformation Temp.":0,"Softening/ Spherical Temp.": 0,"Hemispherical Temp.": 0,"Fluid Temp.":0
+
+            };
+        
+            const blends = document.querySelectorAll('.blend');
+        
+            blends.forEach((blend, index) => {
+                const selectedCoal = document.querySelector(`#coal${index}`).value;
+                const currentRange = parseFloat(document.querySelector(`#currentrange${index}`).value) || 0;
+        
+                if (!selectedCoal || currentRange <= 0) return;
+        
+                const coalInfo = window.coalData.find(coal => coal.coalType === selectedCoal);
+                if (!coalInfo) return;
+        
+                totalPercentage += currentRange;
+        
+                for (let prop in propertySums) {
+                    const propValue = parseFloat(coalInfo.properties[prop]) || 0;
+                    propertySums[prop] += propValue * currentRange;
+                }
+            });
+         
+            blendValuesDiv.innerHTML = ""; 
+        
+            if (totalPercentage > 0) {
+                let propertiesHTML = "<h4>Blended Coal Properties:</h4><ul>";
+                for (let prop in propertySums) {
+                    let avgValue = propertySums[prop] / totalPercentage;
+                    propertiesHTML += `<li><strong>${prop}:</strong> ${avgValue.toFixed(2)}</li>`;
+                }
+                propertiesHTML += "</ul>"; 
+        
+                blendValuesDiv.innerHTML = propertiesHTML;
+            rightContainerDiv.innerHTML = "";
+        
+            if (totalPercentage > 0) {
+                // Compute weighted averages
+                let SIO = propertySums["SiO2"] / totalPercentage;
+                let ALO = propertySums["Al2O3"] / totalPercentage;
+                let FEO = propertySums["Fe2O3"] / totalPercentage;
+                let CAO = propertySums["CaO"] / totalPercentage;
+                let MGO = propertySums["MgO"] / totalPercentage;
+                let NAO = propertySums["Na2O"] / totalPercentage;
+                let KO = propertySums["K2O"] / totalPercentage;
+                let TIO = propertySums["TiO2"] / totalPercentage;
+                let SO = propertySums["SO3"] / totalPercentage;
+                let PO = propertySums["P2O5"] / totalPercentage;
+                let S = propertySums["Sulphur (S)"]/totalPercentage;
+                let MNO = propertySums["MN3O4"]/totalPercentage;
+                let IDT = propertySums["Initial Deformation Temp."]/totalPercentage;
+                let ST = propertySums["Softening/ Spherical Temp."]/totalPercentage;
+                let HT = propertySums["Hemispherical Temp."]/totalPercentage;
+                let FT = propertySums["Fluid Temp."]/totalPercentage;
+        
+                // Calculate test values using formulas
+                const T250 = Math.sqrt(
+                    ((((0.00835 * SIO) + (0.00601 * ALO) - 0.109) * 10**7) /
+                    (2.398 - ((0.0415 * SIO) + (0.0192 * ALO) +
+                    (0.276 * FEO) + (0.016 * CAO) - 3.92)))) + 150;
+
+                let T250S;
+                if (T250 > 1275) T250S = 0;
+                else if (T250 < 1200) T250S = 1;
+                else T250S = 0.5;
+                
+                // Base/Acid Ratio test value
+                const BART = (FEO + CAO + MGO + NAO + KO) / (SIO + ALO + TIO);
+
+                // Base/Acid Ratio score
+                let BARS;
+                if (BART < 0.5) BARS = 0;
+                else if (BART > 1) BARS = 1;
+                else BARS = 0.5;
+                
+                // Slagging Factor test value
+                const SF = BART * S;
+
+                // Slagging Factor score
+                let SFS;
+                if (SF < 0.6) SFS = 0;
+                else if (SF > 1) SFS = 1;
+                else SFS = 0.5;
+
+                // Slagging Index test value
+                const SIT = (HT + 4 * IDT) / 5;
+
+                // Slagging Index score
+                let SIS;
+                if (SIT > 1343) SIS = 0;
+                else if (SIT < 1149) SIS = 1;
+                else SIS = 0.5;
+
+
+                // Silica % test value
+                const SPT = SIO * 100 / (SIO + FEO + CAO + MGO);
+                
+
+                // Silica % score
+                let SPS;
+                if (SPT > 82) SPS = 0;
+                else if (SPT < 30) SPS = 1;
+                else SPS = 0.5;
+                
+
+                // Iron Calcium ratio test value
+                const ICRT = FEO / CAO;
+                
+
+                // Iron Calcium ratio score
+                let ICRS;
+                if (ICRT < 0.31) ICRS = 0;
+                else if (ICRT > 3) ICRS = 1;
+                else ICRS = 0.5;
+
+                // Iron plus Calcium test value
+                const IPCT = FEO + CAO;
+
+                // Iron plus Calcium score
+                const IPCS = IPCT < 12 ? 0 : 1;
+
+                // Fuel Slagging Potential
+                const FSP = Number(T250S) + Number(BARS) + Number(SFS) + Number(SIS) + Number(SPS) + Number(ICRS) + Number(IPCS);
+                let FSPD;
+                if (FSP < 1) FSPD = "Low";
+                else if (FSP > 2) FSPD = "High";
+                else FSPD = "Moderate";
+                
+                //FOULING
+                
+                // Sodium in Ash test value
+                const SIAT = NAO * (46 / 62);
+
+                // Sodium in Ash score
+                let SIAS;
+                if (SIAT < 1) SIAS = 0;
+                else if (SIAT > 5) SIAS = 1;
+                else SIAS = 0.5;
+                
+                // Total Alkali test value
+                const TAT = (FEO + CAO + MGO + NAO + KO + MNO + SO + PO);
+                
+                // Total Alkali score
+                const TAS = TAT < 2 ? 0 : 1;
+
+                // Fouling factor test value
+                const FFT = BART * SIAT;
+                
+
+                // Fouling factor score
+                let FFS;
+                if (FFT < 0.1) FFS = 0;
+                else if (FFT > 0.5) FFS = 1;
+                else FFS = 0.5;
+                
+
+                // Fuel fouling factor total score
+                const FFFTS = Number(SIAS) + Number(TAS) + Number(FFS);
+                
+
+                // Fuel fouling factor total display
+                let FFFD;
+                if (FFFTS < 1) FFFD = "Low";
+                else if (FFFTS > 2) FFFD = "High";
+                else FFFD = "Moderate";
+                  
+            let FoulingHTML = `
+                    <table>
+                        <thead>  <tr>
+                                    <th colspan="3">Slagging Potential (Results in to Clinker Formation)</th> </tr>
+                                <tr>
+                                    <th>Slagging Indices</th>
+                                    <th>Test Coal</th>
+                                    <th>Aggregate Scores</th>
+                                </tr>
+                            </thead>
+                        <tr>
+                            <td>T250</td>
+                            <td>${T250.toFixed(2)}</td>
+                            <td>${T250S}</td>
+                        </tr>
+                        <tr>
+                            <td>Base/Acid Ratio (BART)</td>
+                            <td>${BART.toFixed(2)}</td>
+                            <td>${BARS}</td>
+                        </tr>
+                        <tr>
+                            <td>Slagging Factor ((B/A ratio * S in coal))</td>
+                            <td>${SF.toFixed(2)}</td>
+                            <td>${SFS}</td>
+                        </tr>
+                        <tr>
+                            <td>Slagging Index Test</td>
+                            <td>${SIT.toFixed(2)}</td>
+                            <td>${SIS}</td>
+                        </tr>
+                        <tr>
+                            <td>Silica % Test</td>
+                            <td>${SPT.toFixed(2)}</td>
+                            <td>${SPS}</td>
+                        </tr>
+                        <tr>
+                            <td>Iron Calcium Ratio Test</td>
+                            <td>${ICRT.toFixed(2)}</td>
+                            <td>${ICRS}</td>
+                        </tr>
+                        <tr>
+                            <td>Iron + Calcium </td>
+                            <td>${IPCT.toFixed(2)}</td>
+                            <td>${IPCS}</td>
+                        </tr>
+                    </table>`;
+
+                
+
+                let FoulingHTML2 = `<table>
+                    <thead>
+                        <tr><th colspan="3">Fouling Potential (Requires increased soot blowing)</th></tr>
+                        <tr>
+                            <th>Fouling Indices</th>
+                            <th>Test Coal</th>
+                            <th>Aggregate Scores</th>
+                        </tr>
+                    </thead>
+                    <tr><td>Sodium in Ash</td><td>${SIAT.toFixed(2)}</td><td>${SIAS}</td></tr>
+                    <tr><td>Alkali Test</td><td>${TAT.toFixed(2)}</td><td>${TAS}</td></tr>
+                    <tr><td>Fouling Factor (B/A*Na)</td><td>${FFT.toFixed(2)}</td><td>${FFS}</td></tr>
+                </table>`;
+
+                rightContainerDiv.innerHTML = "";
+                
+                const fspGraphContainer = createGraph(FSP);
+                const fspDisplay = document.createElement("div");
+                fspDisplay.textContent = `Slagging Potential : ${FSP.toFixed(1)} (${FSPD})`;
+                rightContainerDiv.appendChild(fspDisplay);
+                rightContainerDiv.appendChild(fspGraphContainer);
+                let fspTableVisible = false;  // Track table visibility
+                let fspTableElement; // Store the table element
+
+                fspGraphContainer.addEventListener("click", () => {
+                    fspTableVisible = !fspTableVisible; // Toggle visibility
+
+                    if (fspTableVisible) {
+                        if (!fspTableElement) { // Create table only once
+                            fspTableElement = document.createElement('div');
+                            fspTableElement.innerHTML = FoulingHTML;
+                        }
+                        rightContainerDiv.insertBefore(fspTableElement, fspGraphContainer.nextSibling); // Insert below graph
+                    } else {
+                        if (fspTableElement && fspTableElement.parentNode) {
+                            fspTableElement.parentNode.removeChild(fspTableElement); // Remove table
+                        }
+                    }
+                });
+
+                const ffftsGraphContainer = createGraph(FFFTS);
+                const ffftsDisplay = document.createElement("div");
+                ffftsDisplay.textContent = `Fouling Potential: ${FFFTS.toFixed(1)} (${FFFD})`;
+                rightContainerDiv.appendChild(ffftsDisplay);
+                rightContainerDiv.appendChild(ffftsGraphContainer);
+                let ffftsTableVisible = false; 
+                let ffftsTableElement; 
+                
+                ffftsGraphContainer.addEventListener("click", () => {
+                    ffftsTableVisible = !ffftsTableVisible; 
+                
+                    if (ffftsTableVisible) {
+                        if (!ffftsTableElement) { 
+                            ffftsTableElement = document.createElement('div');
+                            ffftsTableElement.innerHTML = FoulingHTML2;
+                        }
+                        rightContainerDiv.insertBefore(ffftsTableElement, ffftsGraphContainer.nextSibling); 
+                    } else {
+                         if (ffftsTableElement && ffftsTableElement.parentNode) {
+                            ffftsTableElement.parentNode.removeChild(ffftsTableElement); 
+                        }
+                    }
+                });
+                
+                function createGraph(value) {
+                    const graphContainer = document.createElement("div");
+                    graphContainer.style.width = "550px";
+                    graphContainer.style.height = "32px";
+                    graphContainer.style.border = "1px solid black";
+                    graphContainer.style.borderRadius = "12px";
+                    graphContainer.style.position = "relative";
+                    graphContainer.style.marginBottom = "30px";
+                    
+                
+                    const bar = document.createElement("div");
+                    bar.style.height = "100%";
+                    bar.style.width = `${(value / 4) * 100}%`;
+                    bar.style.borderRadius = "12px";
+                    bar.style.backgroundColor = value < 1 ? "green" : value > 2 ? "red" : "yellow";
+                    graphContainer.appendChild(bar);
+                
+                    for (let i = 0; i <= 4; i++) {
+                        const tick = document.createElement("div");
+                        tick.style.position = "absolute";
+                        tick.style.left = `${(i / 4) * 100}%`;
+                        tick.style.top = "50%";
+                        tick.style.transform = "translateY(-50%)";
+                        tick.style.height = "10px";
+                        tick.style.width = "1px";
+                        tick.style.backgroundColor = "black";
+                
+                        const label = document.createElement("span");
+                        label.style.position = "absolute";
+                        label.style.left = `${(i / 4) * 100}%`;
+                        label.style.top = "100%";
+                        label.style.transform = "translateX(-50%)";
+                        label.textContent = i;
+                
+                        graphContainer.appendChild(tick);
+                        graphContainer.appendChild(label);
+                    }
+                    return graphContainer;
+                }           
+
+                document.getElementById("resultsContainer").style.display = "flex";
+                document.getElementById("blendValues").style.display = "flex";
+                document.getElementById("blendPropertiesBtn").style.display = "block";
+            } 
+        }
+    }
+            
+        
+        function removeBlend(button) {
+            button.parentElement.remove(); 
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/get_coal_types')
+                .then(response => response.json())
+                .then(data => {
+                    window.coalData = data.coal_data; // Store the fetched data globally
+                    window.headers = data.coal_data.map(item => item.coalType); // Extract coal types for dropdown
+                    addBlend();
+                })
+                .catch(error => console.error('Error fetching coal types:', error));
+        });
+
+
+        function populateDropdown(selectElement) {
+            const dropdownOptions = window.headers.map(header => `<option value="${header}">${header}</option>`).join('');
+            selectElement.innerHTML = `<option value="">Select Coal Type</option>${dropdownOptions}`;
+        }
+        
+        
+        function fetchCoalProperties(index) {
+            const selectedCoal = document.querySelector(`#coal${index}`).value;
+    
+            if (!selectedCoal) {
+                alert("Please select a coal type first.");
+                return;
+            }
+    
+            const coalInfo = window.coalData.find(coal => coal.coalType === selectedCoal);
+            if (!coalInfo) {
+                alert("Coal properties not found.");
+                return;
+            }
+    
+            let propertiesHTML = "";
+            for (const [key, value] of Object.entries(coalInfo.properties)) {
+                propertiesHTML += `<p><strong>${key}:</strong> ${value}</p>`;
+            }
+    
+            document.getElementById("coalPropertiesContent").innerHTML = propertiesHTML;
+            document.getElementById("coalPropertiesModal").style.display = "block";
+        }
+    
+        function closeModal() {
+            document.getElementById("coalPropertiesModal").style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById("coalPropertiesModal");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        };        
+
+
+
+    </script>
+</body>
+</html>

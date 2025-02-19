@@ -187,6 +187,25 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const slider = document.getElementById('rangeInput');
+
+            slider.addEventListener('input', (event) => {
+                
+                const tableRows = document.querySelectorAll('#analysisBody tr');
+                const sliderValue = event.target.value;
+
+                    const secondRow = tableRows[1];
+
+                    const valueCell = secondRow.querySelector('td:nth-child(2)');
+                    valueCell.textContent = sliderValue;
+
+                    if (actualNormativeGraph) {
+                        actualNormativeGraph.data.datasets[0].data[1] = sliderValue; 
+                        actualNormativeGraph.update(); 
+                    }
+
+            });
+
             const storedData = localStorage.getItem('insightData');
             const reportData = JSON.parse(localStorage.getItem('reportData'));
 
@@ -370,42 +389,16 @@
             });
         }
 
+        let actualNormativeGraph;
+
         function populateGraphs(data) {
             console.log(data);
             const ctx = document.getElementById(`chart1`).getContext('2d');
 
             data.forEach(item => {
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: item.graphLegend1,
-                        datasets: [{
-                            label: 'AVF ',
-                            data: item.graphValues1,
-                            backgroundColor: ['#F70000', '#70AD47', '#F70000'],
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        },
-                        responsive: true,
-                        scales: {
-                            x: {
-                                beginAtZero: true
-                            },
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-                if (item.parameter !== "Transit Loss") {
-                    new Chart(ctx1, {
-                        type: 'pie',
+                if (item.parameter === "Availability Factor") {
+                    actualNormativeGraph = new Chart(ctx, {
+                        type: 'bar',
                         data: {
                             labels: ['Fixed cost recovered', 'Fixed cost disallowance'],
                             datasets: [{
