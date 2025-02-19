@@ -148,8 +148,12 @@
                     const secondRow = tableRows[1];
 
                     const valueCell = secondRow.querySelector('td:nth-child(2)');
-                    console.log(valueCell)
                     valueCell.textContent = sliderValue;
+
+                    if (actualNormativeGraph) {
+                        actualNormativeGraph.data.datasets[0].data[1] = sliderValue; 
+                        actualNormativeGraph.update(); 
+                    }
 
             });
 
@@ -294,13 +298,15 @@
             });
         }
 
+        let actualNormativeGraph;
+
         function populateGraphs(data) {
             console.log(data);
             const ctx = document.getElementById(`chart1`).getContext('2d');
 
             data.forEach(item => {
                 if (item.parameter === "Availability Factor") {
-                    new Chart(ctx, {
+                    actualNormativeGraph = new Chart(ctx, {
                         type: 'bar',
                         data: {
                             labels: ['Avg AVF achieved', 'AVF achieved in HDS', 'AVF achieved in LDS'],
