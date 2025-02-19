@@ -11,11 +11,9 @@
 
 <body class="bg-gray-100">
     <div x-data="{ isSidebarOpen: false }" class="max-h-screen flex flex-col ">
-        <nav class="sticky top-0 left-0 w-full z-50 bg-white">
+        <nav class="sticky top-0 left-0 w-full z-50 bg-white justify-center">
             <div class="mb-4 flex w-full h-5">
-                <img src="images/abhitech-mahagenco-combined-logo.png" alt="Logo" class="h-9 w-auto">
-            </div>
-            <div class="flex border border-gray-300 w-full h-10">
+
                 <button @click="isSidebarOpen = !isSidebarOpen" class="p-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="h-6 w-6">
@@ -23,83 +21,104 @@
                             d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
                 </button>
+                <img src="images/abhitech-mahagenco-combined-logo.png" alt="Logo" class="h-9 w-auto">
+
+                <div x-data="{ isProfileOpen: false }" class="flex-grow flex justify-end">
+                    <div class=" p-2 flex justify-center items-center">
+                        <span class="text-center mt-4">Welcome User</span>
+                    </div>
+                    <button @click="isProfileOpen = !isProfileOpen"
+                        class="p-1 rounded-full   focus:outline-none focus:ring">
+                        <img src="./images/userprofile.svg" alt="Profile" class="h-8 w-8 rounded-full">
+                    </button>
+                    <div x-show="isProfileOpen" @click.outside="isProfileOpen = false"
+                        class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg overflow-hidden z-50">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                        <a href="./login.html"
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                    </div>
+                </div>
+
             </div>
         </nav>
 
         <div class="flex ">
             <!-- Sidebar with open/close transition -->
-            <div x-show="isSidebarOpen" 
-     x-transition:enter="transition transform ease-out duration-300"
-     x-transition:enter-start="-translate-x-full" 
-     x-transition:enter-end="translate-x-0"
-     x-transition:leave="transition transform ease-in duration-300" 
-     x-transition:leave-start="translate-x-0"
-     x-transition:leave-end="-translate-x-full" 
-     class="bg-white h-screen  relative shadow-lg">
+            <div x-show="isSidebarOpen" x-transition:enter="transition transform ease-out duration-300"
+                x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
+                x-transition:leave="transition transform ease-in duration-300" x-transition:leave-start="translate-x-0"
+                x-transition:leave-end="-translate-x-full" class="bg-white h-screen  relative shadow-lg">
 
-     <div class="h-full flex flex-col justify-start items-start py-6 px-4 overflow-y-auto bg-white dark:bg-gray-900 shadow-lg">
-        <a href="./regParams.html"
-           class="flex items-center w-full p-3 mb-2 text-gray-800 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 group">
-            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-green-600 dark:group-hover:text-green-400"
-                 xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
-                <path
-                    d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
-                <path
-                    d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
-            </svg>
-            <span class="ml-4 font-medium group-hover:text-green-600 dark:group-hover:text-green-400">Regulatory Parameters</span>
-        </a>
+                <div
+                    class="h-full flex flex-col justify-start items-start py-6 px-4 overflow-y-auto bg-white dark:bg-gray-900 shadow-lg">
+                    <a href="./regParams.html"
+                        class="flex items-center w-full p-3 mb-2 text-gray-800 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 group">
+                        <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-green-600 dark:group-hover:text-green-400"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
+                            <path
+                                d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
+                            <path
+                                d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
+                        </svg>
+                        <span
+                            class="ml-4 font-medium group-hover:text-green-600 dark:group-hover:text-green-400">Regulatory
+                            Parameters</span>
+                    </a>
 
-        <hr class="w-full my-2 border-gray-300 dark:border-gray-700">
-        <a href="./ai.html"
-           class="flex items-center w-full p-3 text-gray-800 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 group">
-            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"
-                 xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z" />
-                <path
-                    d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z" />
-                <path
-                    d="M8.961 16a.93.93 0 0 0 .189-.019l3.4-.679a.961.961 0 0 0 .49-.263l6.118-6.117a2.884 2.884 0 0 0-4.079-4.078l-6.117 6.117a.96.96 0 0 0-.263.491l-.679 3.4A.961.961 0 0 0 8.961 16Zm7.477-9.8a.958.958 0 0 1 .68-.281.961.961 0 0 1 .682 1.644l-.315.315-1.36-1.36.313-.318Zm-5.911 5.911 4.236-4.236 1.359 1.359-4.236 4.237-1.7.339.341-1.699Z" />
-            </svg>
-            <span class="ml-4 font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400">AI Modal</span> 
-        </a>
-        <hr class="w-full my-2 border-gray-300 dark:border-gray-700">
-        <a href="./slagging.html"
-           class="flex items-center w-full p-3 text-gray-800 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 group">
-            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"
-                 xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z" />
-                <path
-                    d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z" />
-                <path
-                    d="M8.961 16a.93.93 0 0 0 .189-.019l3.4-.679a.961.961 0 0 0 .49-.263l6.118-6.117a2.884 2.884 0 0 0-4.079-4.078l-6.117 6.117a.96.96 0 0 0-.263.491l-.679 3.4A.961.961 0 0 0 8.961 16Zm7.477-9.8a.958.958 0 0 1 .68-.281.961.961 0 0 1 .682 1.644l-.315.315-1.36-1.36.313-.318Zm-5.911 5.911 4.236-4.236 1.359 1.359-4.236 4.237-1.7.339.341-1.699Z" />
-            </svg>
-            <span class="ml-4 font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400">Slagging And Fouling Predictor</span> 
-        </a>
-        <hr class="w-full my-2 border-gray-300 dark:border-gray-700">
-        <a href="./login.html"
-           class="flex items-center w-full p-3 mb-2 text-gray-800 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 group">
-            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-red-600 dark:group-hover:text-red-400"
-                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3" />
-            </svg>
-            <span class="ml-4 font-medium group-hover:text-red-600 dark:group-hover:text-red-400">Sign out</span>
-        </a>
-        <hr class="w-full my-2 border-gray-300 dark:border-gray-700">
-        
-    </div>
-    
+                    <hr class="w-full my-2 border-gray-300 dark:border-gray-700">
+                    <a href="./ai.html"
+                        class="flex items-center w-full p-3 text-gray-800 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 group">
+                        <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z" />
+                            <path
+                                d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z" />
+                            <path
+                                d="M8.961 16a.93.93 0 0 0 .189-.019l3.4-.679a.961.961 0 0 0 .49-.263l6.118-6.117a2.884 2.884 0 0 0-4.079-4.078l-6.117 6.117a.96.96 0 0 0-.263.491l-.679 3.4A.961.961 0 0 0 8.961 16Zm7.477-9.8a.958.958 0 0 1 .68-.281.961.961 0 0 1 .682 1.644l-.315.315-1.36-1.36.313-.318Zm-5.911 5.911 4.236-4.236 1.359 1.359-4.236 4.237-1.7.339.341-1.699Z" />
+                        </svg>
+                        <span class="ml-4 font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400">AI
+                            Modal</span>
+                    </a>
+                    <hr class="w-full my-2 border-gray-300 dark:border-gray-700">
+                    <a href="./slagging.html"
+                        class="flex items-center w-full p-3 text-gray-800 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 group">
+                        <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z" />
+                            <path
+                                d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z" />
+                            <path
+                                d="M8.961 16a.93.93 0 0 0 .189-.019l3.4-.679a.961.961 0 0 0 .49-.263l6.118-6.117a2.884 2.884 0 0 0-4.079-4.078l-6.117 6.117a.96.96 0 0 0-.263.491l-.679 3.4A.961.961 0 0 0 8.961 16Zm7.477-9.8a.958.958 0 0 1 .68-.281.961.961 0 0 1 .682 1.644l-.315.315-1.36-1.36.313-.318Zm-5.911 5.911 4.236-4.236 1.359 1.359-4.236 4.237-1.7.339.341-1.699Z" />
+                        </svg>
+                        <span class="ml-4 font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400">Slagging
+                            And Fouling Predictor</span>
+                    </a>
+                    <hr class="w-full my-2 border-gray-300 dark:border-gray-700">
+                    <a href="./login.html"
+                        class="flex items-center w-full p-3 mb-2 text-gray-800 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 group">
+                        <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-red-600 dark:group-hover:text-red-400"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3" />
+                        </svg>
+                        <span class="ml-4 font-medium group-hover:text-red-600 dark:group-hover:text-red-400">Sign
+                            out</span>
+                    </a>
+                    <hr class="w-full my-2 border-gray-300 dark:border-gray-700">
 
-</div>
+                </div>
+
+
+            </div>
 
             <!-- Main content that shifts when sidebar is open -->
             <main :class="{'ml-0': !isSidebarOpen, 'ml-34 transition-all duration-300 ease-in-out': isSidebarOpen}"
                 class="content flex-1 items-center justify-center overflow-y-auto h-[calc(100vh-4rem)] p-6 bg-gray-600">
 
-                <div class="flex justify-between p-4 px-2 pb-3 pt-0">
+                <div class="flex justify-between p-4 px-4 pb-3 pt-0">
+                    <span class="text-white text-lg text-bold font-medium text-left">Slagging and Fouling Predictor</span>
                     <span></span>
-                    <span class="text-white text-lg text-bold font-medium">Slagging and Fouling Predictor</span>
                     <button onclick="window.location.href='selection.html'" class="hover:text-blue-600 transition ">
                         <img src="images/back.svg" alt="Back" class="h-5 w-5">
                     </button>
@@ -107,11 +126,12 @@
 
                 <!-- Main content goes here -->
                 <div class="sticky flex w-full  max-w-7xl mx-auto">
-                    <section class="w-full bg-gray-200 p-6  rounded-lg shadow-lg">
+                    <section style="height: 80vh;" class="w-full bg-gray-200 p-6 overflow-y-auto  shadow-lg">
                         <div class="flex items-center justify-between">
                             <div @click="openSection = openSection === 'regulations' ? '' : 'regulations'"
                                 class="bg-gray-100 p-3 rounded-lg">
-                                <em id="regulations" class="text-medium text-gray-800">Press (Ctrl. + S) to auto-fill all input fields </em>
+                                <em id="regulations" class="text-medium text-gray-800">Press (Ctrl. + S) to auto-fill
+                                    all input fields </em>
                             </div>
                             <div class="flex justify-end">
                                 <input type="file" id="excelUpload" class="hidden" accept=".xlsx, .xls"
@@ -135,7 +155,7 @@
                         <form id="formInput" x-data="{ openSection: 'regulations' } ">
 
                             <div class="mt-3">
-                                <div x-show="openSection === 'regulations'" class="grid grid-cols-3 gap-6 mb-6">
+                                <div x-show="openSection === 'regulations'" class="grid grid-cols-4 gap-6 mb-6">
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700">SiO2 (%)</label>
                                         <input type="number" name="SIO" step="0.0001"
@@ -239,167 +259,253 @@
                                 </div>
 
                                 <div id="slaggingPotential" style="display: none;"
-                                    class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
-                                    <h2
-                                        class="text-lg text-center font-bold text-gray-700 uppercase bg-blue-300 dark:text-gray-400 mb-4">
-                                        Slagging Potential (Results in to Clinker Formation)
+                                    class="col-span-1 p-4 pt-2 rounded-lg shadow-lg bg-white h-50 flex flex-col justify-center">
+                                    <h2 id="dynamicSlagginPtentialText" class="text-md text-center font-medium">
                                     </h2>
-                                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                    <table
+                                        class="mt-1 w-full border-collapse border border-gray-300 shadow-md rounded-md">
                                         <thead
                                             class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                            <tr>
-                                                <th scope="col" class="px-4 py-3">Slagging Indices</th>
-                                                <th scope="col" class="px-4 py-3">Test Coal</th>
-                                                <th scope="col" class="px-4 py-3">Aggregrate Score</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="odd:bg-white even:bg-gray-50 border-b">
-                                                <th scope="row" class="px-4 py-2 font-medium text-gray-900">T250
-                                                    Temperature</th>
-                                                <td class="px-4 py-2">1484</td>
-                                                <td class="px-4 py-2">0</td>
-                                            </tr>
-                                            <tr class="odd:bg-white even:bg-gray-50 border-b">
-                                                <th scope="row" class="px-4 py-2 font-medium text-gray-900">Base/Acid
-                                                    Ratio</th>
-                                                <td class="px-4 py-2">0.33</td>
-                                                <td class="px-4 py-2">0</td>
-                                            </tr>
-                                            <tr class="odd:bg-white even:bg-gray-50 border-b">
-                                                <th scope="row" class="px-4 py-2 font-medium text-gray-900">Slagging
-                                                    Factor (B/A ratio * S in coal)</th>
-                                                <td class="px-4 py-2">0.29</td>
-                                                <td class="px-4 py-2">0</td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="3" class="px-3 py-2 text-lg text-center font-bold text-gray-700 uppercase bg-gray-100 dark:text-gray-400">
-                                                  <div class="text-sm font-semibold text-gray-700 mb-3">Fuel Slagging Potential</div>
-                                                  
-                                                  <div class="relative w-3/4 mx-auto h-6 bg-gray-300 rounded-full">
-                                                    <div class="absolute left-0 text-xs text-gray-600 -top-6">1</div>
-                                                    <div class="absolute left-1/3 text-xs text-gray-600 -top-6">2</div>
-                                                    <div class="absolute left-2/3 text-xs text-gray-600 -top-6">3</div>
-                                                    <div class="absolute right-0 text-xs text-gray-600 -top-6">4</div>
-                                              
-                                                    <div class="absolute top-0 left-0 h-full bg-blue-500 rounded-full" style="width: 62.5%;"></div>
-                                              
-                                                    <div
-                                                      class="absolute top-0 h-6 w-1 bg-red-500 rounded"
-                                                      style="left: 62.5%; transform: translateX(-50%);"
-                                                      title="2.5 - High"
-                                                    ></div>
-                                              
-                                                    <div
-                                                      class="absolute top-1/2 left-1/2 text-sm font-semibold text-white transform -translate-x-1/2 -translate-y-1/2"
-                                                      style="left: 62.5%;"
-                                                    >
-                                                      2.5 - High
-                                                    </div>
-                                                  </div>
-                                                </td>
-                                              </tr>
-                                              
-                                        </tbody>
-                                    </table>
-                                </div>
-<<<<<<< Updated upstream
-    
-    
-                                <div id="foulingPotential" style="display: none;" class="mt-10 relative overflow-x-auto shadow-md sm:rounded-lg">
-                                    <h2 class="py-2 text-lg text-center font-bold text-gray-700 uppercase bg-blue-300 dark:text-gray-400">
-                                        Fouling Potential (Requires increased soot blowing)					
-                                    </h2>
-                                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-<<<<<<< HEAD
-=======
-
-                                <!-- Fouling Potential Table -->
-                                <div id="foulingPotential" style="display: none;"
-                                    class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
-                                    <h2
-                                        class="text-lg text-center font-bold text-gray-700 uppercase bg-blue-300 dark:text-gray-400 mb-4">
-                                        Fouling Potential (Requires increased soot blowing)
-                                    </h2>
-                                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
->>>>>>> Stashed changes
-=======
-                                        <colgroup>
-                                            <col style="width: 33%;">
-                                            <col style="width: 33%;">
-                                            <col style="width: 33%;">
-                                        </colgroup>
->>>>>>> 12b8ba2d6ae00e18f9932e6cfde6171292f81972
-                                        <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
-                                            <tr>
-                                                <th scope="col" class="px-4 py-3 bg-gray-50 dark:bg-gray-800">Fouling
+                                            <tr class="bg-gray-200">
+                                                <th scope="col" class="border border-gray-300 px-2 py-1 text-center">
+                                                    Slagging
                                                     Indices</th>
-                                                <th scope="col" class="px-4 py-3">Test Coal</th>
-                                                <th scope="col" class="px-4 py-3 bg-gray-50 dark:bg-gray-800">Aggregrate
+                                                <th scope="col" class="border border-gray-300 px-2 py-1 text-center">
+                                                    Test Coal
+                                                </th>
+                                                <th scope="col" class="border border-gray-300 px-2 py-1 text-center">
+                                                    Aggregrate
                                                     Score</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr class="border-b border-gray-200 dark:border-gray-700">
-                                              <th scope="row" class="px-4 py-2 font-medium text-gray-900 dark:text-white">Sodium in Ash</th>
-                                              <td class="px-4 py-2">3.6</td>
-                                              <td class="px-4 py-2">0.5</td>
+                                            <tr class="font-sans text-sm">
+                                                <td scope="row" class="border border-gray-300 px-2 py-1 text-center">
+                                                    T250
+                                                    Temperature</td>
+                                                <td class="border border-gray-300 px-2 py-1 text-center">1484</td>
+                                                <td id="a10" class="border border-gray-300 px-2 py-1 text-center">0</td>
                                             </tr>
-                                            <tr class="border-b border-gray-200 dark:border-gray-700">
-                                              <th scope="row" class="px-4 py-2 font-medium text-gray-900 dark:text-white">Total Alkali</th>
-                                              <td class="px-4 py-2">33.4</td>
-                                              <td class="px-4 py-2">1</td>
+                                            <tr class="font-sans text-sm">
+                                                <td scope="row" class="border border-gray-300 px-2 py-1 text-center">
+                                                    Base/Acid
+                                                    Ratio</td>
+                                                <td class="border border-gray-300 px-2 py-1 text-center">0.33</td>
+                                                <td id="a1" class="border border-gray-300 px-2 py-1 text-center">0</td>
                                             </tr>
-                                            <tr class="border-b border-gray-200 dark:border-gray-700">
-                                              <th scope="row" class="px-4 py-2 font-medium text-gray-900 dark:text-white">Fouling Factor (B/A*Na)</th>
-                                              <td class="px-4 py-2">1.18</td>
-                                              <td class="px-4 py-2">1</td>
+                                            <tr class="font-sans text-sm">
+                                                <td scope="row" class="border border-gray-300 px-2 py-1 text-center">
+                                                    Slagging
+                                                    Factor (B/A ratio * S in coal)</td>
+                                                <td class="border border-gray-300 px-2 py-1 text-center">0.29</td>
+                                                <td id="a2" class="border border-gray-300 px-2 py-1 text-center">0</td>
+                                            </tr>
+                                            <tr class="font-sans text-sm">
+                                                <td scope="row" class="border border-gray-300 px-2 py-1 text-center">
+                                                    Slagging Index
+                                                </td>
+                                                <td class="border border-gray-300 px-2 py-1 text-center">
+                                                    1356.40
+                                                </td>
+                                                <td id="a3" class="border border-gray-300 px-2 py-1 text-center">
+                                                    0
+                                                </td>
+                                            </tr>
+
+                                            <tr class="font-sans text-sm">
+                                                <td scope="row" class="border border-gray-300 px-2 py-1 text-center">
+                                                    Silica %
+                                                </td>
+                                                <td class="border border-gray-300 px-2 py-1 text-center">
+                                                    76.81
+                                                </td>
+                                                <td id="a4" class="border border-gray-300 px-2 py-1 text-center">
+                                                    0.5
+                                                </td>
+                                            </tr>
+                                            <tr class="font-sans text-sm">
+                                                <td scope="row" class="border border-gray-300 px-2 py-1 text-center">
+                                                    Iron Calculium Ratio
+                                                </td>
+                                                <td class="border border-gray-300 px-2 py-1 text-center">
+                                                    0.56
+                                                </td>
+                                                <td id="a5" class="border border-gray-300 px-2 py-1 text-center">
+                                                    0.5
+                                                </td>
+                                            </tr>
+                                            <tr class="font-sans text-sm">
+                                                <td scope="row" class="border border-gray-300 px-2 py-1 text-center">
+                                                    Iron plus Calculium
+                                                </td>
+                                                <td class="border border-gray-300 px-2 py-1 text-center">
+                                                    13
+                                                </td>
+                                                <td id="a6" class="border border-gray-300 px-2 py-1 text-center">
+                                                    1
+                                                </td>
                                             </tr>
                                             <tr>
-                                              <td colspan="3" class="px-3 py-2 text-lg text-center font-bold text-gray-700 uppercase bg-gray-100 dark:text-gray-400">
-                                                <!-- Header for the Scale -->
-                                                <div class="text-sm font-semibold text-gray-700 mb-3">Fuel Slagging Potential</div>
-                                                
-                                                <!-- Centered Scale Container -->
-                                                <div class="relative w-3/4 mx-auto h-6 bg-gray-300 rounded-full">
-                                                  <!-- Scale Labels (1, 2, 3, 4) -->
-                                                  <div class="absolute left-0 text-xs text-gray-600 -top-6">1</div>
-                                                  <div class="absolute left-1/3 text-xs text-gray-600 -top-6">2</div>
-                                                  <div class="absolute left-2/3 text-xs text-gray-600 -top-6">3</div>
-                                                  <div class="absolute right-0 text-xs text-gray-600 -top-6">4</div>
-                                          
-                                                  <!-- Scale Bar -->
-                                                  <div class="absolute top-0 left-0 h-full bg-blue-500 rounded-full" style="width: 62.5%;"></div>
-                                          
-                                                  <!-- Indicator -->
-                                                  <div
-                                                    class="absolute top-0 h-6 w-1 bg-red-500 rounded"
-                                                    style="left: 62.5%; transform: translateX(-50%);"
-                                                    title="2.5 - High"
-                                                  ></div>
-                                          
-                                                  <!-- Indicator Text -->
-                                                  <div
-                                                    class="absolute top-1/2 left-1/2 text-sm font-semibold text-white transform -translate-x-1/2 -translate-y-1/2"
-                                                    style="left: 62.5%;"
-                                                  >
-                                                    2.5 - High
-                                                  </div>
-                                                </div>
-                                              </td>
+                                                <td colspan="3"
+                                                    class="px-3 py-2 text-md text-center font-bold text-gray-700 uppercase bg-gray-100 dark:text-gray-400">
+                                                    <div class="text-sm font-semibold text-gray-700 mb-3">Fuel
+                                                        Slagging
+                                                        Potential</div>
+
+                                                    <div class="relative w-3/4 mx-auto h-4 bg-gray-300 rounded-full">
+                                                        <div class="absolute left-0 text-xs text-gray-600 -top-6">1
+                                                        </div>
+                                                        <div class="absolute left-1/3 text-xs text-gray-600 -top-6">
+                                                            2
+                                                        </div>
+                                                        <div class="absolute left-2/3 text-xs text-gray-600 -top-6">
+                                                            3
+                                                        </div>
+                                                        <div class="absolute right-0 text-xs text-gray-600 -top-6">4
+                                                        </div>
+
+                                                        <div id="progressBar1"
+                                                            class="absolute top-0 left-0 h-4 bg-blue-500 rounded-full"
+                                                            style="width: 62.5%;"></div>
+
+                                                        <div id="redIndicator1"
+                                                            class="absolute top-0 h-4 w-1 bg-red-500 rounded"
+                                                            style="left: 62.5%; transform: translateX(-50%);"
+                                                            title="2.5 - High"></div>
+
+                                                        <div id="indicatorLabel1"
+                                                            class="absolute top-1/2 h-4 left-1/2 text-xs font-semibold text-white transform -translate-x-1/2 -translate-y-1/2"
+                                                            style="left: 62.5%;">
+                                                            2.5 - High
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             </tr>
-                                          </tbody>
-                                          
+
+                                        </tbody>
                                     </table>
                                 </div>
+                                <div id="foulingPotential" style="display: none;"
+                                    class="col-span-1 p-4 pt-2 mt-5 rounded-lg shadow-lg bg-white h-50 flex flex-col justify-center">
+                                    <h2 class="text-md text-center font-medium">
+                                        Fouling Potential (Requires increased soot blowing)
+                                    </h2>
+                                    <table
+                                        class="mt-1 w-full border-collapse border border-gray-300 shadow-md rounded-md">
+                                        <div id="foulingPotential" style="display: none;"
+                                            class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
+                                            <h2
+                                                class="text-lg text-center font-bold text-gray-700 uppercase bg-blue-300 dark:text-gray-400 mb-4">
+                                                Fouling Potential (Requires increased soot blowing)
+                                            </h2>
+                                            <table
+                                                class="mt-1 w-full border-collapse border border-gray-300 shadow-md rounded-md">
+                                                <colgroup>
+                                                    <col style="width: 33%;">
+                                                    <col style="width: 33%;">
+                                                    <col style="width: 33%;">
+                                                </colgroup>
+                                                <thead
+                                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                                    <tr class="bg-gray-200">
+                                                        <th scope="col"
+                                                            class="border border-gray-300 px-2 py-1 text-center">
+                                                            Fouling
+                                                            Indices</th>
+                                                        <th scope="col"
+                                                            class="border border-gray-300 px-2 py-1 text-center">Test
+                                                            Coal</th>
+                                                        <th scope="col"
+                                                            class="border border-gray-300 px-2 py-1 text-center">
+                                                            Aggregrate
+                                                            Score</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="font-sans text-sm">
+                                                        <td scope="row"
+                                                            class="border border-gray-300 px-2 py-1 text-center">
+                                                            Sodium in Ash</td>
+                                                        <td class="border border-gray-300 px-2 py-1 text-center">3.6
+                                                        </td>
+                                                        <td id="a7"
+                                                            class="border border-gray-300 px-2 py-1 text-center">0.5
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="font-sans text-sm">
+                                                        <td scope="row"
+                                                            class="border border-gray-300 px-2 py-1 text-center">
+                                                            Total Alkali</td>
+                                                        <td class="border border-gray-300 px-2 py-1 text-center">33.4
+                                                        </td>
+                                                        <td id="a8"
+                                                            class="border border-gray-300 px-2 py-1 text-center">1</td>
+                                                    </tr>
+                                                    <tr class="font-sans text-sm">
+                                                        <td scope="row"
+                                                            class="border border-gray-300 px-2 py-1 text-center">
+                                                            Fouling Factor (B/A*Na)</td>
+                                                        <td class="border border-gray-300 px-2 py-1 text-center">1.18
+                                                        </td>
+                                                        <td id="a9"
+                                                            class="border border-gray-300 px-2 py-1 text-center">1</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3"
+                                                            class="px-3 py-2 text-md text-center font-bold text-gray-700 uppercase bg-gray-100 dark:text-gray-400">
+                                                            <!-- Header for the Scale -->
+                                                            <div class="text-sm font-semibold text-gray-700 mb-3">
+                                                                Fuel Slagging Potential</div>
 
-                                <!-- Submit Button -->
-                                <div class="flex pt-6 justify-end">
-                                    <button type="submit"
-                                        class="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg shadow-md transition-all duration-300">Generate
-                                        Report</button>
+                                                            <!-- Centered Scale Container -->
+                                                            <div
+                                                                class="relative w-3/4 mx-auto h-4 bg-gray-300 rounded-full">
+                                                                <!-- Scale Labels (1, 2, 3, 4) -->
+                                                                <div
+                                                                    class="absolute left-0 text-xs text-gray-600 -top-6">
+                                                                    1</div>
+                                                                <div
+                                                                    class="absolute left-1/3 text-xs text-gray-600 -top-6">
+                                                                    2</div>
+                                                                <div
+                                                                    class="absolute left-2/3 text-xs text-gray-600 -top-6">
+                                                                    3</div>
+                                                                <div
+                                                                    class="absolute right-0 text-xs text-gray-600 -top-6">
+                                                                    4</div>
+
+                                                                <!-- Scale Bar -->
+                                                                <div id="progressBar2"
+                                                                    class="absolute top-0 left-0 h-4 bg-blue-500 rounded-full"
+                                                                    style="width: 62.5%;"></div>
+
+                                                                <!-- Indicator -->
+                                                                <div id="redIndicator2"
+                                                                    class="absolute top-0 h-4 w-1 bg-red-500 rounded"
+                                                                    style="left: 62.5%; transform: translateX(-50%);"
+                                                                    title="2.5 - High"></div>
+
+                                                                <!-- Indicator Text -->
+                                                                <div id="indicatorLabel2"
+                                                                    class="absolute top-1/2 h-4 left-1/2 text-xs font-semibold text-white transform -translate-x-1/2 -translate-y-1/2"
+                                                                    style="left: 62.5%;">
+                                                                    2.5 - High
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+
+                                        <!-- Submit Button -->
+                                        <div class="flex pt-5 justify-end">
+                                            <button type="submit"
+                                                class="text-sm bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-lg shadow-md transition-all duration-300">Generate
+                                                Report</button>
+                                        </div>
                                 </div>
-                            </div>
                         </form>
                     </section>
                 </div>
@@ -412,10 +518,92 @@
             event.preventDefault();
             document.getElementById("slaggingPotential").style.display = "block";
             document.getElementById("foulingPotential").style.display = "block";
+
+            handleAggregate();
         });
     </script>
     <script>
+        function handleAggregate() {
+            const avg1 = parseInt(document.getElementById("a1").textContent);
+            const avg2 = parseInt(document.getElementById("a3").textContent);
+            const avg4 = parseInt(document.getElementById("a4").textContent);
+            const avg3 = parseInt(document.getElementById("a3").textContent);
+            const avg6 = parseInt(document.getElementById("a6").textContent);
+            const avg5 = parseInt(document.getElementById("a5").textContent);
+            const avg7 = parseInt(document.getElementById("a7").textContent);
+            const avg8 = parseInt(document.getElementById("a8").textContent);
+            const avg9 = parseInt(document.getElementById("a9").textContent);
+            const avg10 = parseInt(document.getElementById("a10").textContent);
+            const average1 = ((avg1 + avg2 + avg3 + avg4 + avg5 + avg6 + avg10) / 7) + 1;
+            const average2 = ((avg7 + avg8 + avg9) / 3) + 1;
+            console.log(average1);
+            console.log(average2);
+            updateScale(average1, average2);
+        }
 
+        function updateScale(average1, average2) {
+            const percentage1 = ((average1 - 1) / 2) * 100;
+            const percentage2 = ((average2 - 1) / 2) * 100;
+
+            document.getElementById("progressBar1").style.width = percentage1 + "%";
+            document.getElementById("progressBar2").style.width = percentage2 + "%";
+            const redIndicator1 = document.getElementById("redIndicator1");
+            const redIndicator2 = document.getElementById("redIndicator2");
+            redIndicator1.style.left = percentage1 + "%";
+            redIndicator2.style.left = percentage2 + "%";
+            const indicatorLabel1 = document.getElementById("indicatorLabel1");
+            const indicatorLabel2 = document.getElementById("indicatorLabel2");
+            indicatorLabel1.style.left = percentage1 + "%";
+            indicatorLabel2.style.left = percentage2 + "%";
+            var dynamicTextElement = document.getElementById("dynamicSlagginPtentialText");
+            if (average1 < 1.5) {
+                indicatorLabel1.textContent = "Low";
+                dynamicTextElement.textContent = "Slagging Potential (Results in Low Clinker Formation)";
+                document.getElementById("progressBar1").style.backgroundColor = "green";
+                redIndicator1.style.backgroundColor = "green";
+            }
+            else if (average1 <= 2.5) {
+                indicatorLabel1.textContent = "Medium";
+                dynamicTextElement.textContent = "Slagging Potential (Results in Medium Clinker Formation)";
+                document.getElementById("progressBar1").style.backgroundColor = "orange";
+                redIndicator1.style.backgroundColor = "orange";
+
+            }
+            else if (average1 <= 3.5) {
+                indicatorLabel1.textContent = " High";
+                dynamicTextElement.textContent = "Slagging Potential (Results in High Clinker Formation)"
+                document.getElementById("progressBar1").style.backgroundColor = "red";
+                redIndicator1.style.backgroundColor = "red";
+
+            }
+            else {
+                indicatorLabel1.textContent = "Max";
+                dynamicTextElement.textContent = "Slagging Potential (Results in Max Clinker Formation)";
+                document.getElementById("progressBar1").style.backgroundColor = "red";
+                redIndicator1.style.backgroundColor = "red";
+
+            }
+            if (average2 < 1.5) {
+                indicatorLabel2.textContent = "Low";
+                document.getElementById("progressBar2").style.backgroundColor = "green";
+                redIndicator2.style.backgroundColor = "green";
+            }
+            else if (average2 <= 2.5) {
+                indicatorLabel2.textContent = " Medium";
+                document.getElementById("progressBar2").style.backgroundColor = "orange";
+                redIndicator2.style.backgroundColor = "orange";
+            }
+            else if (average2 <= 3.5) {
+                indicatorLabel2.textContent = " High"
+                document.getElementById("progressBar2").style.backgroundColor = "red";
+                redIndicator2.style.backgroundColor = "red";
+            }
+            else {
+                indicatorLabel2.textContent = " Max";
+                document.getElementById("progressBar2").style.backgroundColor = "red";
+                redIndicator2.style.backgroundColor = "red";
+            }
+        }
         function handleFileUpload(event) {
             const file = event.target.files[0];
             console.log('Uploaded file:', file);
