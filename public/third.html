@@ -535,6 +535,49 @@
                 // }
             });
         }
+<<<<<<< Updated upstream
+=======
+        
+        function updateRangeLabels(data) {
+            data.forEach(item => {
+                label = item.parameter;
+            });            
+            const rangeInput = document.getElementById('rangeInput');
+            const rangeLabel = document.getElementById('rangeLabel');
+            const minLabel = document.getElementById('min');
+            const maxLabel = document.getElementById('max');        
+        
+            const parameterRanges = {
+                "Availability Factor": { min: 0, max: 85, step: 1, unit: "%" },
+                "Heat Rate": { min: 1500, max: 4000, step: 10, unit: "kcal/kWh" },
+                "Auxiliary Power Consumption": { min: 0, max: 30, step: 0.5, unit: "%" },
+                "Specific Oil Consumption": { min: 0, max: 25, step: 0.25, unit: "ml/kWh" },
+                "Transit Loss": { min: 0, max: 10, step: 0.1, unit: "%" }
+            };
+        
+            // Check if the parameter exists in the range configuration
+            if (parameterRanges[label]) {
+
+                const { min, max, step, unit } = parameterRanges[label];
+        
+                // Update the range input attributes
+                rangeInput.min = min;
+                rangeInput.max = max;
+                rangeInput.step = step;
+                rangeInput.value = min; // Reset to min value
+
+                // Update the label
+                rangeLabel.textContent = `${label} (${unit})`;
+                console.log(rangeLabel)
+        
+                // Update the min and max text below the slider
+                minLabel.textContent = `Min (${min}${unit})`;
+                maxLabel.textContent = `Max (${max}${unit})`;
+            }
+        }
+        
+        
+>>>>>>> Stashed changes
     </script>
 </body>
 
