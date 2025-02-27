@@ -187,25 +187,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const slider = document.getElementById('rangeInput');
-
-            slider.addEventListener('input', (event) => {
-                
-                const tableRows = document.querySelectorAll('#analysisBody tr');
-                const sliderValue = event.target.value;
-
-                    const secondRow = tableRows[1];
-
-                    const valueCell = secondRow.querySelector('td:nth-child(2)');
-                    valueCell.textContent = sliderValue;
-
-                    if (actualNormativeGraph) {
-                        actualNormativeGraph.data.datasets[0].data[1] = sliderValue; 
-                        actualNormativeGraph.update(); 
-                    }
-
-            });
-
             const storedData = localStorage.getItem('insightData');
             const reportData = JSON.parse(localStorage.getItem('reportData'));
 
@@ -389,16 +370,43 @@
             });
         }
 
-        let actualNormativeGraph;
-
         function populateGraphs(data) {
             console.log(data);
             const ctx = document.getElementById(`chart1`).getContext('2d');
+            const ctx1 = document.getElementById(`chart2`).getContext('2d');
 
             data.forEach(item => {
-                if (item.parameter === "Availability Factor") {
-                    actualNormativeGraph = new Chart(ctx, {
-                        type: 'bar',
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: item.graphLegend1,
+                        datasets: [{
+                            label: 'AVF ',
+                            data: item.graphValues1,
+                            backgroundColor: ['#F70000', '#70AD47', '#F70000'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        responsive: true,
+                        scales: {
+                            x: {
+                                beginAtZero: true
+                            },
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+                if (item.parameter !== "Transit Loss") {
+                    new Chart(ctx1, {
+                        type: 'pie',
                         data: {
                             labels: ['Fixed cost recovered', 'Fixed cost disallowance'],
                             datasets: [{
@@ -527,49 +535,6 @@
                 // }
             });
         }
-<<<<<<< Updated upstream
-=======
-        
-        function updateRangeLabels(data) {
-            data.forEach(item => {
-                label = item.parameter;
-            });            
-            const rangeInput = document.getElementById('rangeInput');
-            const rangeLabel = document.getElementById('rangeLabel');
-            const minLabel = document.getElementById('min');
-            const maxLabel = document.getElementById('max');        
-        
-            const parameterRanges = {
-                "Availability Factor": { min: 0, max: 85, step: 1, unit: "%" },
-                "Heat Rate": { min: 1500, max: 4000, step: 10, unit: "kcal/kWh" },
-                "Auxiliary Power Consumption": { min: 0, max: 30, step: 0.5, unit: "%" },
-                "Specific Oil Consumption": { min: 0, max: 25, step: 0.25, unit: "ml/kWh" },
-                "Transit Loss": { min: 0, max: 10, step: 0.1, unit: "%" }
-            };
-        
-            // Check if the parameter exists in the range configuration
-            if (parameterRanges[label]) {
-
-                const { min, max, step, unit } = parameterRanges[label];
-        
-                // Update the range input attributes
-                rangeInput.min = min;
-                rangeInput.max = max;
-                rangeInput.step = step;
-                rangeInput.value = min; // Reset to min value
-
-                // Update the label
-                rangeLabel.textContent = `${label} (${unit})`;
-                console.log(rangeLabel)
-        
-                // Update the min and max text below the slider
-                minLabel.textContent = `Min (${min}${unit})`;
-                maxLabel.textContent = `Max (${max}${unit})`;
-            }
-        }
-        
-        
->>>>>>> Stashed changes
     </script>
 </body>
 
