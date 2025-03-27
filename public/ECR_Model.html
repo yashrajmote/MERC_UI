@@ -12,14 +12,15 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            height: 100vh;
+            overflow-y: hidden;
         }
 
         .dashboard {
-            /* display: flex;
-            flex-direction: column;
-            align-items: center; */
-            /* padding: 20px; */
-            margin-top: 0% 1%;
+            margin: 0% 1%;
+            overflow-y: auto;
+            background-color: transparent;
+            /* Ensure transparency is controlled */
         }
 
         .dashboard .card {
@@ -28,7 +29,8 @@
             margin-top: 10px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            /* width: 50%; */
+            height: auto;
+            /* Changed from 100% to auto */
         }
 
         .dashboard button {
@@ -54,8 +56,78 @@
             font-weight: 600;
         }
 
-        .dashboard.slider {
+        table.data-table {
             width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table.data-table th,
+        table.data-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 0.8rem;
+        }
+
+        table.data-table th {
+            background-color: #f2f2f2;
+        }
+
+        .section-title {
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .tables-container {
+            display: flex;
+            gap: 20px;
+            height: calc(100vh - 200px);
+            /* Adjusted height */
+            overflow: hidden;
+            /* Changed from auto to hidden */
+        }
+
+        .table-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            background-color: white;
+            /* Added solid background */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            /* Changed from auto to hidden */
+            background-color: #f3f4f6;
+            /* Added solid background */
+        }
+
+        @media (max-width: 768px) {
+            .tables-container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .table-wrapper {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        /* New additions for better scrolling behavior */
+        .card-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 5px;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -63,11 +135,10 @@
     <script src="js/slagging.js"></script>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-gray-100 h-screen">
     <div x-data="{ isSidebarOpen: false }" class="max-h-screen flex flex-col ">
         <nav class="sticky top-0 left-0 w-full z-50 bg-white justify-center">
             <div class="mb-4 flex w-full h-5">
-
                 <button @click="isSidebarOpen = !isSidebarOpen" class="p-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="h-6 w-6">
@@ -82,7 +153,7 @@
                         <span class="text-center mt-4">Welcome User</span>
                     </div>
                     <button @click="isProfileOpen = !isProfileOpen"
-                        class="p-1 rounded-full   focus:outline-none focus:ring">
+                        class="p-1 rounded-full focus:outline-none focus:ring">
                         <img src="./images/userprofile.svg" alt="Profile" class="h-8 w-8 rounded-full">
                     </button>
                     <div x-show="isProfileOpen" @click.outside="isProfileOpen = false"
@@ -93,414 +164,441 @@
                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
                     </div>
                 </div>
-
             </div>
         </nav>
 
-        <div class="flex ">
-            <!-- Sidebar with open/close transition -->
+        <div class="flex">
+            <!-- Sidebar -->
             <div x-show="isSidebarOpen" x-transition:enter="transition transform ease-out duration-300"
                 x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
                 x-transition:leave="transition transform ease-in duration-300" x-transition:leave-start="translate-x-0"
-                x-transition:leave-end="-translate-x-full" class="bg-white h-screen  relative shadow-lg">
-
+                x-transition:leave-end="-translate-x-full" class="bg-white h-screen relative shadow-lg">
                 <div
-                    class="h-full flex flex-col justify-start items-start py-6 px-4 overflow-y-auto bg-white dark:bg-gray-900 shadow-lg">
+                    class="h-full flex flex-col justify-start items-start py-6 px-4 overflow-y-auto bg-white shadow-lg">
+                    <!-- Sidebar content remains the same as original -->
                     <a href="./regParams.html"
-                        class="flex items-center w-full p-3 mb-2 text-gray-800 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 group">
-                        <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-green-600 dark:group-hover:text-green-400"
-                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
+                        class="flex items-center w-full p-3 mb-2 text-gray-800 rounded-md hover:bg-gray-100 group">
+                        <svg class="w-6 h-6 text-gray-500 group-hover:text-green-600" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 22 21">
                             <path
                                 d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
                             <path
                                 d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
                         </svg>
-                        <span
-                            class="ml-4 font-medium group-hover:text-green-600 dark:group-hover:text-green-400">Regulatory
-                            Parameters</span>
+                        <span class="ml-4 font-medium group-hover:text-green-600">Regulatory Parameters</span>
                     </a>
-
-                    <hr class="w-full my-2 border-gray-300 dark:border-gray-700">
+                    <hr class="w-full my-2 border-gray-300">
                     <a href="./ai.html"
-                        class="flex items-center w-full p-3 text-gray-800 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 group">
-                        <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"
-                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        class="flex items-center w-full p-3 text-gray-800 rounded-md hover:bg-gray-100 group">
+                        <svg class="w-6 h-6 text-gray-500 group-hover:text-blue-600" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 20 20">
                             <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z" />
                             <path
                                 d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z" />
                             <path
                                 d="M8.961 16a.93.93 0 0 0 .189-.019l3.4-.679a.961.961 0 0 0 .49-.263l6.118-6.117a2.884 2.884 0 0 0-4.079-4.078l-6.117 6.117a.96.96 0 0 0-.263.491l-.679 3.4A.961.961 0 0 0 8.961 16Zm7.477-9.8a.958.958 0 0 1 .68-.281.961.961 0 0 1 .682 1.644l-.315.315-1.36-1.36.313-.318Zm-5.911 5.911 4.236-4.236 1.359 1.359-4.236 4.237-1.7.339.341-1.699Z" />
                         </svg>
-                        <span class="ml-4 font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400">AI
-                            Modal</span>
+                        <span class="ml-4 font-medium group-hover:text-blue-600">AI Modal</span>
                     </a>
-                    <hr class="w-full my-2 border-gray-300 dark:border-gray-700">
+                    <hr class="w-full my-2 border-gray-300">
                     <a href="./slagging.html"
-                        class="flex items-center w-full p-3 text-gray-800 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 group">
-                        <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"
-                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        class="flex items-center w-full p-3 text-gray-800 rounded-md hover:bg-gray-100 group">
+                        <svg class="w-6 h-6 text-gray-500 group-hover:text-blue-600" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 20 20">
                             <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z" />
                             <path
                                 d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z" />
                             <path
                                 d="M8.961 16a.93.93 0 0 0 .189-.019l3.4-.679a.961.961 0 0 0 .49-.263l6.118-6.117a2.884 2.884 0 0 0-4.079-4.078l-6.117 6.117a.96.96 0 0 0-.263.491l-.679 3.4A.961.961 0 0 0 8.961 16Zm7.477-9.8a.958.958 0 0 1 .68-.281.961.961 0 0 1 .682 1.644l-.315.315-1.36-1.36.313-.318Zm-5.911 5.911 4.236-4.236 1.359 1.359-4.236 4.237-1.7.339.341-1.699Z" />
                         </svg>
-                        <span class="ml-4 font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400">Slagging
-                            And Fouling Predictor</span>
+                        <span class="ml-4 font-medium group-hover:text-blue-600">Slagging And Fouling Predictor</span>
                     </a>
-                    <hr class="w-full my-2 border-gray-300 dark:border-gray-700">
+                    <hr class="w-full my-2 border-gray-300">
                     <a href="./login.html"
-                        class="flex items-center w-full p-3 mb-2 text-gray-800 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 group">
-                        <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-red-600 dark:group-hover:text-red-400"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
+                        class="flex items-center w-full p-3 mb-2 text-gray-800 rounded-md hover:bg-gray-100 group">
+                        <svg class="w-6 h-6 text-gray-500 group-hover:text-red-600" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 18 16">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3" />
                         </svg>
-                        <span class="ml-4 font-medium group-hover:text-red-600 dark:group-hover:text-red-400">Sign
-                            out</span>
+                        <span class="ml-4 font-medium group-hover:text-red-600">Sign out</span>
                     </a>
-                    <hr class="w-full my-2 border-gray-300 dark:border-gray-700">
-
+                    <hr class="w-full my-2 border-gray-300">
                 </div>
-
-
             </div>
 
-            <!-- Main content that shifts when sidebar is open -->
+            <!-- Main content -->
             <main :class="{'ml-0': !isSidebarOpen, 'ml-34 transition-all duration-300 ease-in-out': isSidebarOpen}"
-                class="content flex-1 items-center justify-center overflow-y-auto h-[calc(100vh-4rem)] p-6 bg-gray-600">
-
+                class="content flex-1 h-screen items-center justify-center overflow-y-auto h-[calc(100vh-4rem)] p-6 bg-gray-600">
                 <div class="flex justify-between p-4 px-4 pb-3 pt-0">
                     <span class="text-white text-lg text-bold font-medium text-left">Energy Charge Rate Estimator</span>
                     <span></span>
-                    <button onclick="window.location.href='selection.html'" class="hover:text-blue-600 transition ">
+                    <button onclick="window.location.href='selection.html'" class="hover:text-blue-600 transition">
                         <img src="images/back.svg" alt="Back" class="h-5 w-5">
                     </button>
                 </div>
+
                 <div class="dashboard mx-4">
-                    <div class="grid grid-cols-2 gap-6">
-                        <div>
-                            <div class="card" style="margin: 0px;">
-                                <h3>Generation Parameters</h3>
-                                <hr class="my-1">
-                                </hr>
-                                <div class="flex">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Generation
-                                            (MUs):</label>
-                                        <input type="number"
-                                            class="mt-2 block w-full p-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
-                                            id="generation" value="10" step="0.01">
-                                    </div>
-                                    <div class="ml-5">
-                                        <label class="block text-sm font-medium text-gray-700">APC (MUs): </label>
-                                        <input type="number" id="apc"
-                                            class="mt-2 block w-full p-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
-                                            value="0.5986" step="0.0001">
-                                    </div>
-                                    <div class="ml-5">
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Target Coal
-                                            Factor:</label>
-                                        <input type="number" id="targetCoalFactor" value="0.85"
-                                            class="mt-2 block w-full p-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
-                                            step="0.01">
-                                    </div>
-                                    <div class="ml-5">
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Current MOD (Rs./kWh)</label>
-                                        <input type="number" id="currentMod" value="3.18"
-                                            class="mt-2 block w-full p-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
-                                            step="0.01">
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- <div class="card">
-                                <h3>Coal Blending Selection</h3>
-                                <hr class="my-1">
-                                </hr>
-                                <div class="flex">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Target Coal
-                                            Factor:</label>
-                                        <input type="number" id="targetCoalFactor" value="0.85"
-                                            class="mt-2 block w-full p-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
-                                            step="0.01">
-                                    </div>
-                                    <div class="ml-5">
-                                        <label class="block text-sm font-medium text-gray-700">Raw Coal </label>
-                                        <input type="checkbox" id="rawCoalCheck" checked onchange="resetBlending()">
-                                    </div>
-                                    <div class="ml-5">
-                                        <label class="block text-sm font-medium text-gray-700">Washed
-                                            Coal </label>
-                                        <input type="checkbox" id="washedCoalCheck" onchange="resetBlending()">
-                                    </div>
-                                    <div class="ml-5">
-                                        <label class="block text-sm font-medium text-gray-700">Imported Coal
-                                            (Max 30%) </label>
-                                        <input type="checkbox" id="importedCoalCheck" onchange="resetBlending()">
-                                    </div>
-                                </div>
-                            </div> -->
+                    <div class="tables-container">
+                        <!-- Current Performance Table -->
+                        <div class="table-wrapper">
                             <div class="card">
-                                <h3>Coal Blending Ratios</h3>
+                                <h3>Current Performance</h3>
                                 <hr class="my-1">
-                                </hr>
-                                <div class="flex">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Raw Coal:
-                                            <input type="checkbox" id="rawCoalCheck" checked onchange="resetBlending()">
-                                        </label>
-                                        <input type="range" id="rawCoalBlending" class="slider" min="0" max="100"
-                                            value="100" oninput="adjustBlending('raw')"> <span
-                                            id="rawCoalValue">100%</span>
-                                    </div>
-                                    <div class="ml-5">
-                                        <label class="block text-sm font-medium text-gray-700">Washed
-                                            Coal:
-                                            <input type="checkbox" id="washedCoalCheck"
-                                                onchange="resetBlending()"></label>
-                                        <input type="range" id="washedCoalBlending" class="slider" min="0" max="100"
-                                            value="0" oninput="adjustBlending('washed')"> <span
-                                            id="washedCoalValue">0%</span>
-                                    </div>
-                                    <div class="ml-5">
-                                        <label class="block text-sm font-medium text-gray-700">Imported Coal:
-                                            <input type="checkbox" id="importedCoalCheck" onchange="resetBlending()">
-                                        </label>
-                                        <input type="range" id="importedCoalBlending" class="slider" min="0" max="30"
-                                            value="0" oninput="adjustBlending('imported')"> <span
-                                            id="importedCoalValue">0%</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <script>
-                                function resetBlending() {
-                                    document.getElementById('rawCoalBlending').value = 100;
-                                    document.getElementById('washedCoalBlending').value = 0;
-                                    document.getElementById('importedCoalBlending').value = 0;
-                                    adjustBlending();
-                                }
-
-                                function adjustBlending(changed) {
-                                    let raw = document.getElementById('rawCoalBlending');
-                                    let washed = document.getElementById('washedCoalBlending');
-                                    let imported = document.getElementById('importedCoalBlending');
-                                    let rawCheck = document.getElementById('rawCoalCheck').checked;
-                                    let washedCheck = document.getElementById('washedCoalCheck').checked;
-                                    let importedCheck = document.getElementById('importedCoalCheck').checked;
-
-                                    if (!rawCheck) raw.value = 0;
-                                    if (!washedCheck) washed.value = 0;
-                                    if (!importedCheck) imported.value = 0;
-
-                                    let selectedCoals = [rawCheck, washedCheck, importedCheck].filter(Boolean).length;
-
-                                    if (selectedCoals === 2) {
-                                        if (changed === 'raw' && washedCheck) washed.value = 100 - raw.value;
-                                        else if (changed === 'raw' && importedCheck) imported.value = 100 - raw.value;
-                                        else if (changed === 'washed' && rawCheck) raw.value = 100 - washed.value;
-                                        else if (changed === 'washed' && importedCheck) {
-                                            if (imported.value > 30) imported.value = 30;
-                                            washed.value = 100 - imported.value;
-                                        }
-                                        else if (changed === 'imported' && rawCheck) raw.value = 100 - imported.value;
-                                        else if (changed === 'imported' && washedCheck) {
-                                            if (imported.value > 30) imported.value = 30;
-                                            washed.value = 100 - imported.value;
-                                        }
-                                    }
-
-                                    document.getElementById('rawCoalValue').innerText = raw.value + "%";
-                                    document.getElementById('washedCoalValue').innerText = washed.value + "%";
-                                    document.getElementById('importedCoalValue').innerText = imported.value + "%";
-                                }
-                            </script>
-
-                            <div class="card">
-                                <h3>Coal GCV Values</h3>
-                                <hr class="my-1">
-                                </hr>
-                                <div class="flex">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Raw Coal
-                                            GCV:</label>
-                                        <input type="number"
-                                            class="mt-2 block w-full p-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
-                                            id="rawCoalGCV" value="3500" step="10">
-                                    </div>
-                                    <div class="ml-5">
-                                        <label class="block text-sm font-medium text-gray-700">Washed Coal GCV:</label>
-                                        <input type="number" id="washedCoalGCV" value="4500" step="10"
-                                            class="mt-2 block w-full p-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600">
-                                    </div>
-                                    <div class="ml-5">
-                                        <label class="block text-sm font-medium text-gray-700">Imported Coal
-                                            GCV:</label>
-                                        <input type="number" id="importedCoalGCV" value="6000"
-                                            class="mt-2 block w-full p-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
-                                            step="10">
-                                    </div>
-                                </div>
-                                <div class="flex mt-2">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Raw Coal
-                                            Cost:</label>
-                                        <input type="number"
-                                            class="mt-2 block w-full p-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
-                                            type="number" id="rawCoalCost" value="30" step="0.01">
-                                    </div>
-                                    <div class="ml-5">
-                                        <label class="block text-sm font-medium text-gray-700">Washed Coal Cost:</label>
-                                        <input type="number" id="washedCoalCost" value="50" step="0.01"
-                                            class="mt-2 block w-full p-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600">
-                                    </div>
-                                    <div class="ml-5">
-                                        <label class="block text-sm font-medium text-gray-700">Imported Coal
-                                            Cost:</label>
-                                        <input type="number" id="importedCoalCost" value="80" step="0.01"
-                                            class="mt-2 block w-full p-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600">
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- <div class="card">
-                                <h3>Coal Cost (Rs./ton)</h3>
-                                <hr class="my-1">
-                                </hr>
-                                <div class="flex">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Raw Coal Cost:</label>
-                                        <input type="number"
-                                            class="mt-2 block w-full p-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
-                                            type="number" id="rawCoalCost" value="30" step="0.01">
-                                    </div>
-                                    <div class="ml-5">
-                                        <label class="block text-sm font-medium text-gray-700">Washed Coal Cost:</label>
-                                        <input type="number" id="washedCoalCost" value="50" step="0.01"
-                                            class="mt-2 block w-full p-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600">
-                                    </div>
-                                    <div class="ml-5">
-                                        <label class="block text-sm font-medium text-gray-700">Imported Coal Cost:</label>
-                                        <input type="number" id="importedCoalCost" value="80" step="0.01"
-                                            class="mt-2 block w-full p-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600">
-                                    </div>
-                                </div>
-                            </div> -->
-                            <button class="mt-2" onclick="calculateValues()">Calculate</button>
-                        </div>
-                        <div>
-                            <div class="card" style="margin: 0px;">
-                                <h3>Results</h3>
-                                <hr class="my-1">
-                                </hr>
-                                <table class="mt-1 w-full border-collapse border border-gray-300 shadow-md rounded-md">
-                                    <thead
-                                        class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                        <tr class="bg-gray-200">
-                                            <th scope="col" class="border border-gray-300 py-1">Parameter</th>
-                                            <th scope="col" class="border border-gray-300 py-1">Value</th>
-                                        </tr>
-                                    </thead>
-                                    <tr class="font-sans text-sm">
-                                        <td class="border border-gray-300 px-1 py-1">Total Coal Consumption (tons)</td>
-                                        <td class="border border-gray-300 px-1 py-1"><span id="totalcoalConsumption"></span></td>
+                                <table class="data-table">
+                                    <tr>
+                                        <td>Current MoD (Rs./kWh)</td>
+                                        <td>
+                                            <input type="number" value="3" id="currentMod"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16">
+                                        </td>
                                     </tr>
-                                    <tr class="font-sans text-sm">
-                                        <td class="border border-gray-300 px-1 py-1">Raw Coal Consumption (tons)</td>
-                                        <td class="border border-gray-300 px-1 py-1"><span id="rawcoalConsumption"></span></td>
+                                    <tr>
+                                        <td>Current Coal factor (kg/kWh)</td>
+                                        <td id="currentCoalFactor"></td>
                                     </tr>
-                                    <tr class="font-sans text-sm">
-                                        <td class="border border-gray-300 px-1 py-1">Washed Coal Consumption (tons)</td>
-                                        <td class="border border-gray-300 px-1 py-1"><span id="washedcoalConsumption"></span></td>
+                                    <tr>
+                                        <td>Current performance</td>
+                                        <td>
+                                            <input type="date" class="border border-gray-300 px-2 py-1 rounded"
+                                                id="dateInput">
+                                        </td>
                                     </tr>
-                                    <tr class="font-sans text-sm">
-                                        <td class="border border-gray-300 px-1 py-1">Imported Coal Consumption (tons)</td>
-                                        <td class="border border-gray-300 px-1 py-1"><span id="importedcoalConsumption"></span></td>
+                                    <tr>
+                                        <td>Generation (MUs)</td>
+                                        <td><input type="number" value="300" id="generationMus"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
                                     </tr>
-                                    <tr class="font-sans text-sm">
-                                        <td class="border border-gray-300 px-1 py-1">Achieved Blended GCV (kcal/kg)</td>
-                                        <td class="border border-gray-300 px-1 py-1"><span id="achievedblendedGCV"></span></td>
+                                    <tr>
+                                        <td>APC (MUs)</td>
+                                        <td><input type="number" value="18.56" id="apcMus"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
                                     </tr>
-                                    <tr class="font-sans text-sm">
-                                        <td class="border border-gray-300 px-1 py-1">Total Cost (Rs.)</td>
-                                        <td class="border border-gray-300 px-1 py-1"><span id="totalCost"></span></td>
-                                    </tr>
-                                    <tr class="font-sans text-sm">
-                                        <td class="border border-gray-300 px-1 py-1">Total Emissions (kg CO2)</td>
-                                        <td class="border border-gray-300 px-1 py-1"><span id="totalEmissions"></span></td>
-                                    </tr>
-                                    <tr class="font-sans text-sm">
-                                        <td class="border border-gray-300 px-1 py-1">Total Estimated Energy Charge Rate (Rs. /kwh)</td>
-                                        <td class="border border-gray-300 px-1 py-1"><span id="estimatedECR"></span></td>
-                                    </tr>
-                                    <tr class="font-sans text-sm">
-                                        <td class="border border-gray-300 px-1 py-1">Achieved Heat Rate (kcal/kWh)</td>
-                                        <td class="border border-gray-300 px-1 py-1"><span id="achievedHeatRate"></span></td>
-                                    </tr>
-                                    <tr class="font-sans text-sm">
-                                        <td class="border border-gray-300 px-1 py-1">Variance from Current MOD (Rs./kWh)</td>
-                                        <td class="border border-gray-300 px-1 py-1"><span id="varianceFromCurrentMod"></span></td>
-                                    </tr>
-
-                                    <tbody>
-                                    </tbody>
                                 </table>
+
+                                <div class="section-title">Coal Blending (%) Achieved</div>
+                                <table class="data-table">
+                                    <tr>
+                                        <th>Raw</th>
+                                        <th>Washed</th>
+                                        <th>Imported</th>
+                                    </tr>
+                                    <tr>
+                                        <td id="rawCoalBlendingAchieved"></td>
+                                        <td id="washedCoalBlendingAchieved"></td>
+                                        <td id="importedCoalBlendingAchieved">0.00%</td>
+                                    </tr>
+                                </table>
+
+                                <div class="section-title">Actual Fuel Details</div>
+                                <table class="data-table">
+                                    <tr>
+                                        <th>Fuel details</th>
+                                        <th>Consumption</th>
+                                        <th>GCV</th>
+                                        <th>Landed Cost</th>
+                                        <th>Closing Balance</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Raw</td>
+                                        <td><input type="number" value="198560" id="rawConsumption"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                        <td><input type="number" value="3100" id="rawGCV"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                        <td><input type="number" value="3400" id="rawLandedCost"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                        <td><input type="number" value="42350" id="rawClosingBalance"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Washed</td>
+                                        <td><input type="number" value="35440" id="washedConsumption"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                        <td><input type="number" value="3750" id="washedGCV"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                        <td><input type="number" value="4250" id="washedLandedCost"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                        <td><input type="number" value="10000" id="washedClosingBalance"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Imported</td>
+                                        <td><input type="number" value="0" id="importedConsumption"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                        <td><input type="number" value="5200" id="importedGCV"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                        <td><input type="number" value="12000" id="importedLandedCost"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                        <td><input type="number" value="0" id="importedClosingBalance"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>LDO</td>
+                                        <td><input type="number" value="0" id="ldoConsumption"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                        <td><input type="number" value="10700" id="ldoGCV"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                        <td><input type="number" value="58500" id="ldoLandedCost"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                        <td><input type="number" value="980" id="ldoClosingBalance"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>FO</td>
+                                        <td><input type="number" value="36.5" id="foConsumption"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                        <td><input type="number" value="10600" id="foGCV"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                        <td><input type="number" value="49600" id="foLandedCost"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                        <td><input type="number" value="1250" id="foClosingBalance"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                    </tr>
+                                </table>
+
+                                <div class="grid grid-cols-1 gap-4 mt-4">
+                                    <div>
+                                        <table class="data-table">
+                                            <tr>
+                                                <td>Other Variable costs (Rs.)</td>
+                                                <td>₹ <input type="number" value="198560" id="otherVariableCosts"
+                                                        class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Achieved Blended GCV (kcal/kg)</td>
+                                                <td id="achievedBlendedGCV"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Achieved Heat Rate (kcal/kWh)</td>
+                                                <td id="achievedHeatRate"></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
+                        <!-- Expected Performance Table -->
+                        <div class="table-wrapper">
+                            <div class="card">
+                                <h3>Expected Performance</h3>
+                                <hr class="my-1">
+                                <table class="data-table">
+                                    <tr>
+                                        <td>Expected MoD for upcoming month (Rs./kWh)</td>
+                                        <td><input type="number" value="2.9404" id="expectedModForUpcomingMonth"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Target MoD for upcoming month (Rs./kWh)</td>
+                                        <td><input type="number" value="2.75" id="targetModForUpcomingMonth"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Target Coal Factor (kg/kWh)</td>
+                                        <td><input type="number" value="0.8" id="targetCoalFactor"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                    </tr>
+                                </table>
+
+                                <div class="section-title">Expected performance</div>
+                                <table class="data-table">
+                                    <tr>
+                                        <td>Generation (MUs)</td>
+                                        <td><input type="number" value="300" id="expectedGenerationMus"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>APC (MUs)</td>
+                                        <td><input type="number" value="18.56" id="expectedAPCMus"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                    </tr>
+                                </table>
+
+                                <div class="section-title">Target Coal Blending (%)</div>
+                                <table class="data-table">
+                                    <tr>
+                                        <th>Raw</th>
+                                        <th>Washed</th>
+                                        <th>Imported</th>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="number" value="80.00" id="rawTargetCoalBlending"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16">%</td>
+                                        <td><input type="number" value="20.00" id="washedTargetCoalBlending"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16">%</td>
+                                        <td><input type="number" value="0.00" id="importedTargetCoalBlending"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16">%</td>
+                                    </tr>
+                                </table>
+
+                                <div class="section-title">Expected Fuel Performance</div>
+                                <table class="data-table">
+                                    <tr>
+                                        <th>Fuel details</th>
+                                        <th>Consumption</th>
+                                        <th>GCV</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Raw</td>
+                                        <td id="expectedRawConsumption"></td>
+                                        <td id="expectedRawGCV"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Washed</td>
+                                        <td id="expectedWashedConsumption"></td>
+                                        <td id="expectedWashedGCV"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Imported</td>
+                                        <td id="expectedImportedConsumption"></td>
+                                        <td id="expectedImportedGCV"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>LDO</td>
+                                        <td><input type="number" value="0" id="expectedLDOConsumption"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                        <td id="expectedLDOGCV"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>FO</td>
+                                        <td><input type="number" value="0" id="expectedFOConsumption"
+                                                class="border border-gray-300 px-2 py-1 rounded w-16"></td>
+                                        <td id="expectedFOGCV">10600</td>
+                                    </tr>
+                                </table>
+
+                                <div class="section-title">Minimum Coal Receipts to be planned (MT)</div>
+                                <table class="data-table">
+                                    <tr>
+                                        <th>Raw</th>
+                                        <th>Washed</th>
+                                        <th>Imported</th>
+                                    </tr>
+                                    <tr>
+                                        <td id="rawMinimumCoalRecieptsToBePlanned"></td>
+                                        <td id="washedMinimumCoalRecieptsToBePlanned"></td>
+                                        <td id="importedMinimumCoalRecieptsToBePlanned"></td>
+                                    </tr>
+                                </table>
+
+                                <div class="grid grid-cols-1 gap-4 mt-4">
+                                    <div>
+                                        <table class="data-table">
+                                            <tr>
+                                                <td>Achieved Blended GCV (kcal/kg)</td>
+                                                <td id="expectedAchievedBlendedGCV"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Variation from previous Blended GCV (kcal/kg)</td>
+                                                <td id="expectedVariationFromPreviousBlendedGCV"></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div>
+                                        <table class="data-table">
+                                            <tr>
+                                                <td>Achieved Heat Rate (kcal/kWh)</td>
+                                                <td id="expectedAchievedHeatRate"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Variation from previous month Heat Rate (kcal/kWh)</td>
+                                                <td id="expectedVariationFromPreviousMonthHeatRate"></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-
-
-
                 </div>
             </main>
-
         </div>
     </div>
 </body>
 <script>
-    function calculateValues() {
-        let generation = parseFloat(document.getElementById('generation').value);
-        let apc = parseFloat(document.getElementById('apc').value);
-        let targetCoalFactor = parseFloat(document.getElementById('targetCoalFactor').value);
-        let rawCoalBlending = parseFloat(document.getElementById('rawCoalBlending').value) / 100;
-        let washedCoalBlending = parseFloat(document.getElementById('washedCoalBlending').value) / 100;
-        let importedCoalBlending = parseFloat(document.getElementById('importedCoalBlending').value) / 100;
-        let rawCoalCost = parseFloat(document.getElementById('rawCoalCost').value);
-        let washedCoalCost = parseFloat(document.getElementById('washedCoalCost').value);
-        let importedCoalCost = parseFloat(document.getElementById('importedCoalCost').value);
-        let rawCoalGCV = parseFloat(document.getElementById('rawCoalGCV').value);
-        let washedCoalGCV = parseFloat(document.getElementById('washedCoalGCV').value);
-        let importedCoalGCV = parseFloat(document.getElementById('importedCoalGCV').value);
-        let currentMod = parseFloat(document.getElementById('currentMod').value);
+    let rawConsumption = parseFloat(document.getElementById("rawConsumption").value);
+    let importedConsumption = parseFloat(document.getElementById("importedConsumption").value);
+    let generationMus = parseFloat(document.getElementById("generationMus").value);
+    let washedConsumption = parseFloat(document.getElementById("washedConsumption").value);
+    let rawGCV = parseFloat(document.getElementById("rawGCV").value);
+    let washedGCV = parseFloat(document.getElementById("washedGCV").value);
+    let importedGCV = parseFloat(document.getElementById("importedGCV").value);
+    let ldoConsumption = parseFloat(document.getElementById("ldoConsumption").value);
+    let ldoGCV = parseFloat(document.getElementById("ldoGCV").value);
+    let foConsumption = parseFloat(document.getElementById("foConsumption").value);
+    let foGCV = parseFloat(document.getElementById("foGCV").value);
+    let targetCoalFactor = parseFloat(document.getElementById("targetCoalFactor").value);
+    let expectedGenerationMus = parseFloat(document.getElementById("expectedGenerationMus").value);
+    let rawTargetCoalBlending = parseFloat(document.getElementById("rawTargetCoalBlending").value);
+    let washedTargetCoalBlending = parseFloat(document.getElementById("washedTargetCoalBlending").value);
+    let importedTargetCoalBlending = parseFloat(document.getElementById("importedTargetCoalBlending").value);
+    let rawClosingBalance = parseFloat(document.getElementById("rawClosingBalance").value);
+    let washedClosingBalance = parseFloat(document.getElementById("washedClosingBalance").value);
+    let importedClosingBalance = parseFloat(document.getElementById("importedClosingBalance").value);
+    let expectedLDOConsumption = parseFloat(document.getElementById("expectedLDOConsumption").value);
+    let expectedFOConsumption = parseFloat(document.getElementById("expectedFOConsumption").value);
 
-        
-       
-        let totalcoalConsumption = generation * targetCoalFactor * 1000;
-        let rawcoalConsumption = totalcoalConsumption * rawCoalBlending;
-        let washedcoalConsumption = totalcoalConsumption * washedCoalBlending;
-        let importedcoalConsumption = totalcoalConsumption * importedCoalBlending;
-        let totalCost = (rawcoalConsumption * rawCoalCost) + (washedcoalConsumption * washedCoalCost) + (importedcoalConsumption * importedCoalCost);
-        let achievedblendedGCV = ((rawcoalConsumption * rawCoalGCV) + (washedcoalConsumption * washedCoalGCV) + (importedcoalConsumption * importedCoalGCV)) / totalcoalConsumption;
-        let Emissionsfactor = 2.5
-        let totalEmissions = totalcoalConsumption * Emissionsfactor;
-        let estimatedECR = ((rawcoalConsumption * rawCoalCost) + (washedcoalConsumption * washedCoalCost) + (importedcoalConsumption * importedCoalCost)) / (generation - apc) / 1000000;
-        let achievedHeatRate = targetCoalFactor * achievedblendedGCV;
-        let varianceFromCurrentMod = currentMod - estimatedECR;
-        document.getElementById('totalcoalConsumption').innerText = totalcoalConsumption.toFixed(2);
-        document.getElementById('totalCost').innerText = totalCost.toFixed(2);
-        document.getElementById('rawcoalConsumption').innerText = rawcoalConsumption.toFixed(2);
-        document.getElementById('washedcoalConsumption').innerText = washedcoalConsumption.toFixed(2);
-        document.getElementById('importedcoalConsumption').innerText = importedcoalConsumption.toFixed(2);
-        document.getElementById('achievedblendedGCV').innerText = achievedblendedGCV.toFixed(2);
-        document.getElementById('totalEmissions').innerText = totalEmissions.toFixed(2);
-        document.getElementById('estimatedECR').innerText = estimatedECR.toFixed(2);
-        document.getElementById('achievedHeatRate').innerText = achievedHeatRate.toFixed(2);
-        document.getElementById('varianceFromCurrentMod').innerText = varianceFromCurrentMod.toFixed(2);
 
-    }
+
+
+
+
+
+
+
+
+
+
+    document.getElementById("dateInput").value = new Date().toISOString().split('T')[0];
+    document.getElementById("currentCoalFactor").innerText = (rawConsumption + importedConsumption + washedConsumption) / generationMus / 1000;
+    document.getElementById("rawCoalBlendingAchieved").innerText = (rawConsumption / (rawConsumption + washedConsumption + importedConsumption) * 100).toString() + "%";
+    document.getElementById("washedCoalBlendingAchieved").innerText = (washedConsumption / (rawConsumption + washedConsumption + importedConsumption) * 100).toString() + "%";
+    document.getElementById("importedCoalBlendingAchieved").innerText = (importedConsumption / (rawConsumption + washedConsumption + importedConsumption) * 100).toString() + "%";
+    document.getElementById("achievedBlendedGCV").innerText = ((rawConsumption * rawGCV) + (washedConsumption * washedGCV) + (importedConsumption *
+        importedGCV) + (ldoConsumption * ldoGCV) + (foConsumption * foGCV)) / (rawConsumption + washedConsumption + importedConsumption +
+            ldoConsumption + foConsumption);
+    document.getElementById("achievedHeatRate").innerText = (rawConsumption + washedConsumption + importedConsumption + ldoConsumption
+        + foConsumption) * parseFloat(document.getElementById("achievedBlendedGCV").innerText) / generationMus / 1000;
+    document.getElementById("expectedRawConsumption").innerText = targetCoalFactor * expectedGenerationMus * rawTargetCoalBlending
+        * 1000 / 100;
+    document.getElementById("expectedRawGCV").innerText = rawGCV;
+    document.getElementById("expectedWashedConsumption").innerText = targetCoalFactor * expectedGenerationMus * (washedTargetCoalBlending / 100)
+        * 1000;
+    document.getElementById("expectedWashedGCV").innerText = washedGCV;
+    document.getElementById("expectedImportedConsumption").innerText = targetCoalFactor * expectedGenerationMus * (importedTargetCoalBlending / 100) *
+        1000;
+    document.getElementById("expectedImportedGCV").innerText = importedGCV;
+    document.getElementById("expectedLDOGCV").innerText = ldoGCV;
+    document.getElementById("expectedFOGCV").innerText = foGCV;
+    document.getElementById("rawMinimumCoalRecieptsToBePlanned").innerText = parseFloat(document.getElementById("expectedRawConsumption").innerText)
+        - rawClosingBalance;
+    document.getElementById("washedMinimumCoalRecieptsToBePlanned").innerText = parseFloat(document.getElementById("expectedWashedConsumption").innerText)
+        - washedClosingBalance;
+    document.getElementById("importedMinimumCoalRecieptsToBePlanned").innerText = parseFloat(document.getElementById("expectedImportedConsumption").innerText)
+        - importedClosingBalance;
+    document.getElementById("expectedAchievedBlendedGCV").innerText = (
+        (parseFloat(document.getElementById("expectedRawConsumption").innerText) * parseFloat(document.getElementById("expectedRawGCV").innerText)) +
+        (parseFloat(document.getElementById("expectedWashedConsumption").innerText) * parseFloat(document.getElementById("expectedWashedGCV").innerText)) +
+        (parseFloat(document.getElementById("expectedImportedConsumption").innerText) * parseFloat(document.getElementById("expectedImportedGCV").innerText)) +
+        (ldoConsumption * parseFloat(document.getElementById("expectedLDOGCV").innerText)) +
+        (foConsumption * parseFloat(document.getElementById("expectedFOGCV").innerText))
+    ) / (
+            parseFloat(document.getElementById("expectedRawConsumption").innerText) +
+            parseFloat(document.getElementById("expectedWashedConsumption").innerText) +
+            parseFloat(document.getElementById("expectedImportedConsumption").innerText) +
+            ldoConsumption +
+            foConsumption
+        );
+    document.getElementById("expectedVariationFromPreviousBlendedGCV").innerText = parseFloat(document.getElementById("expectedAchievedBlendedGCV").innerText) 
+    - parseFloat(document.getElementById("achievedBlendedGCV").innerText)
+    document.getElementById("expectedAchievedHeatRate").innerText = ((parseFloat(document.getElementById("expectedRawConsumption").innerText)
++ parseFloat(document.getElementById("expectedWashedConsumption").innerText) 
++parseFloat(document.getElementById("expectedImportedConsumption").innerText)
++ldoConsumption
++foConsumption) * parseFloat(document.getElementById("expectedAchievedBlendedGCV").innerText)) / expectedGenerationMus / 1000;
+document.getElementById("expectedVariationFromPreviousMonthHeatRate").innerText = parseFloat(document.getElementById("achievedHeatRate").innerText) - 
+parseFloat(document.getElementById("expectedAchievedHeatRate").innerText)
 </script>
-
 
 </html>
