@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -84,10 +83,8 @@
         .tables-container {
             display: flex;
             gap: 20px;
-            height: calc(100vh - 200px);
-            /* Adjusted height */
+            height: calc(100vh - 250px); /* Adjusted height to accommodate bottom button */
             overflow: hidden;
-            /* Changed from auto to hidden */
         }
 
         .table-wrapper {
@@ -96,7 +93,6 @@
             flex-direction: column;
             overflow-y: auto;
             background-color: white;
-            /* Added solid background */
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -106,9 +102,18 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            /* Changed from auto to hidden */
             background-color: #f3f4f6;
-            /* Added solid background */
+        }
+
+        .bottom-button-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            max-width: 1200px;
+            padding: 0 20px;
+            z-index: 10;
         }
 
         @media (max-width: 768px) {
@@ -121,18 +126,14 @@
                 width: 100%;
                 height: auto;
             }
-        }
-
-        /* New additions for better scrolling behavior */
-        .card-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 5px;
+            
+            .bottom-button-container {
+                width: 90%;
+            }
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
-    <script src="js/slagging.js"></script>
 </head>
 
 <body class="bg-gray-100 h-screen">
@@ -511,94 +512,143 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Bottom Calculate Button -->
+                    <div class="bottom-button-container">
+                        <button id="calculateBtn" class="dashboardbutton">Calculate</button>
+                    </div>
                 </div>
             </main>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initial calculations
+            calculateValues();
+            
+            // Add event listener to calculate button
+            document.getElementById('calculateBtn').addEventListener('click', calculateValues);
+            
+            function calculateValues() {
+                // Get input values
+                const currentMod = parseFloat(document.getElementById('currentMod').value) || 0;
+                const generationMus = parseFloat(document.getElementById('generationMus').value) || 0;
+                const apcMus = parseFloat(document.getElementById('apcMus').value) || 0;
+                
+                // Fuel consumption values
+                const rawConsumption = parseFloat(document.getElementById('rawConsumption').value) || 0;
+                const washedConsumption = parseFloat(document.getElementById('washedConsumption').value) || 0;
+                const importedConsumption = parseFloat(document.getElementById('importedConsumption').value) || 0;
+                const ldoConsumption = parseFloat(document.getElementById('ldoConsumption').value) || 0;
+                const foConsumption = parseFloat(document.getElementById('foConsumption').value) || 0;
+                
+                // Fuel GCV values
+                const rawGCV = parseFloat(document.getElementById('rawGCV').value) || 0;
+                const washedGCV = parseFloat(document.getElementById('washedGCV').value) || 0;
+                const importedGCV = parseFloat(document.getElementById('importedGCV').value) || 0;
+                const ldoGCV = parseFloat(document.getElementById('ldoGCV').value) || 0;
+                const foGCV = parseFloat(document.getElementById('foGCV').value) || 0;
+                
+                // Calculate coal blending percentages
+                const totalCoalConsumption = rawConsumption + washedConsumption + importedConsumption;
+                const rawBlending = (rawConsumption / totalCoalConsumption * 100).toFixed(2);
+                const washedBlending = (washedConsumption / totalCoalConsumption * 100).toFixed(2);
+                const importedBlending = (importedConsumption / totalCoalConsumption * 100).toFixed(2);
+                
+                // Calculate coal factor (kg/kWh)
+                const coalFactor = (totalCoalConsumption * 1000 / (generationMus * 1000)).toFixed(4);
+                
+                // Calculate blended GCV
+                const blendedGCV = ((rawConsumption * rawGCV + washedConsumption * washedGCV + importedConsumption * importedGCV) / 
+                                totalCoalConsumption).toFixed(2);
+                
+                // Calculate heat rate (kcal/kWh)
+                const totalEnergyInput = (rawConsumption * rawGCV + washedConsumption * washedGCV + 
+                                        importedConsumption * importedGCV + ldoConsumption * ldoGCV + 
+                                        foConsumption * foGCV);
+                const heatRate = (totalEnergyInput / (generationMus * 1000)).toFixed(2);
+                
+                // Set calculated values for current performance
+                document.getElementById('currentCoalFactor').textContent = coalFactor;
+                document.getElementById('rawCoalBlendingAchieved').textContent = rawBlending + '%';
+                document.getElementById('washedCoalBlendingAchieved').textContent = washedBlending + '%';
+                document.getElementById('importedCoalBlendingAchieved').textContent = importedBlending + '%';
+                document.getElementById('achievedBlendedGCV').textContent = blendedGCV;
+                document.getElementById('achievedHeatRate').textContent = heatRate;
+                
+                // Get expected performance inputs
+                const expectedGenerationMus = parseFloat(document.getElementById('expectedGenerationMus').value) || 0;
+                const expectedAPCMus = parseFloat(document.getElementById('expectedAPCMus').value) || 0;
+                const targetCoalFactor = parseFloat(document.getElementById('targetCoalFactor').value) || 0;
+                
+                // Get target blending percentages
+                const rawTargetBlending = parseFloat(document.getElementById('rawTargetCoalBlending').value) || 0;
+                const washedTargetBlending = parseFloat(document.getElementById('washedTargetCoalBlending').value) || 0;
+                const importedTargetBlending = parseFloat(document.getElementById('importedTargetCoalBlending').value) || 0;
+                
+                // Calculate expected coal consumption based on target coal factor
+                const expectedTotalCoalConsumption = (targetCoalFactor * expectedGenerationMus * 1000) / 1000;
+                
+                // Calculate expected consumption for each coal type based on target blending
+                const expectedRawConsumption = (expectedTotalCoalConsumption * rawTargetBlending / 100).toFixed(2);
+                const expectedWashedConsumption = (expectedTotalCoalConsumption * washedTargetBlending / 100).toFixed(2);
+                const expectedImportedConsumption = (expectedTotalCoalConsumption * importedTargetBlending / 100).toFixed(2);
+                
+                // Set expected consumption values
+                document.getElementById('expectedRawConsumption').textContent = expectedRawConsumption;
+                document.getElementById('expectedWashedConsumption').textContent = expectedWashedConsumption;
+                document.getElementById('expectedImportedConsumption').textContent = expectedImportedConsumption;
+                
+                // Set expected GCV values (using current values as defaults)
+                document.getElementById('expectedRawGCV').textContent = rawGCV;
+                document.getElementById('expectedWashedGCV').textContent = washedGCV;
+                document.getElementById('expectedImportedGCV').textContent = importedGCV;
+                document.getElementById('expectedLDOGCV').textContent = ldoGCV;
+                document.getElementById('expectedFOGCV').textContent = foGCV;
+                
+                // Calculate expected blended GCV
+                const expectedBlendedGCV = (
+                    (expectedRawConsumption * rawGCV + 
+                     expectedWashedConsumption * washedGCV + 
+                     expectedImportedConsumption * importedGCV) / 
+                    (parseFloat(expectedRawConsumption) + parseFloat(expectedWashedConsumption) + parseFloat(expectedImportedConsumption))
+                    .toFixed(2));
+                
+                // Calculate expected heat rate
+                const expectedLDOConsumption = parseFloat(document.getElementById('expectedLDOConsumption').value) || 0;
+                const expectedFOConsumption = parseFloat(document.getElementById('expectedFOConsumption').value) || 0;
+                
+                const expectedTotalEnergyInput = (
+                    expectedRawConsumption * rawGCV + 
+                    expectedWashedConsumption * washedGCV + 
+                    expectedImportedConsumption * importedGCV + 
+                    expectedLDOConsumption * ldoGCV + 
+                    expectedFOConsumption * foGCV);
+                
+                const expectedHeatRate = (expectedTotalEnergyInput / (expectedGenerationMus * 1000)).toFixed(2);
+                
+                // Set expected calculated values
+                document.getElementById('expectedAchievedBlendedGCV').textContent = expectedBlendedGCV;
+                document.getElementById('expectedVariationFromPreviousBlendedGCV').textContent = 
+                    (expectedBlendedGCV - blendedGCV).toFixed(2);
+                document.getElementById('expectedAchievedHeatRate').textContent = expectedHeatRate;
+                document.getElementById('expectedVariationFromPreviousMonthHeatRate').textContent = 
+                    (expectedHeatRate - heatRate).toFixed(2);
+                
+                // Calculate minimum coal receipts needed (simplified calculation)
+                const rawClosingBalance = parseFloat(document.getElementById('rawClosingBalance').value) || 0;
+                const washedClosingBalance = parseFloat(document.getElementById('washedClosingBalance').value) || 0;
+                const importedClosingBalance = parseFloat(document.getElementById('importedClosingBalance').value) || 0;
+                
+                const rawNeeded = Math.max(0, expectedRawConsumption - rawClosingBalance).toFixed(2);
+                const washedNeeded = Math.max(0, expectedWashedConsumption - washedClosingBalance).toFixed(2);
+                const importedNeeded = Math.max(0, expectedImportedConsumption - importedClosingBalance).toFixed(2);
+                
+                document.getElementById('rawMinimumCoalRecieptsToBePlanned').textContent = rawNeeded;
+                document.getElementById('washedMinimumCoalRecieptsToBePlanned').textContent = washedNeeded;
+                document.getElementById('importedMinimumCoalRecieptsToBePlanned').textContent = importedNeeded;
+            }
+        });
+    </script>
 </body>
-<script>
-    let rawConsumption = parseFloat(document.getElementById("rawConsumption").value);
-    let importedConsumption = parseFloat(document.getElementById("importedConsumption").value);
-    let generationMus = parseFloat(document.getElementById("generationMus").value);
-    let washedConsumption = parseFloat(document.getElementById("washedConsumption").value);
-    let rawGCV = parseFloat(document.getElementById("rawGCV").value);
-    let washedGCV = parseFloat(document.getElementById("washedGCV").value);
-    let importedGCV = parseFloat(document.getElementById("importedGCV").value);
-    let ldoConsumption = parseFloat(document.getElementById("ldoConsumption").value);
-    let ldoGCV = parseFloat(document.getElementById("ldoGCV").value);
-    let foConsumption = parseFloat(document.getElementById("foConsumption").value);
-    let foGCV = parseFloat(document.getElementById("foGCV").value);
-    let targetCoalFactor = parseFloat(document.getElementById("targetCoalFactor").value);
-    let expectedGenerationMus = parseFloat(document.getElementById("expectedGenerationMus").value);
-    let rawTargetCoalBlending = parseFloat(document.getElementById("rawTargetCoalBlending").value);
-    let washedTargetCoalBlending = parseFloat(document.getElementById("washedTargetCoalBlending").value);
-    let importedTargetCoalBlending = parseFloat(document.getElementById("importedTargetCoalBlending").value);
-    let rawClosingBalance = parseFloat(document.getElementById("rawClosingBalance").value);
-    let washedClosingBalance = parseFloat(document.getElementById("washedClosingBalance").value);
-    let importedClosingBalance = parseFloat(document.getElementById("importedClosingBalance").value);
-    let expectedLDOConsumption = parseFloat(document.getElementById("expectedLDOConsumption").value);
-    let expectedFOConsumption = parseFloat(document.getElementById("expectedFOConsumption").value);
-
-
-
-
-
-
-
-
-
-
-
-
-    document.getElementById("dateInput").value = new Date().toISOString().split('T')[0];
-    document.getElementById("currentCoalFactor").innerText = (rawConsumption + importedConsumption + washedConsumption) / generationMus / 1000;
-    document.getElementById("rawCoalBlendingAchieved").innerText = (rawConsumption / (rawConsumption + washedConsumption + importedConsumption) * 100).toString() + "%";
-    document.getElementById("washedCoalBlendingAchieved").innerText = (washedConsumption / (rawConsumption + washedConsumption + importedConsumption) * 100).toString() + "%";
-    document.getElementById("importedCoalBlendingAchieved").innerText = (importedConsumption / (rawConsumption + washedConsumption + importedConsumption) * 100).toString() + "%";
-    document.getElementById("achievedBlendedGCV").innerText = ((rawConsumption * rawGCV) + (washedConsumption * washedGCV) + (importedConsumption *
-        importedGCV) + (ldoConsumption * ldoGCV) + (foConsumption * foGCV)) / (rawConsumption + washedConsumption + importedConsumption +
-            ldoConsumption + foConsumption);
-    document.getElementById("achievedHeatRate").innerText = (rawConsumption + washedConsumption + importedConsumption + ldoConsumption
-        + foConsumption) * parseFloat(document.getElementById("achievedBlendedGCV").innerText) / generationMus / 1000;
-    document.getElementById("expectedRawConsumption").innerText = targetCoalFactor * expectedGenerationMus * rawTargetCoalBlending
-        * 1000 / 100;
-    document.getElementById("expectedRawGCV").innerText = rawGCV;
-    document.getElementById("expectedWashedConsumption").innerText = targetCoalFactor * expectedGenerationMus * (washedTargetCoalBlending / 100)
-        * 1000;
-    document.getElementById("expectedWashedGCV").innerText = washedGCV;
-    document.getElementById("expectedImportedConsumption").innerText = targetCoalFactor * expectedGenerationMus * (importedTargetCoalBlending / 100) *
-        1000;
-    document.getElementById("expectedImportedGCV").innerText = importedGCV;
-    document.getElementById("expectedLDOGCV").innerText = ldoGCV;
-    document.getElementById("expectedFOGCV").innerText = foGCV;
-    document.getElementById("rawMinimumCoalRecieptsToBePlanned").innerText = parseFloat(document.getElementById("expectedRawConsumption").innerText)
-        - rawClosingBalance;
-    document.getElementById("washedMinimumCoalRecieptsToBePlanned").innerText = parseFloat(document.getElementById("expectedWashedConsumption").innerText)
-        - washedClosingBalance;
-    document.getElementById("importedMinimumCoalRecieptsToBePlanned").innerText = parseFloat(document.getElementById("expectedImportedConsumption").innerText)
-        - importedClosingBalance;
-    document.getElementById("expectedAchievedBlendedGCV").innerText = (
-        (parseFloat(document.getElementById("expectedRawConsumption").innerText) * parseFloat(document.getElementById("expectedRawGCV").innerText)) +
-        (parseFloat(document.getElementById("expectedWashedConsumption").innerText) * parseFloat(document.getElementById("expectedWashedGCV").innerText)) +
-        (parseFloat(document.getElementById("expectedImportedConsumption").innerText) * parseFloat(document.getElementById("expectedImportedGCV").innerText)) +
-        (ldoConsumption * parseFloat(document.getElementById("expectedLDOGCV").innerText)) +
-        (foConsumption * parseFloat(document.getElementById("expectedFOGCV").innerText))
-    ) / (
-            parseFloat(document.getElementById("expectedRawConsumption").innerText) +
-            parseFloat(document.getElementById("expectedWashedConsumption").innerText) +
-            parseFloat(document.getElementById("expectedImportedConsumption").innerText) +
-            ldoConsumption +
-            foConsumption
-        );
-    document.getElementById("expectedVariationFromPreviousBlendedGCV").innerText = parseFloat(document.getElementById("expectedAchievedBlendedGCV").innerText) 
-    - parseFloat(document.getElementById("achievedBlendedGCV").innerText)
-    document.getElementById("expectedAchievedHeatRate").innerText = ((parseFloat(document.getElementById("expectedRawConsumption").innerText)
-+ parseFloat(document.getElementById("expectedWashedConsumption").innerText) 
-+parseFloat(document.getElementById("expectedImportedConsumption").innerText)
-+ldoConsumption
-+foConsumption) * parseFloat(document.getElementById("expectedAchievedBlendedGCV").innerText)) / expectedGenerationMus / 1000;
-document.getElementById("expectedVariationFromPreviousMonthHeatRate").innerText = parseFloat(document.getElementById("achievedHeatRate").innerText) - 
-parseFloat(document.getElementById("expectedAchievedHeatRate").innerText)
-</script>
-
 </html>
