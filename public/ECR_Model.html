@@ -260,13 +260,15 @@
                                     </tr>
                                     <tr>
                                         <td>Current Coal factor (kg/kWh)</td>
-                                        <td id="currentCoalFactor"></td>
+                                        <td id="currentCoalFactor" class="border border-gray-300 px-2 py-1 rounded text-center"
+                                        style="min-width: 6ch; max-width: 20ch;"></td> <!-- Added default value -->
                                     </tr>
-                                    <tr>
+                                    <!-- If you want to keep the date row but hide it -->
+                                    <tr style="display: none;">
                                         <td>Current performance</td>
                                         <td>
                                             <input type="date" class="border border-gray-300 px-2 py-1 rounded"
-                                                id="dateInput">
+                                                id="dateInput" onchange="updateDateOnly()">
                                         </td>
                                     </tr>
                                     <tr>
