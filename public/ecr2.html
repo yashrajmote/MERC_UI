@@ -182,7 +182,7 @@
                     <a href="./regParams.html"
                         class="flex items-center w-full p-3 mb-2 text-gray-800 rounded-md hover:bg-gray-100 group">
                         <svg class="w-6 h-6 text-gray-500 group-hover:text-green-600" xmlns="http://www.w3.org/2000/svg"
-                            fil l="currentColor" viewBox="0 0 22 21">
+                            fill="currentColor" viewBox="0 0 22 21">
                             <path
                                 d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
                             <path
@@ -364,7 +364,7 @@
                                         <table class="data-table">
                                             <tr>
                                                 <td>Other Variable costs (Rs.)</td>
-                                                <td>₹ <input type="number" value="38564220" id="otherVariableCosts"
+                                                <td>₹ <input type="number" value="198560" id="otherVariableCosts"
                                                         class="border border-gray-300 px-2 py-1 rounded w-16"></td>
                                             </tr>
                                             <tr>
@@ -374,10 +374,6 @@
                                             <tr>
                                                 <td>Achieved Heat Rate (kcal/kWh)</td>
                                                 <td id="achievedHeatRate"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Expected Mod for upcoming month (Rs./kwh)</td>
-                                                <td id="expectedModForUpcomingMonth"></td>
                                             </tr>
                                         </table>
                                     </div>
@@ -393,33 +389,18 @@
                                 <table class="data-table">
                                     <tr>
                                         <td>Expected MoD for upcoming month (Rs./kWh)</td>
-                                        <td><input type="number" value="2.9404" id="expectedModForUpcomingMonth2"
+                                        <td><input type="number" value="2.9404" id="expectedModForUpcomingMonth"
                                                 class="border border-gray-300 px-2 py-1 rounded w-16"></td>
                                     </tr>
-                                    <!-- <tr>
+                                    <tr>
                                         <td>Target MoD for upcoming month (Rs./kWh)</td>
                                         <td><input type="number" value="2.75" id="targetModForUpcomingMonth"
                                                 class="border border-gray-300 px-2 py-1 rounded w-16"></td>
-                                    </tr> -->
+                                    </tr>
                                     <tr>
-                                        <td>Target Coal Factor for next month (kg/kWh)</td>
-                                        <td><input type="number" value="0.78" id="targetCoalFactor"
+                                        <td>Target Coal Factor (kg/kWh)</td>
+                                        <td><input type="number" value="0.8" id="targetCoalFactor"
                                                 class="border border-gray-300 px-2 py-1 rounded w-16"></td>
-                                    </tr>
-                                </table>
-                                <table class="data-table">
-                                    <tr>
-                                        <th>Raw</th>
-                                        <th>Washed</th>
-                                        <th>Imported</th>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="number" value="90.00" id="rawTargetCoalBlending"
-                                                class="border border-gray-300 px-2 py-1 rounded w-16">%</td>
-                                        <td><input type="number" value="10.00" id="washedTargetCoalBlending"
-                                                class="border border-gray-300 px-2 py-1 rounded w-16">%</td>
-                                        <td><input type="number" value="0.00" id="importedTargetCoalBlending"
-                                                class="border border-gray-300 px-2 py-1 rounded w-16">%</td>
                                     </tr>
                                 </table>
 
@@ -435,13 +416,9 @@
                                         <td><input type="number" value="18.56" id="expectedAPCMus"
                                                 class="border border-gray-300 px-2 py-1 rounded w-16"></td>
                                     </tr>
-                                    <tr>
-                                        <td>Expected Coal Consumption (MT)</td>
-                                        <td id="expectedCoalConsumption"></td>
-                                    </tr>
                                 </table>
 
-                                <!-- <div class="section-title">Target Coal Blending (%)</div>
+                                <div class="section-title">Target Coal Blending (%)</div>
                                 <table class="data-table">
                                     <tr>
                                         <th>Raw</th>
@@ -456,7 +433,7 @@
                                         <td><input type="number" value="0.00" id="importedTargetCoalBlending"
                                                 class="border border-gray-300 px-2 py-1 rounded w-16">%</td>
                                     </tr>
-                                </table> -->
+                                </table>
 
                                 <div class="section-title">Expected Fuel Performance</div>
                                 <table class="data-table">
@@ -491,11 +468,6 @@
                                         <td><input type="number" value="0" id="expectedFOConsumption"
                                                 class="border border-gray-300 px-2 py-1 rounded w-16"></td>
                                         <td id="expectedFOGCV">10600</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Estimated Mod for next MoD cycle (Rs / kWh)</td>
-                                        
-                                        <td id="estimatedModForNextMoDCycle"></td>
                                     </tr>
                                 </table>
 
@@ -553,154 +525,97 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-    // Initial calculations
-    calculateValues();
+            // Initial calculations
+            calculateValues();
 
-    // Add event listener to calculate button
-    document.getElementById('calculateBtn').addEventListener('click', calculateValues);
+            // Add event listener to calculate button
+            document.getElementById('calculateBtn').addEventListener('click', calculateValues);
 
-    function calculateValues() {
-        let rawConsumption = parseFloat(document.getElementById("rawConsumption").value) || 0;
-        let importedConsumption = parseFloat(document.getElementById("importedConsumption").value) || 0;
-        let generationMus = parseFloat(document.getElementById("generationMus").value) || 1; // Prevent division by zero
-        let washedConsumption = parseFloat(document.getElementById("washedConsumption").value) || 0;
-        let rawGCV = parseFloat(document.getElementById("rawGCV").value) || 0;
-        let washedGCV = parseFloat(document.getElementById("washedGCV").value) || 0;
-        let importedGCV = parseFloat(document.getElementById("importedGCV").value) || 0;
-        let ldoConsumption = parseFloat(document.getElementById("ldoConsumption").value) || 0;
-        let ldoGCV = parseFloat(document.getElementById("ldoGCV").value) || 0;
-        let foConsumption = parseFloat(document.getElementById("foConsumption").value) || 0;
-        let foGCV = parseFloat(document.getElementById("foGCV").value) || 0;
-        let targetCoalFactor = parseFloat(document.getElementById("targetCoalFactor").value) || 0;
-        let expectedGenerationMus = parseFloat(document.getElementById("expectedGenerationMus").value) || 1; // Prevent division by zero
-        let rawTargetCoalBlending = parseFloat(document.getElementById("rawTargetCoalBlending").value) || 0;
-        let washedTargetCoalBlending = parseFloat(document.getElementById("washedTargetCoalBlending").value) || 0;
-        let importedTargetCoalBlending = parseFloat(document.getElementById("importedTargetCoalBlending").value) || 0;
-        let rawClosingBalance = parseFloat(document.getElementById("rawClosingBalance").value) || 0;
-        let washedClosingBalance = parseFloat(document.getElementById("washedClosingBalance").value) || 0;
-        let importedClosingBalance = parseFloat(document.getElementById("importedClosingBalance").value) || 0;
-        let expectedLDOConsumption = parseFloat(document.getElementById("expectedLDOConsumption").value) || 0;
-        let expectedFOConsumption = parseFloat(document.getElementById("expectedFOConsumption").value) || 0;
-        let apcMus = parseFloat(document.getElementById("apcMus").value) || 0;
-        let expectedAPCMus = parseFloat(document.getElementById("expectedAPCMus").value) || 0;
-        let rawLandedCost = parseFloat(document.getElementById("rawLandedCost").value) || 0;
-        let washedLandedCost = parseFloat(document.getElementById("washedLandedCost").value) || 0;
-        let importedLandedCost = parseFloat(document.getElementById("importedLandedCost").value) || 0;
-        let ldoLandedCost = parseFloat(document.getElementById("ldoLandedCost").value) || 0;
-        let foLandedCost = parseFloat(document.getElementById("foLandedCost").value) || 0;
+            function calculateValues() {
+                let rawConsumption = parseFloat(document.getElementById("rawConsumption").value);
+                let importedConsumption = parseFloat(document.getElementById("importedConsumption").value);
+                let generationMus = parseFloat(document.getElementById("generationMus").value);
+                let washedConsumption = parseFloat(document.getElementById("washedConsumption").value);
+                let rawGCV = parseFloat(document.getElementById("rawGCV").value);
+                let washedGCV = parseFloat(document.getElementById("washedGCV").value);
+                let importedGCV = parseFloat(document.getElementById("importedGCV").value);
+                let ldoConsumption = parseFloat(document.getElementById("ldoConsumption").value);
+                let ldoGCV = parseFloat(document.getElementById("ldoGCV").value);
+                let foConsumption = parseFloat(document.getElementById("foConsumption").value);
+                let foGCV = parseFloat(document.getElementById("foGCV").value);
+                let targetCoalFactor = parseFloat(document.getElementById("targetCoalFactor").value);
+                let expectedGenerationMus = parseFloat(document.getElementById("expectedGenerationMus").value);
+                let rawTargetCoalBlending = parseFloat(document.getElementById("rawTargetCoalBlending").value);
+                let washedTargetCoalBlending = parseFloat(document.getElementById("washedTargetCoalBlending").value);
+                let importedTargetCoalBlending = parseFloat(document.getElementById("importedTargetCoalBlending").value);
+                let rawClosingBalance = parseFloat(document.getElementById("rawClosingBalance").value);
+                let washedClosingBalance = parseFloat(document.getElementById("washedClosingBalance").value);
+                let importedClosingBalance = parseFloat(document.getElementById("importedClosingBalance").value);
+                let expectedLDOConsumption = parseFloat(document.getElementById("expectedLDOConsumption").value);
+                let expectedFOConsumption = parseFloat(document.getElementById("expectedFOConsumption").value);
 
-        // Calculate expected coal consumption first as it's used in other calculations
-        let expectedCoalConsumption = targetCoalFactor * expectedGenerationMus * 1000;
-        document.getElementById("expectedCoalConsumption").innerText = expectedCoalConsumption.toFixed(2);
 
-        // Set current date
-        document.getElementById("dateInput").value = new Date().toISOString().split('T')[0];
-        
-        // Calculate current coal factor
-        let totalCoalConsumption = rawConsumption + importedConsumption + washedConsumption;
-        let currentCoalFactor = totalCoalConsumption / generationMus / 1000;
-        document.getElementById("currentCoalFactor").innerText = currentCoalFactor.toFixed(4);
-        
-        // Calculate coal blending percentages
-        if (totalCoalConsumption > 0) {
-            document.getElementById("rawCoalBlendingAchieved").innerText = ((rawConsumption / totalCoalConsumption) * 100).toFixed(2) + "%";
-            document.getElementById("washedCoalBlendingAchieved").innerText = ((washedConsumption / totalCoalConsumption) * 100).toFixed(2) + "%";
-            document.getElementById("importedCoalBlendingAchieved").innerText = ((importedConsumption / totalCoalConsumption) * 100).toFixed(2) + "%";
-        } else {
-            document.getElementById("rawCoalBlendingAchieved").innerText = "0.00%";
-            document.getElementById("washedCoalBlendingAchieved").innerText = "0.00%";
-            document.getElementById("importedCoalBlendingAchieved").innerText = "0.00%";
-        }
-        
-        // Calculate achieved blended GCV
-        let totalConsumption = totalCoalConsumption + ldoConsumption + foConsumption;
-        let achievedBlendedGCV = 0;
-        if (totalConsumption > 0) {
-            achievedBlendedGCV = ((rawConsumption * rawGCV) + 
-                (washedConsumption * washedGCV) + 
-                (importedConsumption * importedGCV) + 
-                (ldoConsumption * ldoGCV) + 
-                (foConsumption * foGCV)) / totalConsumption;
-        }
-        document.getElementById("achievedBlendedGCV").innerText = achievedBlendedGCV.toFixed(2);
-        
-        // Calculate achieved heat rate
-        let achievedHeatRate = totalConsumption * achievedBlendedGCV / generationMus / 1000;
-        document.getElementById("achievedHeatRate").innerText = achievedHeatRate.toFixed(2);
-        
-        // Calculate expected consumption values
-        let expectedRawConsumption = (rawTargetCoalBlending / 100) * expectedCoalConsumption;
-        let expectedWashedConsumption = (washedTargetCoalBlending / 100) * expectedCoalConsumption;
-        let expectedImportedConsumption = (importedTargetCoalBlending / 100) * expectedCoalConsumption;
-        
-        document.getElementById("expectedRawConsumption").innerText = expectedRawConsumption.toFixed(2);
-        document.getElementById("expectedRawGCV").innerText = rawGCV.toFixed(2);
-        document.getElementById("expectedWashedConsumption").innerText = expectedWashedConsumption.toFixed(2);
-        document.getElementById("expectedWashedGCV").innerText = washedGCV.toFixed(2);
-        document.getElementById("expectedImportedConsumption").innerText = expectedImportedConsumption.toFixed(2);
-        document.getElementById("expectedImportedGCV").innerText = importedGCV.toFixed(2);
-        document.getElementById("expectedLDOGCV").innerText = ldoGCV.toFixed(2);
-        document.getElementById("expectedFOGCV").innerText = foGCV.toFixed(2);
-        
-        // Calculate minimum coal receipts
-        document.getElementById("rawMinimumCoalRecieptsToBePlanned").innerText = (expectedRawConsumption - rawClosingBalance).toFixed(2);
-        document.getElementById("washedMinimumCoalRecieptsToBePlanned").innerText = (expectedWashedConsumption - washedClosingBalance).toFixed(2);
-        document.getElementById("importedMinimumCoalRecieptsToBePlanned").innerText = (expectedImportedConsumption - importedClosingBalance).toFixed(2);
-        
-        // Calculate expected achieved blended GCV
-        let expectedTotalConsumption = expectedRawConsumption + expectedWashedConsumption + expectedImportedConsumption + expectedLDOConsumption + expectedFOConsumption;
-        let expectedAchievedBlendedGCV = 0;
-        if (expectedTotalConsumption > 0) {
-            expectedAchievedBlendedGCV = (
-                (expectedRawConsumption * rawGCV) +
-                (expectedWashedConsumption * washedGCV) +
-                (expectedImportedConsumption * importedGCV) +
-                (expectedLDOConsumption * ldoGCV) +
-                (expectedFOConsumption * foGCV)
-            ) / expectedTotalConsumption;
-        }
-        document.getElementById("expectedAchievedBlendedGCV").innerText = expectedAchievedBlendedGCV.toFixed(2);
-        
-        // Calculate expected variation from previous blended GCV
-        let expectedVariation = expectedAchievedBlendedGCV - achievedBlendedGCV;
-        document.getElementById("expectedVariationFromPreviousBlendedGCV").innerText = expectedVariation.toFixed(2);
-        
-        // Calculate expected achieved heat rate
-        let expectedAchievedHeatRate = expectedTotalConsumption * expectedAchievedBlendedGCV / expectedGenerationMus / 1000;
-        document.getElementById("expectedAchievedHeatRate").innerText = expectedAchievedHeatRate.toFixed(2);
-        
-        // Calculate expected variation from previous month heat rate
-        let expectedHeatRateVariation = achievedHeatRate - expectedAchievedHeatRate;
-        document.getElementById("expectedVariationFromPreviousMonthHeatRate").innerText = expectedHeatRateVariation.toFixed(2);
-        
-        // Calculate expected MOD for upcoming month
-        let expectedMod = 0;
-        if ((generationMus - apcMus) > 0) {
-            expectedMod = (
-                (rawConsumption * rawLandedCost) +
-                (washedConsumption * washedLandedCost) +
-                (importedConsumption * importedLandedCost) +
-                (ldoConsumption * ldoLandedCost) +
-                (foConsumption * foLandedCost)
-            ) / (generationMus - apcMus) / 10**6;
-        }
-        document.getElementById("expectedModForUpcomingMonth").innerText = expectedMod.toFixed(4);
-        document.getElementById("expectedModForUpcomingMonth2").innerText = expectedMod.toFixed(4);
-        
-        // Calculate estimated MOD for next MoD cycle
-        let estimatedMod = 0;
-        if ((expectedGenerationMus - expectedAPCMus) > 0) {
-            estimatedMod = (
-                (expectedRawConsumption * rawLandedCost) +
-                (expectedWashedConsumption * washedLandedCost) +
-                (expectedImportedConsumption * importedLandedCost) +
-                (expectedLDOConsumption * ldoLandedCost) +
-                (expectedFOConsumption * foLandedCost)
-            ) / (expectedGenerationMus - expectedAPCMus) / 10**6;
-        }
-        document.getElementById("estimatedModForNextMoDCycle").innerText = estimatedMod.toFixed(4);
-    }
-});
+
+
+
+
+
+
+
+
+
+
+                document.getElementById("dateInput").value = new Date().toISOString().split('T')[0];
+                document.getElementById("currentCoalFactor").innerText = (rawConsumption + importedConsumption + washedConsumption) / generationMus / 1000;
+                document.getElementById("rawCoalBlendingAchieved").innerText = (rawConsumption / (rawConsumption + washedConsumption + importedConsumption) * 100).toString() + "%";
+                document.getElementById("washedCoalBlendingAchieved").innerText = (washedConsumption / (rawConsumption + washedConsumption + importedConsumption) * 100).toString() + "%";
+                document.getElementById("importedCoalBlendingAchieved").innerText = (importedConsumption / (rawConsumption + washedConsumption + importedConsumption) * 100).toString() + "%";
+                document.getElementById("achievedBlendedGCV").innerText = ((rawConsumption * rawGCV) + (washedConsumption * washedGCV) + (importedConsumption *
+                    importedGCV) + (ldoConsumption * ldoGCV) + (foConsumption * foGCV)) / (rawConsumption + washedConsumption + importedConsumption +
+                        ldoConsumption + foConsumption);
+                document.getElementById("achievedHeatRate").innerText = (rawConsumption + washedConsumption + importedConsumption + ldoConsumption
+                    + foConsumption) * parseFloat(document.getElementById("achievedBlendedGCV").innerText) / generationMus / 1000;
+                document.getElementById("expectedRawConsumption").innerText = targetCoalFactor * expectedGenerationMus * rawTargetCoalBlending
+                    * 1000 / 100;
+                document.getElementById("expectedRawGCV").innerText = rawGCV;
+                document.getElementById("expectedWashedConsumption").innerText = targetCoalFactor * expectedGenerationMus * (washedTargetCoalBlending / 100)
+                    * 1000;
+                document.getElementById("expectedWashedGCV").innerText = washedGCV;
+                document.getElementById("expectedImportedConsumption").innerText = targetCoalFactor * expectedGenerationMus * (importedTargetCoalBlending / 100) *
+                    1000;
+                document.getElementById("expectedImportedGCV").innerText = importedGCV;
+                document.getElementById("expectedLDOGCV").innerText = ldoGCV;
+                document.getElementById("expectedFOGCV").innerText = foGCV;
+                document.getElementById("rawMinimumCoalRecieptsToBePlanned").innerText = parseFloat(document.getElementById("expectedRawConsumption").innerText)
+                    - rawClosingBalance;
+                document.getElementById("washedMinimumCoalRecieptsToBePlanned").innerText = parseFloat(document.getElementById("expectedWashedConsumption").innerText)
+                    - washedClosingBalance;
+                document.getElementById("importedMinimumCoalRecieptsToBePlanned").innerText = parseFloat(document.getElementById("expectedImportedConsumption").innerText)
+                    - importedClosingBalance;
+                document.getElementById("expectedAchievedBlendedGCV").innerText = (
+                    (parseFloat(document.getElementById("expectedRawConsumption").innerText) * parseFloat(document.getElementById("expectedRawGCV").innerText)) +
+                    (parseFloat(document.getElementById("expectedWashedConsumption").innerText) * parseFloat(document.getElementById("expectedWashedGCV").innerText)) +
+                    (parseFloat(document.getElementById("expectedImportedConsumption").innerText) * parseFloat(document.getElementById("expectedImportedGCV").innerText)) +
+                    (ldoConsumption * parseFloat(document.getElementById("expectedLDOGCV").innerText)) +
+                    (foConsumption * parseFloat(document.getElementById("expectedFOGCV").innerText))
+                ) / (
+                        parseFloat(document.getElementById("expectedRawConsumption").innerText) +
+                        parseFloat(document.getElementById("expectedWashedConsumption").innerText) +
+                        parseFloat(document.getElementById("expectedImportedConsumption").innerText) +
+                        ldoConsumption +
+                        foConsumption
+                    );
+                document.getElementById("expectedVariationFromPreviousBlendedGCV").innerText = parseFloat(document.getElementById("expectedAchievedBlendedGCV").innerText)
+                    - parseFloat(document.getElementById("achievedBlendedGCV").innerText)
+                document.getElementById("expectedAchievedHeatRate").innerText = ((parseFloat(document.getElementById("expectedRawConsumption").innerText)
+                    + parseFloat(document.getElementById("expectedWashedConsumption").innerText)
+                    + parseFloat(document.getElementById("expectedImportedConsumption").innerText)
+                    + ldoConsumption
+                    + foConsumption) * parseFloat(document.getElementById("expectedAchievedBlendedGCV").innerText)) / expectedGenerationMus / 1000;
+                document.getElementById("expectedVariationFromPreviousMonthHeatRate").innerText = parseFloat(document.getElementById("achievedHeatRate").innerText) -
+                    parseFloat(document.getElementById("expectedAchievedHeatRate").innerText)
+            }
+        });
     </script>
 </body>
 
