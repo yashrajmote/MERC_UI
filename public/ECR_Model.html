@@ -290,14 +290,14 @@
                                 <div class="section-title">Coal Blending (%) Achieved</div>
                                 <table class="data-table">
                                     <tr>
-                                        <th>Raw</th>
-                                        <th>Washed</th>
-                                        <th>Imported</th>
+                                        <th>Raw Coal</th>
+                                        <th>Washed Coal</th>
+                                        <th>Imported Coal</th>
                                     </tr>
                                     <tr>
                                         <td id="rawCoalBlendingAchieved"></td>
                                         <td id="washedCoalBlendingAchieved"></td>
-                                        <td id="importedCoalBlendingAchieved">0.00%</td>
+                                        <td id="importedCoalBlendingAchieved"></td>
                                     </tr>
                                 </table>
 
@@ -305,13 +305,13 @@
                                 <table class="data-table">
                                     <tr>
                                         <th>Fuel details</th>
-                                        <th>Consumption</th>
-                                        <th>GCV</th>
-                                        <th>Landed Cost</th>
-                                        <th>Closing Balance</th>
+                                        <th>Consumption (MT/KL)</th>
+                                        <th>GCV (kcal/kg)</th>
+                                        <th>Landed Cost (Rs/MT)</th>
+                                        <th>Closing Balance (MT)</th>
                                     </tr>
                                     <tr>
-                                        <td>Raw</td>
+                                        <td>Raw Coal</td>
                                         <td><input type="number" value="198560" id="rawConsumption"
                                             class="border border-gray-300 px-2 py-1 rounded text-center"
                                             style="min-width: 6ch; max-width: 20ch;" 
@@ -330,7 +330,7 @@
                                             oninput="adjustWidth(this)"></td>
                                     </tr>
                                     <tr>
-                                        <td>Washed</td>
+                                        <td>Washed Coal</td>
                                         <td><input type="number" value="35440" id="washedConsumption"
                                             class="border border-gray-300 px-2 py-1 rounded text-center"
                                             style="min-width: 6ch; max-width: 11ch;" 
@@ -349,7 +349,7 @@
                                             oninput="adjustWidth(this)"></td>
                                     </tr>
                                     <tr>
-                                        <td>Imported</td>
+                                        <td>Imported Coal</td>
                                         <td><input type="number" value="0" id="importedConsumption"
                                             class="border border-gray-300 px-2 py-1 rounded text-center"
                                             style="min-width: 6ch; max-width: 11ch;" 
@@ -426,7 +426,7 @@
                                                 <td id="achievedHeatRate"></td>
                                             </tr>
                                             <tr>
-                                                <td>Expected Mod for upcoming month (Rs./kwh)</td>
+                                                <td>Expected MoD for upcoming month (Rs./kwh)</td>
                                                 <td id="expectedModForUpcomingMonth"></td>
                                             </tr>
                                         </table>
@@ -451,18 +451,19 @@
                                                 class="border border-gray-300 px-2 py-1 rounded w-16"></td>
                                     </tr> -->
                                     <tr>
-                                        <td>Target Coal Factor for next month (kg/kWh)</td>
+                                        <td>Target Coal Factor  (kg/kWh)</td>
                                         <td><input type="number" value="0.78" id="targetCoalFactor"
                                             class="border border-gray-300 px-2 py-1 rounded text-center"
                                             style="min-width: 6ch; max-width: 11ch;" 
                                             oninput="adjustWidth(this)"></td>
                                     </tr>
                                 </table>
+                                <div class="section-title">Target Coal Blending (%)</div>
                                 <table class="data-table">
                                     <tr>
-                                        <th>Raw</th>
-                                        <th>Washed</th>
-                                        <th>Imported</th>
+                                        <th>Raw Coal</th>
+                                        <th>Washed Coal</th>
+                                        <th>Imported Coal</th>
                                     </tr>
                                     <tr>
                                         <td><input type="number" value="90.00" id="rawTargetCoalBlending"
@@ -480,7 +481,7 @@
                                     </tr>
                                 </table>
 
-                                <div class="section-title">Expected performance</div>
+                                <div class="section-title">Expected  performance</div>
                                 <table class="data-table">
                                     <tr>
                                         <td>Generation (MUs)</td>
@@ -523,11 +524,11 @@
                                 <table class="data-table">
                                     <tr>
                                         <th>Fuel details</th>
-                                        <th>Consumption</th>
-                                        <th>GCV</th>
+                                        <th>Consumption (MT/KL)</th>
+                                        <th>GCV (kcal/kg)</th>
                                     </tr>
                                     <tr>
-                                        <td>Raw</td>
+                                        <td>Raw Coal</td>
                                         <td id="expectedRawConsumption"></td>
                                         <td><input type="number"  id="expectedRawGCV"
                                             class="border border-gray-300 px-2 py-1 rounded text-center"
@@ -535,7 +536,7 @@
                                             oninput="adjustWidth(this)"></td>
                                     </tr>
                                     <tr>
-                                        <td>Washed</td>
+                                        <td>Washed Coal</td>
                                         <td id="expectedWashedConsumption"></td>
                                         <td ><input type="number"  id="expectedWashedGCV"
                                             class="border border-gray-300 px-2 py-1 rounded text-center"
@@ -543,7 +544,7 @@
                                             oninput="adjustWidth(this)"></td>
                                     </tr>
                                     <tr>
-                                        <td>Imported</td>
+                                        <td>Imported Coal</td>
                                         <td id="expectedImportedConsumption"></td>
                                         <td ><input type="number"  id="expectedImportedGCV"
                                             class="border border-gray-300 px-2 py-1 rounded text-center"
@@ -573,7 +574,7 @@
                                             oninput="adjustWidth(this)"></td>
                                     </tr>
                                     <tr>
-                                        <td>Estimated Mod for next MoD cycle (Rs / kWh)</td>
+                                        <td>Estimated MoD for next MoD cycle (Rs / kWh)</td>
                                         
                                         <td id="estimatedModForNextMoDCycle"></td>
                                     </tr>
@@ -582,9 +583,9 @@
                                 <div class="section-title">Minimum Coal Receipts to be planned (MT)</div>
                                 <table class="data-table">
                                     <tr>
-                                        <th>Raw</th>
-                                        <th>Washed</th>
-                                        <th>Imported</th>
+                                        <th>Raw Coal</th>
+                                        <th>Washed Coal</th>
+                                        <th>Imported Coal</th>
                                     </tr>
                                     <tr>
                                         <td id="rawMinimumCoalRecieptsToBePlanned"></td>
@@ -597,7 +598,7 @@
                                     <div>
                                         <table class="data-table">
                                             <tr>
-                                                <td>Achieved Blended GCV (kcal/kg)</td>
+                                                <td>Expected Achieved Blended GCV (kcal/kg)</td>
                                                 <td id="expectedAchievedBlendedGCV"></td>
                                             </tr>
                                             <tr>
@@ -609,7 +610,7 @@
                                     <div>
                                         <table class="data-table">
                                             <tr>
-                                                <td>Achieved Heat Rate (kcal/kWh)</td>
+                                                <td>Expected Achieved Heat Rate (kcal/kWh)</td>
                                                 <td id="expectedAchievedHeatRate"></td>
                                             </tr>
                                             <tr>
