@@ -529,17 +529,26 @@
                                     <tr>
                                         <td>Raw</td>
                                         <td id="expectedRawConsumption"></td>
-                                        <td id="expectedRawGCV"></td>
+                                        <td><input type="number"  id="expectedRawGCV"
+                                            class="border border-gray-300 px-2 py-1 rounded text-center"
+                                            style="min-width: 6ch; max-width: 11ch;" 
+                                            oninput="adjustWidth(this)"></td>
                                     </tr>
                                     <tr>
                                         <td>Washed</td>
                                         <td id="expectedWashedConsumption"></td>
-                                        <td id="expectedWashedGCV"></td>
+                                        <td ><input type="number"  id="expectedWashedGCV"
+                                            class="border border-gray-300 px-2 py-1 rounded text-center"
+                                            style="min-width: 6ch; max-width: 11ch;" 
+                                            oninput="adjustWidth(this)"></td>
                                     </tr>
                                     <tr>
                                         <td>Imported</td>
                                         <td id="expectedImportedConsumption"></td>
-                                        <td id="expectedImportedGCV"></td>
+                                        <td ><input type="number"  id="expectedImportedGCV"
+                                            class="border border-gray-300 px-2 py-1 rounded text-center"
+                                            style="min-width: 6ch; max-width: 11ch;" 
+                                            oninput="adjustWidth(this)"></td>
                                     </tr>
                                     <tr>
                                         <td>LDO</td>
@@ -547,7 +556,10 @@
                                             class="border border-gray-300 px-2 py-1 rounded text-center"
                                             style="min-width: 6ch; max-width: 11ch;" 
                                             oninput="adjustWidth(this)"></td>
-                                        <td id="expectedLDOGCV"></td>
+                                        <td ><input type="number"  id="expectedLDOGCV"
+                                            class="border border-gray-300 px-2 py-1 rounded text-center"
+                                            style="min-width: 6ch; max-width: 11ch;" 
+                                            oninput="adjustWidth(this)"></td>
                                     </tr>
                                     <tr>
                                         <td>FO</td>
@@ -555,7 +567,10 @@
                                             class="border border-gray-300 px-2 py-1 rounded text-center"
                                             style="min-width: 6ch; max-width: 11ch;" 
                                             oninput="adjustWidth(this)"></td>
-                                        <td id="expectedFOGCV">10600</td>
+                                        <td ><input type="number"  id="expectedFOGCV"
+                                            class="border border-gray-300 px-2 py-1 rounded text-center"
+                                            style="min-width: 6ch; max-width: 11ch;" 
+                                            oninput="adjustWidth(this)"></td>
                                     </tr>
                                     <tr>
                                         <td>Estimated Mod for next MoD cycle (Rs / kWh)</td>
@@ -705,13 +720,13 @@ function adjustWidth(input) {
         let expectedImportedConsumption = (importedTargetCoalBlending / 100) * expectedCoalConsumption;
         
         document.getElementById("expectedRawConsumption").innerText = expectedRawConsumption.toFixed(2);
-        document.getElementById("expectedRawGCV").innerText = rawGCV.toFixed(2);
+        document.getElementById("expectedRawGCV").value = rawGCV.toFixed(2);
         document.getElementById("expectedWashedConsumption").innerText = expectedWashedConsumption.toFixed(2);
-        document.getElementById("expectedWashedGCV").innerText = washedGCV.toFixed(2);
+        document.getElementById("expectedWashedGCV").value = washedGCV.toFixed(2);
         document.getElementById("expectedImportedConsumption").innerText = expectedImportedConsumption.toFixed(2);
-        document.getElementById("expectedImportedGCV").innerText = importedGCV.toFixed(2);
-        document.getElementById("expectedLDOGCV").innerText = ldoGCV.toFixed(2);
-        document.getElementById("expectedFOGCV").innerText = foGCV.toFixed(2);
+        document.getElementById("expectedImportedGCV").value = importedGCV.toFixed(2);
+        document.getElementById("expectedLDOGCV").value = ldoGCV.toFixed(2);
+        document.getElementById("expectedFOGCV").value = foGCV.toFixed(2);
         
         // Calculate minimum coal receipts
         document.getElementById("rawMinimumCoalRecieptsToBePlanned").innerText = (expectedRawConsumption - rawClosingBalance).toFixed(2);
