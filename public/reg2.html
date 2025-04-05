@@ -260,7 +260,7 @@
                                                     <label class="block text-sm font-medium text-gray-700">Installed
                                                         Capacity
                                                         (MW)</label>
-                                                    <input type="number" name="IC" step="0.0001"
+                                                    <input id="IC" type="number" name="IC" step="0.0001"
                                                         class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                                                         placeholder="Installed Capacity" required>
                                                 </div>
@@ -268,7 +268,7 @@
                                                     <label class="block text-sm font-medium text-gray-700">Availability
                                                         Factor
                                                         (%)</label>
-                                                    <input type="number" name="NAVF" step="0.0001"
+                                                    <input id="NAVF" type="number" name="NAVF" step="0.0001"
                                                         class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                                                         placeholder="Availability Factor" required>
                                                 </div>
@@ -276,7 +276,7 @@
                                                     <label class="block text-sm font-medium text-gray-700">Station Heat
                                                         Rate
                                                         (kcal/kwh)</label>
-                                                    <input type="number" name="NSHR" step="0.0001"
+                                                    <input id="NSHR" type="number" name="NSHR" step="0.0001"
                                                         class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                                                         placeholder="Station Heat Rate" required>
                                                 </div>
@@ -284,7 +284,7 @@
                                                     <label class="block text-sm font-medium text-gray-700">Auxiliiary
                                                         Power
                                                         Consumption (%)</label>
-                                                    <input type="number" name="NAPC" step="0.0001"
+                                                    <input id="NAPC" type="number" name="NAPC" step="0.0001"
                                                         class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                                                         placeholder="Auxiliiary Power Consumption" required>
                                                 </div>
@@ -292,7 +292,7 @@
                                                     <label class="block text-sm font-medium text-gray-700">Specific Oil
                                                         Consumption
                                                         (ml/kwh)<label>
-                                                            <input type="number" name="NSFOC" step="0.0001"
+                                                            <input id="NSFOC" type="number" name="NSFOC" step="0.0001"
                                                                 class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                                                                 placeholder="Specific Oil Consumption" required>
                                                 </div>
@@ -300,7 +300,7 @@
                                                     <label class="block text-sm font-medium text-gray-700"> Coal Transit
                                                         Loss
                                                         (%)<label>
-                                                            <input type="number" name="NTL" step="0.0001"
+                                                            <input id="NTL" type="number" name="NTL" step="0.0001"
                                                                 class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                                                                 placeholder="Transit Loss" required>
                                                 </div>
@@ -308,14 +308,14 @@
                                                     <label class="block text-sm font-medium text-gray-700">Stored GCV
                                                         Loss
                                                         (kcal/kg)<label>
-                                                            <input type="number" name="NSL" step="0.0001"
+                                                            <input id="NSL" type="number" name="NSL" step="0.0001"
                                                                 class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                                                                 placeholder="Stack Loss" required>
                                                 </div>
                                                 <div>
                                                     <label class="block text-sm font-medium text-gray-700">Fixed Cost
                                                         (Rs.Crores)<label>
-                                                            <input type="number" name="NFC" step="0.0001"
+                                                            <input id="NFC" type="number" name="NFC" step="0.0001"
                                                                 class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                                                                 placeholder="Fixed Cost" required>
                                                 </div>
@@ -323,7 +323,7 @@
                                                     <label class="block text-sm font-medium text-gray-700">Fixed Cost
                                                         Excluding
                                                         Water Charges (Rs.Crores)<label>
-                                                            <input type="number" name="NFCEWC" step="0.0001"
+                                                            <input id="NFCEWC" type="number" name="NFCEWC" step="0.0001"
                                                                 class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                                                                 placeholder="Fixed Cost Excluding Water" required>
                                                 </div>
@@ -332,7 +332,7 @@
                                                         applicable
                                                         for
                                                         incentive (Rs.Crores)<label>
-                                                            <input type="number" name="ROE" step="0.0001"
+                                                            <input id="ROE"  type="number" name="ROE" step="0.0001"
                                                                 class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                                                                 placeholder="ROE for Incentive" required>
                                                 </div>
@@ -341,7 +341,7 @@
                                                         Allowable
                                                         Difference
                                                         in Loading end and Unloading end GCV (Raw Coal) (kcal/kg)<label>
-                                                            <input type="number" name="NADLURGCV" step="0.0001"
+                                                            <input id="NADLURGCV" type="number" name="NADLURGCV" step="0.0001"
                                                                 class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                                                                 placeholder="Max. Allowable Difference (Raw Coal)"
                                                                 required>
@@ -352,7 +352,7 @@
                                                         Difference
                                                         in Loading end and Unloading end GCV (Washed Coal)
                                                         (kcal/kg)<label>
-                                                            <input type="number" name="NADLUWGCV" step="0.0001"
+                                                            <input id="NADLUWGCV" type="number" name="NADLUWGCV" step="0.0001"
                                                                 class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                                                                 placeholder="Max. Allowable Difference (Washed Coal)"
                                                                 required>
@@ -951,6 +951,30 @@ async function handleGetAllData(unitId , companyId , startDate , endDate , arr ,
    console.log("Parsed Main OPDCLDS:", parsedMainData.OPDCLDS);
    document.getElementById("ADCLDS").value = parsedMainData.ADCLDS;
    console.log("Parsed Main ADCLDS:", parsedMainData.ADCLDS);
+   document.getElementById("IC").value = parsedMainData.IC;
+   console.log("Parsed Main IC:", parsedMainData.IC);
+   document.getElementById("NAVF").value = parsedMainData.NAVF;
+   console.log("Parsed Main NAVF:", parsedMainData.NAVF);
+   document.getElementById("NSHR").value = parsedMainData.NSHR;  
+   console.log("Parsed Main NSHR:", parsedMainData.NSHR);
+   document.getElementById("NAPC").value = parsedMainData.NAPC;
+   console.log("Parsed Main NAPC:", parsedMainData.NAPC);
+   document.getElementById("NSFOC").value = parsedMainData.NSFOC;
+   console.log("Parsed Main NSFOC:", parsedMainData.NSFOC);
+   document.getElementById("NTL").value = parsedMainData.NTL;
+   console.log("Parsed Main NTL:", parsedMainData.NTL);
+   document.getElementById("NSL").value = parsedMainData.NSL;
+   console.log("Parsed Main NSL:", parsedMainData.NSL);
+   document.getElementById("NFC").value = parsedMainData.NFC;
+   console.log("Parsed Main NFC:", parsedMainData.NFC);
+   document.getElementById("NFCEWC").value = parsedMainData.NFCEWC;
+   console.log("Parsed Main NFCEWC:", parsedMainData.NFCEWC);
+   document.getElementById("ROE").value = parsedMainData.ROE;
+   console.log("Parsed Main ROE:", parsedMainData.ROE);
+   document.getElementById("NADLURGCV").value = parsedMainData.NADLURGCV;
+   console.log("Parsed Main NADLURGCV:", parsedMainData.NADLURGCV);
+   document.getElementById("NADLUWGCV").value = parsedMainData.NADLUWGCV;
+   console.log("Parsed Main NADLUWGCV:", parsedMainData.NADLUWGCV);
 
   
 
