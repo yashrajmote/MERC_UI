@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="icon" href="images/abhitech-mahagenco-combined-logo.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Mahagenco</title>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<body class="bg-gray-700">
+    <div x-data="{ isSidebarOpen: false }" class="max-h-screen flex flex-col ">
+        <nav class="sticky top-0 left-0 w-full z-50 bg-white justify-center">
+            <div class="mb-4 flex w-full h-5">
+
+                <button @click="isSidebarOpen = !isSidebarOpen" class="p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="h-6 w-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                </button>
+                <img src="images/abhitech-mahagenco-combined-logo.png" alt="Logo" class="h-9 w-auto">
+                <div x-data="{ isProfileOpen: false }" class="flex-grow flex justify-end">
+                    <div class=" p-2 flex justify-center items-center">
+                        <span class="text-center mt-4">Welcome User</span>
+                    </div>
+                    <button @click="isProfileOpen = !isProfileOpen"
+                        class="p-2 rounded-full   focus:outline-none focus:ring">
+                        <img src="./images/userprofile.svg" alt="Profile" class="h-8 w-8 rounded-full">
+                    </button>
+                    <div x-show="isProfileOpen" @click.outside="isProfileOpen = false"
+                        class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg overflow-hidden z-50">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                        <a href="./login.html"
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+
+        <div class="flex">
+            <div x-show="isSidebarOpen" 
+     x-transition:enter="transition transform ease-out duration-300"
+     x-transition:enter-start="-translate-x-full" 
+     x-transition:enter-end="translate-x-0"
+     x-transition:leave="transition transform ease-in duration-300" 
+     x-transition:leave-start="translate-x-0"
+     x-transition:leave-end="-translate-x-full" 
+     class="bg-white h-screen  relative shadow-lg">
+
+     <div class="h-full flex flex-col justify-start items-start py-6 px-4 overflow-y-auto bg-white dark:bg-gray-900 shadow-lg">
+        <a href="./regParams.html"
+           class="flex items-center w-full p-3 mb-2 text-gray-800 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 group">
+            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-green-600 dark:group-hover:text-green-400"
+                 xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
+                <path
+                    d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
+                <path
+                    d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
+            </svg>
+            <span class="ml-4 font-medium group-hover:text-green-600 dark:group-hover:text-green-400">Regulatory Parameters</span>
+        </a>
+
+        <hr class="w-full my-2 border-gray-300 dark:border-gray-700">
+        <a href="./ai.html"
+           class="flex items-center w-full p-3 text-gray-800 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 group">
+            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"
+                 xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z" />
+                <path
+                    d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z" />
+                <path
+                    d="M8.961 16a.93.93 0 0 0 .189-.019l3.4-.679a.961.961 0 0 0 .49-.263l6.118-6.117a2.884 2.884 0 0 0-4.079-4.078l-6.117 6.117a.96.96 0 0 0-.263.491l-.679 3.4A.961.961 0 0 0 8.961 16Zm7.477-9.8a.958.958 0 0 1 .68-.281.961.961 0 0 1 .682 1.644l-.315.315-1.36-1.36.313-.318Zm-5.911 5.911 4.236-4.236 1.359 1.359-4.236 4.237-1.7.339.341-1.699Z" />
+            </svg>
+            <span class="ml-4 font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400">AI Modal</span> 
+        </a>
+        <hr class="w-full my-2 border-gray-300 dark:border-gray-700">
+        <a href=".slagging_coal_page.html"
+           class="flex items-center w-full p-3 text-gray-800 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 group">
+            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"
+                 xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z" />
+                <path
+                    d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z" />
+                <path
+                    d="M8.961 16a.93.93 0 0 0 .189-.019l3.4-.679a.961.961 0 0 0 .49-.263l6.118-6.117a2.884 2.884 0 0 0-4.079-4.078l-6.117 6.117a.96.96 0 0 0-.263.491l-.679 3.4A.961.961 0 0 0 8.961 16Zm7.477-9.8a.958.958 0 0 1 .68-.281.961.961 0 0 1 .682 1.644l-.315.315-1.36-1.36.313-.318Zm-5.911 5.911 4.236-4.236 1.359 1.359-4.236 4.237-1.7.339.341-1.699Z" />
+            </svg>
+            <span class="ml-4 font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400">Slagging And Fouling Predictor</span> 
+        </a>
+        <hr class="w-full my-2 border-gray-300 dark:border-gray-700">
+        <a href="./login.html"
+           class="flex items-center w-full p-3 mb-2 text-gray-800 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 group">
+            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-red-600 dark:group-hover:text-red-400"
+                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3" />
+            </svg>
+            <span class="ml-4 font-medium group-hover:text-red-600 dark:group-hover:text-red-400">Sign out</span>
+        </a>
+        <hr class="w-full my-2 border-gray-300 dark:border-gray-700">
+        
+    </div>
+    
+
+
+            </div>
+
+
+            <!-- Main content that shifts when sidebar is open -->
+            <main :class="{'ml-0': !isSidebarOpen, 'ml-34 transition-all duration-300 ease-in-out': isSidebarOpen}"
+                class="content flex-1 items-center justify-center overflow-y-auto h-[calc(100vh-4rem)] p-4">
+                <div class="flex justify-between p-4 px-2 pb-3 pt-0">
+                    <span></span>
+                    <span class="text-white text-lg text-bold font-medium">Regulatory Parameters</span>
+                    <button onclick="window.location.href='regParams.html'" class="hover:text-blue-600 transition">
+                        <img src="images/back.svg" alt="Back" class="h-5 w-5">
+                    </button>
+                </div>
+                <div x-data="{ 
+                        unit1: 'BSL', 
+                        unit2: 'CSTPS', 
+                        unit3: 'KPKD',
+                        unit4: 'KTPS',
+                        unit5: 'NTPS',
+                        unit6: 'PARAS TPS',
+                        unit7: 'PARALI TPS',
+                        currentUnit: ''
+                       
+                    }">
+                    <!-- Main content goes here -->
+                    <div class="container-fluid overflow-hidden">
+                        <div class="row gx-5">
+
+                            <aside class="col-3 ">
+                                <div class="bg-white rounded-lg shadow items-center p-4">
+                                    <h1 class="fs-6 text-center font-bold mb-4 text-gray-800">Select Unit</h1>
+                                    <div id="units" class="relative space-y-7">
+
+                                        <select id='unit1' x-model='unit1'
+                                            @change="currentUnit = $event.target.options[$event.target.selectedIndex].text; unit2 = 'CSTPS'; unit3 = 'KPKD'; unit4 = 'KTPS'; unit5 = 'NTPS'; unit6 = 'PARAS TPS'; unit7 = 'PARALI TPS'"
+                                            class="w-full max-w-xs px-2 py-2 bg-gradient-to-r from-blue-900 to-green-300 text-white font-medium rounded-md shadow">
+                                            <option value="" class="text-center" disabled selected>BSL</option>
+                                            <option class="text-dark" value="preset3" data-id="1">BSL Unit-3</option>
+                                            <option class="text-dark" value="preset4" data-id="2">BSL Unit-4-5</option>
+                                        </select>
+                                        <select id='unit2' x-model='unit2'
+                                            @change="currentUnit = $event.target.options[$event.target.selectedIndex].text; unit1 = 'BSL'; unit3 = 'KPKD'; unit4 = 'KTPS'; unit5 = 'NTPS'; unit6 = 'PARAS TPS'; unit7 = 'PARALI TPS'"
+                                            class="w-full max-w-xs px-4 py-2 bg-gradient-to-r from-blue-900 to-green-300 text-white font-medium rounded-md shadow">
+                                            <option value="" class="text-center" disabled selected>CSTPS</option>
+                                            <option class="text-dark" value="preset5" data-id="3">CSTPS Unit-3-7</option>
+                                            <option class="text-dark" value="preset6" data-id="4">CSTPS Unit-8-9</option>
+                                        </select>
+                                        <select id='unit3' x-model='unit3'
+                                            @change="currentUnit = $event.target.options[$event.target.selectedIndex].text; unit2 = 'CSTPS'; unit1 = 'BSL'; unit4 = 'KTPS'; unit5 = 'NTPS'; unit6 = 'PARAS TPS'; unit7 = 'PARALI TPS'"
+                                            class="w-full max-w-xs px-4 py-2 bg-gradient-to-r from-blue-900 to-green-300 text-white font-medium rounded-md shadow">
+                                            <option value="" class="text-center" disabled selected>KPKD</option>
+                                            <option class="text-dark" value="preset1" data-id="5">KPKD Unit 1-4</option>
+                                            <option class="text-dark" value="preset2" data-id="6">KPKD Unit-5</option>
+                                        </select>
+                                        <select id='unit4' x-model='unit4'
+                                            @change="currentUnit = $event.target.options[$event.target.selectedIndex].text; unit2 = 'CSTPS'; unit3 = 'KPKD'; unit1 = 'BSL'; unit5 = 'NTPS'; unit6 = 'PARAS TPS'; unit7 = 'PARALI TPS'"
+                                            class="w-full max-w-xs px-4 py-2 bg-gradient-to-r from-blue-900 to-green-300 text-white font-medium rounded-md shadow">
+                                            <option valie="" class="text-center" disabled selected>KTPS</option>
+                                            <option class="text-dark" value="preset7" data-id="7">KTPS Unit-6</option>
+                                            <option class="text-dark" value="preset8" data-id="8">KTPS Unit-8-10</option>
+                                        </select>
+                                        <select id='unit5' x-model='unit5'
+                                            @change="currentUnit = $event.target.options[$event.target.selectedIndex].text; unit2 = 'CSTPS'; unit3 = 'KPKD'; unit4 = 'KTPS'; unit1 = 'BSL'; unit6 = 'PARAS TPS'; unit7 = 'PARALI TPS'"
+                                            class="w-full max-w-xs px-4 py-2 bg-gradient-to-r from-blue-900 to-green-300 text-white font-medium rounded-md shadow">
+                                            <option value="" class="text-center" disabled selected>NTPS</option>
+                                            <option class="text-dark" value="preset9" data-id="9">NTPS Unit-3-5</option>
+                                        </select>
+                                        <select id='unit6' x-model='unit6'
+                                            @change="currentUnit = $event.target.options[$event.target.selectedIndex].text; unit2 = 'CSTPS'; unit3 = 'KPKD'; unit4 = 'KTPS'; unit5 = 'NTPS'; unit1 = 'BSL'; unit7 = 'PARALI TPS'"
+                                            class="w-full max-w-xs px-4 py-2 bg-gradient-to-r from-blue-900 to-green-300 text-white font-medium rounded-md shadow">
+                                            <option value="" class="text-center" disabled selected>PARAS TPS</option>
+                                            <option class="text-dark" value="preset10" data-id="10">PARAS TPS Unit-3-4</option>
+                                        </select>
+                                        <select id="unit7" x-model='unit7'
+                                            @change="currentUnit = $event.target.options[$event.target.selectedIndex].text; unit2 = 'CSTPS'; unit3 = 'KPKD'; unit4 = 'KTPS'; unit5 = 'NTPS'; unit6 = 'PARAS TPS'; unit1 = 'BSL'"
+                                            class="w-full max-w-xs px-4 py-2 bg-gradient-to-r from-blue-900 to-green-300 text-white font-medium rounded-md shadow">
+                                            <option value="" class="text-center" disabled selected>PARALI TPS</option>
+                                            <option class="text-dark" value="preset11" data-id="11">PARALI TPS Unit-6-7</option>
+                                            <option class="text-dark" value="preset12" data-id="12">PARALI TPS Unit 8</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </aside>
+
+                            <section class="col-9 bg-white rounded-lg shadow " style="height: 70vh;overflow-y: auto;">
+                                <div class="flex justify-between pt-4 ">
+                                    <span x-show="currentUnit" class="lg:text-xl" x-text="currentUnit"></span>
+                                    <span x-show="!currentUnit" class="lg:text-xl m-auto"
+                                        x-text="'No unit selected'"></span>
+                                    <div>
+                                        <div x-show="currentUnit">
+                                            <!-- <input type="file" id="excelUpload" class="hidden" accept=".xlsx, .xls"
+                                                onchange="handleFileUpload(event)" /> -->
+                                            <button onclick="handleGetDataForRegParams()"
+                                                type='button'
+                                                class='py-2.5 pl-3.5 pr-6 text-sm bg-indigo-500 text-white rounded-lg cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 flex items-center hover:bg-indigo-700'>
+                                                <svg class='mr-3' width='6' height='10' viewBox='0 0 6 10' fill='none'
+                                                    xmlns='http://www.w3.org/2000/svg'>
+                                                    <path
+                                                        d='M5 1L2.41421 3.58579C1.74755 4.25245 1.41421 4.58579 1.41421 5C1.41421 5.41421 1.74755 5.74755 2.41421 6.41421L5 9'
+                                                        stroke='white' stroke-width='1.6' stroke-linecap='round'
+                                                        stroke-linejoin='round'></path>
+                                                </svg> Get Data
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- <div class="flex justify-center text-2xl font-bold text-gray-700">
+                                    Enter Input</div> -->
+                                <div x-show="currentUnit" class="mt-3">
+                                    <div class="flex space-x-4">
+                                        <div class="flex-1">
+                                            <label for="start-date"
+                                                class="block text-sm font-medium text-gray-700 mb-1">Start
+                                                Date</label>
+                                            <input type="date" id="start-date" name="start-date" x-ref="startDate"
+                                                class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                required>
+                                        </div>
+                                        <div class="flex-1">
+                                            <label for="end-date"
+                                                class="block text-sm font-medium text-gray-700 mb-1">End
+                                                Date</label>
+                                            <input type="date" id="end-date" name="end-date" x-ref="endDate"
+                                                class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div x-show="currentUnit">
+                                    <form id="inputForm" x-data="{ openSection: '' }">
+
+                                        <!-- Accordion for Sections -->
+                                        <div class="mt-3">
+                                            <div style="background-color: rgb(153 193 185);"
+                                                @click="openSection = openSection === 'regulations' ? '' : 'regulations'"
+                                                class="cursor-pointer bg-gray-200 p-2 rounded mb-2">
+                                                <h2 id="regulations" class="text-base leading-[1rem]">Regulatory
+                                                    Parameters
+                                                    Approved by
+                                                    Commission</h2>
+                                            </div>
+                                            <div x-show="openSection === 'regulations'"
+                                                class="grid grid-cols-2 gap-4 mb-4">
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Installed
+                                                        Capacity
+                                                        (MW)</label>
+                                                    <input type="number" name="IC" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Installed Capacity" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Availability
+                                                        Factor
+                                                        (%)</label>
+                                                    <input type="number" name="NAVF" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Availability Factor" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Station Heat
+                                                        Rate
+                                                        (kcal/kwh)</label>
+                                                    <input type="number" name="NSHR" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Station Heat Rate" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Auxiliiary
+                                                        Power
+                                                        Consumption (%)</label>
+                                                    <input type="number" name="NAPC" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Auxiliiary Power Consumption" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Specific Oil
+                                                        Consumption
+                                                        (ml/kwh)<label>
+                                                            <input type="number" name="NSFOC" step="0.0001"
+                                                                class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                                placeholder="Specific Oil Consumption" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700"> Coal Transit
+                                                        Loss
+                                                        (%)<label>
+                                                            <input type="number" name="NTL" step="0.0001"
+                                                                class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                                placeholder="Transit Loss" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Stored GCV
+                                                        Loss
+                                                        (kcal/kg)<label>
+                                                            <input type="number" name="NSL" step="0.0001"
+                                                                class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                                placeholder="Stack Loss" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Fixed Cost
+                                                        (Rs.Crores)<label>
+                                                            <input type="number" name="NFC" step="0.0001"
+                                                                class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                                placeholder="Fixed Cost" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Fixed Cost
+                                                        Excluding
+                                                        Water Charges (Rs.Crores)<label>
+                                                            <input type="number" name="NFCEWC" step="0.0001"
+                                                                class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                                placeholder="Fixed Cost Excluding Water" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">ROE
+                                                        applicable
+                                                        for
+                                                        incentive (Rs.Crores)<label>
+                                                            <input type="number" name="ROE" step="0.0001"
+                                                                class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                                placeholder="ROE for Incentive" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Max.
+                                                        Allowable
+                                                        Difference
+                                                        in Loading end and Unloading end GCV (Raw Coal) (kcal/kg)<label>
+                                                            <input type="number" name="NADLURGCV" step="0.0001"
+                                                                class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                                placeholder="Max. Allowable Difference (Raw Coal)"
+                                                                required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Max.
+                                                        Allowable
+                                                        Difference
+                                                        in Loading end and Unloading end GCV (Washed Coal)
+                                                        (kcal/kg)<label>
+                                                            <input type="number" name="NADLUWGCV" step="0.0001"
+                                                                class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                                placeholder="Max. Allowable Difference (Washed Coal)"
+                                                                required>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div>
+                                            <div style="background-color: rgb(153 193 185);"
+                                                @click="openSection = openSection === 'generation' ? '' : 'generation'"
+                                                class="cursor-pointer p-2 rounded mb-2">
+                                                <h2 class="text-base font-semibold">Generation and Consumption</h2>
+                                            </div>
+                                            <div x-show="openSection === 'generation'"
+                                                class="grid grid-cols-2 gap-4 mb-4">
+                                                <!-- Generation and Consumption Inputs -->
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Actual
+                                                        Generation
+                                                        (MUs)</label>
+                                                    <input id="AGEN" type="number" name="AGEN" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual Generation" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Actual
+                                                        Auxiliary
+                                                        Consumption (MUs)</label>
+                                                    <input id="AAPC" type="number" name="AAPCM" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual Auxiliary Consumption (MUs)" required>
+                                                </div>
+                                                <div>
+                                                    <label  class="block text-sm font-medium text-gray-700"> <mark
+                                                            class="selection:bg-yellow-200">Actual Raw Coal GCV (As
+                                                            Billed)
+                                                            (kcal/kg)</mark></label>
+                                                    <input id="ARGCVB" type="number" name="ARGCVB" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual Raw Coal GCV (As Billed)" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700"> <mark
+                                                            class="selection:bg-yellow-200">Actual Washed Coal GCV (As
+                                                            Billed)
+                                                            (kcal/kg)</mark></label>
+                                                    <input id="AWGCVB" type="number" name="AWGCVB" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual Washed Coal GCV (As Billed)" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700"><mark
+                                                            class="selection:bg-yellow-200">Actual Imported Coal GCV (As
+                                                            Billed)
+                                                            (kcal/kg)</mark></label>
+                                                    <input id="AIGCVB" type="number" name="AIGCVB" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual Imported Coal GCV (As Billed)" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700"><mark
+                                                            class="selection:bg-yellow-200">Actual Raw Coal GCV (As
+                                                            Received)
+                                                            (kcal/kg)</mark></label>
+                                                    <input id="ARGCVR" type="number" name="ARGCVR" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual Raw Coal GCV (As Received)" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700"><mark
+                                                            class="selection:bg-yellow-200">Actual Washed Coal GCV (As
+                                                            Received)
+                                                            (kcal/kg)</mark></label>
+                                                    <input id="AWGCVR" type="number" name="AWGCVR" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual Washed Coal GCV (As Received)" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700"><mark
+                                                            class="selection:bg-yellow-200">Actual Imported Coal GCV (As
+                                                            Received)
+                                                            (kcal/kg)</mark></label>
+                                                    <input id="AIGCVR" type="number" name="AIGCVR" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual Imported Coal GCV (As Received)" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700"><mark
+                                                            class="selection:bg-yellow-200">LDO GCV
+                                                            (kcal/kg)</mark></label>
+                                                    <input id="ALDOGCV" type="number" name="ALDOGCV" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="ALDO GCV" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700"><mark
+                                                            class="selection:bg-yellow-200">FO GCV
+                                                            (kcal/kg)</mark></label>
+                                                    <input id="AFOGCV" type="number" name="AFOGCV" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="AFO GCV" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700"><mark
+                                                            class="selection:bg-yellow-200">Actual Combined Coal GCV
+                                                            after
+                                                            stacking
+                                                            loss (kcal/kg)</mark></label>
+                                                    <input id="ACGCV" type="number" name="ACGCV" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual Combined Coal GCV after stacking loss"
+                                                        required>
+                                                </div>
+                                            </div>
+
+                                            <!-- Costs Section -->
+                                            <div style="background-color: rgb(153 193 185);"
+                                                @click="openSection = openSection === 'costs' ? '' : 'costs'"
+                                                class="cursor-pointer bg-gray-200 p-2 rounded mb-2">
+                                                <h2 class="text-base font-semibold">Costs</h2>
+                                            </div>
+                                            <div x-show="openSection === 'costs'" class="grid grid-cols-2 gap-4 mb-4">
+                                                <!-- Costs Inputs -->
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Actual Raw
+                                                        Coal
+                                                        Landed
+                                                        cost (Rs./MT)</label>
+                                                    <input id="ARCLC" type="number" name="ARCLC" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual Raw Coal Landed cost" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Actual Washed
+                                                        Coal
+                                                        Landed
+                                                        cost (Rs./MT)</label>
+                                                    <input id="AWCLC" type="number" name="AWCLC" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual Washed Coal Landed cost" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Actual
+                                                        Imported
+                                                        Coal
+                                                        Landed cost (Rs./MT)</label>
+                                                    <input id="AICLC" type="number" name="AICLC" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual Imported Coal Landed cost" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Actual LDO
+                                                        cost
+                                                        (Rs./KL)</label>
+                                                    <input id="ALDOLC" type="number" name="ALDOLC" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual LDO cost" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Actual FO
+                                                        Landed
+                                                        cost
+                                                        (Rs./KL)</label>
+                                                    <input id="AFOLC" type="number" name="AFOLC" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual FO cost" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Input Raw
+                                                        Coal
+                                                        Consumption Cost (Rs./MT)</label>
+                                                    <input id="IRCCC" type="number" name="IRCCC" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Input Raw Coal Consumption Cost" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Input Washed
+                                                        Coal
+                                                        Consumption Cost (Rs./MT)</label>
+                                                    <input id="IWCCC" type="number" name="IWCCC" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Input Washed Coal Consumption Cost" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Input
+                                                        Imported
+                                                        Coal
+                                                        Consumption Cost (Rs./MT)</label>
+                                                    <input id="IICCC" type="number" name="IICCC" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Input Imported Coal Consumption Cost" required>
+                                                </div>
+                                            </div>
+
+                                            <!-- Consumption Section -->
+                                            <div style="background-color: rgb(153 193 185);"
+                                                @click="openSection = openSection === 'consumption' ? '' : 'consumption'"
+                                                class="cursor-pointer bg-gray-200 p-2 rounded mb-2">
+                                                <h2 class="text-base font-semibold">Consumption</h2>
+                                            </div>
+                                            <div x-show="openSection === 'consumption'"
+                                                class="grid grid-cols-2 gap-4 mb-4">
+                                                <!-- Consumption Inputs -->
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Actual Raw
+                                                        Coal
+                                                        Consumption (MT)</label>
+                                                    <input id="ARCC" type="number" name="ARCC" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual Raw Coal Consumption" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Actual Washed
+                                                        Coal
+                                                        Consumption (MT)</label>
+                                                    <input id="AWCC" type="number" name="AWCC" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual Washed Coal Consumption" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Actual
+                                                        Imported
+                                                        Coal
+                                                        Consumption (MT)</label>
+                                                    <input id="AICC" type="number" name="AICC" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual Imported Coal Consumption" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Actual LDO
+                                                        Consumption
+                                                        (KL)</label>
+                                                    <input id="ALDOC" type="number" name="ALDOC" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual LDO Consumption" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Actual FO
+                                                        Consumption
+                                                        (KL)</label>
+                                                    <input id="AFOC" type="number" name="AFOC" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual FO Consumption" required>
+                                                </div>
+                                            </div>
+
+                                            <!-- Other Parameters Section -->
+                                            <div style="background-color: rgb(153 193 185);"
+                                                @click="openSection = openSection === 'other' ? '' : 'other'"
+                                                class="cursor-pointer bg-gray-200 p-2 rounded mb-2">
+                                                <h2 class="text-base font-semibold">Other Parameters</h2>
+                                            </div>
+                                            <div x-show="openSection === 'other'" class="grid grid-cols-2 gap-4 mb-4">
+                                                <!-- Other Parameters Inputs -->
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Other
+                                                        Variable
+                                                        costs
+                                                        (Rs)</label>
+                                                    <input id="OVC" type="number" name="OVC" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Other Variable costs" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Actual
+                                                        Transit
+                                                        loss
+                                                        (%)</label>
+                                                    <input id="ATL" type="number" name="ATL" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual Transit loss" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Actual
+                                                        Transit
+                                                        loss
+                                                        cost
+                                                        (Rs. Crores)</label>
+                                                    <input id="ATLC" type="number" name="ATLC" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Actual Transit loss cost" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">MTBF achieved
+                                                        (days)</label>
+                                                    <input id="AMTBF" type="number" name="AMTBF" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="MTBF achieved" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Ramp rate
+                                                        achieved
+                                                        (%/min)</label>
+                                                    <input id="ARR" type="number" name="ARR" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Ramp rate achieved" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Peak AVF
+                                                        achieved
+                                                        (%)</label>
+                                                    <input id="APAVF" type="number" name="APAVF" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Peak AVF achieved" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">FGMO</label>
+                                                    <input type="checkbox" id="FGMO" checked="checked"
+                                                        onChange="FGMOstatus()" name="FGMOS" step="0.0001"
+                                                        placeholder="FGMO" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Peak Hour DC
+                                                        (total)</label>
+                                                    <input id="PDCTDR" type="number" name="PDCTDR" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Peak Hour DC (Total)" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Off-peak Hour
+                                                        DC
+                                                        (total)</label>
+                                                    <input id="OPDCTDR" type="number" name="OPDCTDR" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Off-peak Hour DC (total)" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Avg 24-Hour
+                                                        DC
+                                                        (total)</label>
+                                                    <input id="ADCTDR" type="number" name="ADCTDR" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Avg 24-Hour DC (total)" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700"> <mark
+                                                            class="selection:bg-red-400">Peak Hour DC
+                                                            (HDS)</mark></label>
+                                                    <input id="PDCHDS" type="number" name="PDCHDS" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Peak Hour DC (HDS)" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Off-peak Hour
+                                                        DC
+                                                        (HDS)</label>
+                                                    <input id="OPDCHDS" type="number" name="OPDCHDS" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Off-peak Hour DC (HDS)" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Avg 24-Hour
+                                                        DC
+                                                        (HDS)</label>
+                                                    <input id="ADCHDS" type="number" name="ADCHDS" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Avg 24-Hour DC (HDS)" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Peak Hour DC
+                                                        (LDS)</label>
+                                                    <input id="PDCLDS" type="number" name="PDCLDS" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Peak Hour DC (LDS)" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Off-peak Hour
+                                                        DC
+                                                        (LDS)</label>
+                                                    <input id="OPDCLDS" type="number" name="OPDCLDS" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Off-peak Hour DC (LDS)" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700">Avg 24-Hour
+                                                        DC
+                                                        (LDS)</label>
+                                                    <input id="ADCLDS" type="number" name="ADCLDS" step="0.0001"
+                                                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                                                        placeholder="Avg 24-Hour DC (LDS)" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Submit Button -->
+                                        <div class="flex pt-4 pb-3 justify-end">
+                                            <button type="submit"
+                                                class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">Generate
+                                                Report</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
+    <script src="js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script>
+//       const secretKey = "qwertyuiopasdfghjklzxcvbnm123456";
+// const iv = "1234567890123456";
+
+function encryptData(data) {
+  const secretKey = CryptoJS.enc.Utf8.parse("qwertyuiopasdfghjklzxcvbnm123456");
+  const iv = CryptoJS.enc.Utf8.parse("1234567890123456");
+
+  const encrypted = CryptoJS.AES.encrypt(
+    JSON.stringify(data),
+    secretKey,
+    {
+      iv: iv,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7
+    }
+  );
+
+  // Convert Base64 output to Hex
+  const ciphertextWords = CryptoJS.enc.Base64.parse(encrypted.toString());
+  const hexCipherText = CryptoJS.enc.Hex.stringify(ciphertextWords);
+  return hexCipherText;
+}
+
+function decryptData(encryptedHexData) {
+  try {
+    const secretKey = CryptoJS.enc.Utf8.parse("qwertyuiopasdfghjklzxcvbnm123456");
+    const iv = CryptoJS.enc.Utf8.parse("1234567890123456");
+
+    if (!encryptedHexData || encryptedHexData.length < 16) {
+      console.warn("⚠️ Encrypted data is missing or too short:", encryptedHexData);
+      return null;
+    }
+
+    const decrypted = CryptoJS.AES.decrypt(
+      {
+        ciphertext: CryptoJS.enc.Hex.parse(encryptedHexData)
+      },
+      secretKey,
+      {
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      }
+    );
+
+    const decryptedStr = decrypted.toString(CryptoJS.enc.Utf8);
+
+   //  if (!decryptedStr) {
+   //    console.warn("⚠️ Decryption returned empty string. Possibly wrong secret or IV.");
+   //    return null;
+   //  }
+
+    try {
+      return JSON.parse(decryptedStr);
+    } catch (jsonErr) {
+      console.error("❌ JSON parse failed. Decrypted string:", decryptedStr);
+      throw jsonErr;
+    }
+
+  } catch (error) {
+    console.error("❌ Decryption error:", error.message);
+    console.log("Raw encrypted input:", encryptedHexData);
+    return null;
+  }
+}
+
+
+
+async function postEncrypted(endpoint, data) {
+  try {
+    const encryptedPayload = encryptData(data);
+
+    const result = await axios.post(endpoint, {
+      encryptedData: encryptedPayload
+    });
+
+    const encryptedResponse = result?.data?.data;
+   //  const firstResultSet = encryptedResponse[0];
+
+   //  if (!encryptedResponse) {
+   //    console.warn("⚠️ No encryptedData in server response. Full response:", result);
+   //    throw new Error("Invalid encrypted response");
+   //  }
+
+    const decryptedResponse = decryptData(encryptedResponse);
+    const resultRow = decryptedResponse[0][0]; // First item of the first result set
+    const finalResult = resultRow?.result;
+   //  if (!decryptedResponse) {
+   //    console.warn("⚠️ Decrypted response is empty or null.");
+   //  }
+
+    return finalResult || {} ;
+
+  } catch (error) {
+    console.error("🚨 Secure POST Error:", error.message);
+    throw error;
+  }
+}
+
+async function handleGetRegulationData(financialYear) {
+  const response = await postEncrypted('http://localhost:3000/api/getRegulationDetails', { p_FinancialYear : financialYear });
+  console.log("Response for handleGetRegulationData:",response);
+  return response;
+}
+async function handleGetAllData(unitId , companyId , startDate , endDate , arr , fgmos){
+   const response = await postEncrypted('http://localhost:3000/api/allCalculations', {p_UnitId : unitId ,p_CompanyId : companyId , p_StartDate : startDate , p_EndDate : endDate , p_ARR : arr , p_FGMOS : fgmos});
+   console.log("Response for handleGetAllData:",response);
+   const parsedMainData = JSON.parse(response.MainData);
+   document.getElementById("AGEN").value = parsedMainData.AGEN;
+   console.log("Parsed Main Data:", parsedMainData.AGEN);
+   document.getElementById("AAPC").value = parsedMainData.AAPC;
+   console.log("Parsed Main Data:", parsedMainData.AAPC);
+   document.getElementById("ARGCVB").value = parsedMainData.ARGCVB;
+   console.log("Parsed Main Data:", parsedMainData.ARGCVB);
+   document.getElementById("AWGCVB").value = parsedMainData.AWGCVB;
+   console.log("Parsed Main Data:", parsedMainData.AWGCVB);
+   document.getElementById("AIGCVB").value = parsedMainData.AIGCVB;
+   console.log("Parsed Main Data:", parsedMainData.AIGCVB);
+   document.getElementById("ARGCVR").value = parsedMainData.ARGCVR;
+   console.log("Parsed Main ARGCVR:", parsedMainData.ARGCVR);
+   document.getElementById("AWGCVR").value = parsedMainData.AWGCVR;
+   console.log("Parsed Main AWGCVR:", parsedMainData.AWGCVR);
+   document.getElementById("AIGCVR").value = parsedMainData.AIGCVR;
+   console.log("Parsed Main AIGCVR:", parsedMainData.AIGCVR);
+   document.getElementById("ALDOGCV").value = parsedMainData.ALDOGCV;
+   console.log("Parsed Main ALDOGCV:", parsedMainData.ALDOGCV);
+   document.getElementById("AFOGCV").value = parsedMainData.AFOGCV;
+   console.log("Parsed Main AFOGCV:", parsedMainData.AFOGCV);
+   document.getElementById("ACGCV").value = parsedMainData.ACGCV;
+   console.log("Parsed Main ACGCV:", parsedMainData.ACGCV);
+   document.getElementById("ARCLC").value = parsedMainData.ARCLC;
+   console.log("Parsed Main ARCLC:", parsedMainData.ARCLC);
+   document.getElementById("AWCLC").value = parsedMainData.AWCLC;
+   console.log("Parsed Main AWCLC:", parsedMainData.AWCLC);
+   document.getElementById("AICLC").value = parsedMainData.AICLC;
+   console.log("Parsed Main AICLC:", parsedMainData.AICLC);
+   document.getElementById("ALDOLC").value = parsedMainData.ALDOLC;
+   console.log("Parsed Main ALDOLC:", parsedMainData.ALDOLC);
+   document.getElementById("AFOLC").value = parsedMainData.AFOLC;
+   console.log("Parsed Main AFOLC:", parsedMainData.AFOLC);
+   document.getElementById("IRCCC").value = parsedMainData.IRCCC;
+   console.log("Parsed Main IRCCC:", parsedMainData.IRCCC);
+   document.getElementById("IWCCC").value = parsedMainData.IWCCC;
+   console.log("Parsed Main IWCCC:", parsedMainData.IWCCC);
+   document.getElementById("IICCC").value = parsedMainData.IICCC;
+   console.log("Parsed Main IICCC:", parsedMainData.IICCC);
+   document.getElementById("ARCC").value = parsedMainData.ARCC;
+   console.log("Parsed Main ARCC:", parsedMainData.ARCC);
+   document.getElementById("AWCC").value = parsedMainData.AWCC;
+   console.log("Parsed Main AWCC:", parsedMainData.AWCC);
+   document.getElementById("AICC").value = parsedMainData.AICC;
+   console.log("Parsed Main AICC:", parsedMainData.AICC);
+   document.getElementById("ALDOC").value = parsedMainData.ALDOC;
+   console.log("Parsed Main ALDOC:", parsedMainData.ALDOC);
+   document.getElementById("AFOC").value = parsedMainData.AFOC;
+   console.log("Parsed Main AFOC:", parsedMainData.AFOC);
+   document.getElementById("OVC").value = parsedMainData.OVC;
+   console.log("Parsed Main OVC:", parsedMainData.OVC);
+   document.getElementById("ATL").value = parsedMainData.ATL;
+   console.log("Parsed Main ATL:", parsedMainData.ATL);
+   document.getElementById("ATLC").value = parsedMainData.ATLC;
+   console.log("Parsed Main ATLC:", parsedMainData.ATLC);
+   document.getElementById("AMTBF").value = parsedMainData.AMTBF;
+   console.log("Parsed Main AMTBF:", parsedMainData.AMTBF);
+   document.getElementById("ARR").value = parsedMainData.ARR;
+   console.log("Parsed Main ARR:", parsedMainData.ARR);
+   document.getElementById("APAVF").value = parsedMainData.APAVF;
+   console.log("Parsed Main APAVF:", parsedMainData.APAVF);
+   document.getElementById("FGMO").value = parsedMainData.FGMO;
+   console.log("Parsed Main FGMO:", parsedMainData.FGMO);
+   document.getElementById("PDCTDR").value = parsedMainData.PDCTDR;
+   console.log("Parsed Main PDCTDR:", parsedMainData.PDCTDR);
+   document.getElementById("OPDCTDR").value = parsedMainData.OPDCTDR;
+   console.log("Parsed Main OPDCTDR:", parsedMainData.OPDCTDR);
+   document.getElementById("ADCTDR").value = parsedMainData.ADCTDR;
+   console.log("Parsed Main ADCTDR:", parsedMainData.ADCTDR);
+   document.getElementById("PDCHDS").value = parsedMainData.PDCHDS;
+   console.log("Parsed Main PDCHDS:", parsedMainData.PDCHDS);
+   document.getElementById("OPDCHDS").value = parsedMainData.OPDCHDS;
+   console.log("Parsed Main OPDCHDS:", parsedMainData.OPDCHDS);
+   document.getElementById("ADCHDS").value = parsedMainData.ADCHDS;
+   console.log("Parsed Main ADCHDS:", parsedMainData.ADCHDS);
+   document.getElementById("PDCLDS").value = parsedMainData.PDCLDS;
+   console.log("Parsed Main PDCLDS:", parsedMainData.PDCLDS);
+   document.getElementById("OPDCLDS").value = parsedMainData.OPDCLDS;
+   console.log("Parsed Main OPDCLDS:", parsedMainData.OPDCLDS);
+   document.getElementById("ADCLDS").value = parsedMainData.ADCLDS;
+   console.log("Parsed Main ADCLDS:", parsedMainData.ADCLDS);
+
+  
+
+
+return response;
+   
+}
+async function handleGetDataForRegParams() {
+  try {
+  
+  
+  
+   const selectedDate = new Date(document.getElementById("end-date").value);
+   const year = selectedDate.getFullYear();
+
+   let financialYear = "";
+   if (selectedDate.getMonth() + 1 >= 4) {
+   // April or later => new financial year starts
+   financialYear = `${year}-${year + 1}`;
+   } else {
+   // Before April => current year belongs to previous FY
+   financialYear = `${year - 1}-${year}`;
+   }
+
+console.log("📅 Financial Year:", financialYear);    
+const unitId = getSelectedUnitId();
+console.log("Selected Unit IDs:", unitId);
+    const companyId = 1;
+    const startDate = document.getElementById("start-date").value;
+    const endDate = document.getElementById("end-date").value; 
+    console.log("EndDate" , endDate);
+    const arr = parseFloat(document.getElementById("ARR").value); // sample data
+    const fgmos = document.getElementById("FGMO").checked;
+   //  const response111 = await axios.post('http://localhost:3000/api/getRegulationDetails', { encryptedData: a });
+   //  console.log("Response for handleGetRegulationData:",response111)
+     const regulationData = await handleGetRegulationData(financialYear);
+     const allData = await handleGetAllData(unitId, companyId, startDate, endDate, arr, fgmos);
+
+    console.log("Both API calls done.");
+  } catch (error) {
+    console.error("Error during fetch:", error);
+  }
+}
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            console.log('Uploaded file:', file);
+            const fileName = file.name;
+
+            const regex = /(\d{1,2})-(\d{1,2})\s([A-Za-z]+)\s(\d{2})/;
+            const match = fileName.match(regex);
+
+            if (match) {
+                const [_, startDay, endDay, month, yearSuffix] = match;
+                const year = '20' + yearSuffix;
+                const startDate = formatDate(year, month, startDay);
+                const endDate = formatDate(year, month, endDay);
+
+                document.getElementById('start-date').value = startDate;
+                document.getElementById('end-date').value = endDate;
+
+                console.log('Start Date:', startDate);
+                console.log('End Date:', endDate);
+            } else {
+                console.log('Filename does not contain date information');
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+
+                const sheetName = workbook.SheetNames[0];
+                const sheet = workbook.Sheets[sheetName];
+
+                const jsonData = XLSX.utils.sheet_to_json(sheet);
+                console.log(jsonData);
+
+                mapDataToObject(jsonData);
+
+            };
+
+            if (file) {
+                reader.readAsArrayBuffer(file);
+            }
+        }
+        function formatDate(year, month, day) {
+            return `${year}-${formatMonth(month)}-${formatDay(day)}`;
+        }
+        function formatMonth(month) {
+            const months = {
+                Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06',
+                Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12'
+            };
+            return months[month] || '01';
+        }
+        function formatDay(day) {
+            return day.padStart(2, '0');
+        }
+
+        function mapDataToObject(data) {
+
+            const result = {
+                IC: null,
+                NAVF: null,
+                NSHR: null,
+                NAPC: null,
+                NSFOC: null,
+                NTL: null,
+                NSL: null,
+                NFC: null,
+                NFCEWC: null,
+                ROE: null,
+                NADLURGCV: null,
+                NADLUWGCV: null,
+                AGEN: null,
+                AAPCM: null,
+                ARCC: null,
+                AWCC: null,
+                AICC: null,
+                ALDOC: null,
+                AFOC: null,
+                ARGCVB: null,
+                AWGCVB: null,
+                AIGCVB: null,
+                ARGCVR: null,
+                AWGCVR: null,
+                AIGCVR: null,
+                ALDOGCV: null,
+                AFOGCV: null,
+                ACGCV: null,
+                ARCLC: null,
+                AWCLC: null,
+                AICLC: null,
+                ALDOLC: null,
+                AFOLC: null,
+                IRCCC: null,
+                IWCCC: null,
+                IICCC: null,
+                OVC: null,
+                ATL: null,
+                ATLC: null,
+                AMTBF: null,
+                ARR: null,
+                APAVF: null,
+                FGMOS: null,
+                PDCTDR: null,
+                OPDCTDR: null,
+                ADCTDR: null,
+                OPDCHDS: null,
+                ADCHDS: null,
+                PDCLDS: null,
+                OPDCLDS: null,
+                ADCLDS: null
+            };
+
+
+            data.forEach(item => {
+                const mapping = {
+                    "Installed capacity": "IC",
+                    "AVF": "NAVF",
+                    "Station Heat Rate": "NSHR",
+                    "APC": "NAPC",
+                    "SFOC": "NSFOC",
+                    "Transit Loss": "NTL",
+                    "Stack Loss": "NSL",
+                    "Fixed Cost": "NFC",
+                    "Fixed Cost excl. water charges ": "NFCEWC",
+                    "RoE applicable for incentive": "ROE",
+                    "Max. Allowable Difference in Loading end and Unloading end GCV (Raw Coal)": "NADLURGCV",
+                    "Max. Allowable Difference in Loading end and Unloading end GCV (Washed Coal)": "NADLUWGCV",
+                    "Raw Coal (As Billed)": "ARGCVB",
+                    "Washed Coal (As Billed)": "AWGCVB",
+                    "Imported Coal (As Billed)": "AIGCVB",
+                    "Raw Coal (As Recieved)": "ARGCVR",
+                    "Washed Coal (As Recieved)": "AWGCVR",
+                    "Imported Coal (As Recieved)": "AIGCVR",
+                    "LDO1": "ALDOGCV",
+                    "FO1": "AFOGCV",
+                    "Combined Coal GCV after stacking loss (As Fired) (Bunkered GCV)": "ACGCV",
+                    "Raw Coal2": "ARCLC",
+                    "Washed Coal2": "AWCLC",
+                    "Imported Coal2": "AICLC",
+                    "LDO2": "ALDOLC",
+                    "FO2": "AFOLC",
+                    "Raw Coal3": "ARCC",
+                    "Washed Coal3": "AWCC",
+                    "Imported Coal3": "AICC",
+                    "LDO3": "ALDOC",
+                    "FO3": "AFOC",
+                    "Raw Coal4": "IRCCC",
+                    "Washed Coal4": "IWCCC",
+                    "Imported Coal4": "IICCC",
+                    "AVF achieved (%)": "PDCHDS",
+                    "Other Variable costs (Rs. Crores)": "OVC",
+                    "Actual Transit Loss (%)": "ATL",
+                    "Actual Transit Loss (Rs. Crores)": "ATLC",
+                    "MTBF achieved": "AMTBF",
+                    "Ramp rate achieved": "ARR",
+                    "Peak AVF achieved": "APAVF",
+                    "FGMO": "FGMOS",
+                    "Peak hour DC in MW for total number of days in reference": "PDCTDR",
+                    "Off-peak hour DC in MW for total number of days in reference": "OPDCTDR",
+                    "Average 24 hour DC in MW for total number of days in reference": "ADCTDR",
+                    "Off-peak hour DC in MW for total number of days in HDS": "OPDCHDS",
+                    "Average 24 hour DC in MW for total number of days in HDS": "ADCHDS",
+                    "Peak hour DC in MW for total number of days in LDS": "PDCLDS",
+                    "Off-peak hour DC in MW for total number of days in LDS": "OPDCLDS",
+                    "Average 24 hour DC in MW for total number of days in LDS": "ADCLDS",
+                    "Generation (Mus)": "AGEN",
+                    "Auxiliary Consumption (Mus)": "AAPCM"
+                };
+
+                const key = mapping[item["Name of TPS"]];
+                if (key) {
+                    result[key] = item["__EMPTY"] ?? item["Chandrapur TPS"] ?? 0;
+                }
+            });
+
+            console.log(result)
+
+            prefillInputs(result);
+
+        }
+
+        function prefillInputs(data) {
+            Object.keys(data).forEach((key) => {
+                const input = document.querySelector(`input[name="${key}"]`);
+                if (input) {
+                    const value = parseFloat(data[key]);
+                    if (!isNaN(value)) {
+                        input.value = value.toFixed(3);
+                    }
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const unit1 = document.getElementById('unit1');
+            const unit2 = document.getElementById('unit2');
+            const unit3 = document.getElementById('unit3');
+            const unit4 = document.getElementById('unit4');
+            const unit5 = document.getElementById('unit5');
+            const unit6 = document.getElementById('unit6');
+            const unit7 = document.getElementById('unit7');
+
+            unit1.addEventListener('change', () => closeUnselectedUnits(unit1));
+            unit2.addEventListener('change', () => closeUnselectedUnits(unit2));
+            unit3.addEventListener('change', () => closeUnselectedUnits(unit3));
+            unit4.addEventListener('change', () => closeUnselectedUnits(unit4));
+            unit5.addEventListener('change', () => closeUnselectedUnits(unit5));
+            unit6.addEventListener('change', () => closeUnselectedUnits(unit6));
+            unit7.addEventListener('change', () => closeUnselectedUnits(unit7));
+
+            function closeUnselectedUnits(selectedUnit) {
+                localStorage.setItem('selectedUnit', event.target.options[event.target.selectedIndex].text)
+                const units = [unit1, unit2, unit3, unit4, unit5, unit6, unit7];
+                units.forEach(unit => {
+                    if (unit !== selectedUnit) {
+                        unit.selectedIndex = 0;
+                    }
+                });
+            }
+        });
+        function getSelectedUnitId() {
+    const selects = document.querySelectorAll("#units select");
+    for (const select of selects) {
+        const selectedOption = select.options[select.selectedIndex];
+        const unitId = selectedOption.getAttribute("data-id");
+        if (unitId) {
+            return parseInt(unitId); // Return the first found
+        }
+    }
+    return null; // If none selected
+}
+
+function getAllSelectedUnitIds() {
+    const ids = [
+        getSelectedUnitId('unit1'),
+        getSelectedUnitId('unit2'),
+        getSelectedUnitId('unit3'),
+        getSelectedUnitId('unit4'),
+        getSelectedUnitId('unit5'),
+        getSelectedUnitId('unit6'),
+        getSelectedUnitId('unit7')
+    ];
+
+    // Filter out unselected (null) units
+    return ids.filter(id => id !== null);
+}
+
+    </script>
+
+</body>
+
+</html>
