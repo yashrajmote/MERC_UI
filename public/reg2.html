@@ -242,7 +242,7 @@
                                     </div>
                                 </div>
                                 <div x-show="currentUnit">
-                                    <form id="inputForm" x-data="{ openSection: '' }">
+                                    <form id="InputForm2" x-data="{ openSection: '' } " action="output2.html">
 
                                         <!-- Accordion for Sections -->
                                         <div class="mt-3">
@@ -1008,6 +1008,12 @@ console.log("Selected Unit IDs:", unitId);
     console.log("EndDate" , endDate);
     const arr = parseFloat(document.getElementById("ARR").value); // sample data
     const fgmos = document.getElementById("FGMO").checked;
+    localStorage.setItem("unitId", JSON.stringify(unitId));
+    localStorage.setItem("companyId", JSON.stringify(companyId));
+    localStorage.setItem("startDate", JSON.stringify(startDate));
+    localStorage.setItem("endDate", JSON.stringify(endDate));
+    localStorage.setItem("arr", JSON.stringify(arr));
+    localStorage.setItem("fgmos", JSON.stringify(fgmos));
    //  const response111 = await axios.post('http://localhost:3000/api/getRegulationDetails', { encryptedData: a });
    //  console.log("Response for handleGetRegulationData:",response111)
      const regulationData = await handleGetRegulationData(financialYear);

@@ -1883,27 +1883,29 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
 
     // Gain/Loss Report Data
     const gainLossData = [
-        { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: AAVFTDR.toFixed(3), gainLoss: gainAVF.toFixed(3) },
-        { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: ASHR.toFixed(3), gainLoss: gainNSHR.toFixed(3) },
-        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: AAPC.toFixed(3), gainLoss: gainAPC.toFixed(3) },
-        { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: NSFOC, achieved: ASFOC.toFixed(3), gainLoss: gainSFOC.toFixed(3) },
-        { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: NTL, achieved: ATL, gainLoss: gainTL.toFixed(3) }
+        { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: (AAVFTDR ?? 0).toFixed(3), gainLoss: (gainAVF ?? 0).toFixed(3) },
+        { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: (ASHR ?? 0).toFixed(3), gainLoss: (gainNSHR ?? 0).toFixed(3) },
+        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: (AAPC ?? 0).toFixed(3), gainLoss: (gainAPC?? 0).toFixed(3) },
+        { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: NSFOC, achieved: (ASFOC ?? 0).toFixed(3), gainLoss: (gainSFOC ?? 0).toFixed(3) },
+        { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: NTL, achieved: (ATL ?? 0), gainLoss: (gainTL ?? 0).toFixed(3) }
     ];
+
+    console.log(gainLossData);
 
     // Incentive Gains Report Data
     const incentiveGainsData = [
-        { srNo: 6, parameter: 'MTBF', unit: 'days', normativeValue: 45, achieved: AMTBF, gain: gainMTBF.toFixed(3) },
-        { srNo: 7, parameter: 'Ramp rate above 1%', normativeValue: '%/min', description: 'above 1% ramp rate', achieved: ARR.toFixed(3), gain: gainRampRate.toFixed(3) },
-        { srNo: 8, parameter: 'Peak AVF', unit: '%', normativeValue: 75, achieved: APAVF, gain: gainPeakAVF.toFixed(3) },
-        { srNo: 9, parameter: 'FGMO status', unit: '-', normativeValue: 'In service', achieved: 'y', gain: gainFGMO.toFixed(3) }
+        { srNo: 6, parameter: 'MTBF', unit: 'days', normativeValue: 45, achieved: (AMTBF ?? 0), gain: (gainMTBF ?? 0).toFixed(3) },
+        { srNo: 7, parameter: 'Ramp rate above 1%', normativeValue: '%/min', description: 'above 1% ramp rate', achieved: (ARR ?? 0).toFixed(3), gain: (gainRampRate ?? 0).toFixed(3) },
+        { srNo: 8, parameter: 'Peak AVF', unit: '%', normativeValue: 75, achieved: (APAVF ?? 0), gain: (gainPeakAVF ?? 0).toFixed(3) },
+        { srNo: 9, parameter: 'FGMO status', unit: '-', normativeValue: 'In service', achieved: 'y', gain: (gainFGMO ?? 0).toFixed(3) }
     ];
 
     // Net Gain/Loss
-    const normGainLoss = gainAPC + gainSFOC + gainTL + gainNSHR + gainAVF;
+    const normGainLoss = (gainAPC ?? 0) + (gainSFOC ?? 0) + (gainTL ?? 0) + (gainNSHR ?? 0) + (gainAVF ?? 0);
 
-    const incentiveGainLoss = gainMTBF + gainRampRate + gainPeakAVF + gainFGMO;
+    const incentiveGainLoss = (gainMTBF ?? 0) + (gainRampRate ?? 0) + (gainPeakAVF ?? 0) + (gainFGMO ?? 0);
 
-    const netGainLoss = normGainLoss - incentiveGainLoss;
+    const netGainLoss = (normGainLoss ?? 0) - (incentiveGainLoss?? 0);
 
     // Constructing Gain/Loss Report HTML
 
@@ -1932,8 +1934,8 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
         </td>
         <td class="border border-gray-300 px-1 py-1">${item.unit}</td>
         <td class="border border-gray-300 px-1 py-1">${item.normativeValue}</td>
-        <td class="border border-gray-300 px-1 py-1">${item.achieved}</td>
-        <td class="border border-gray-300 px-1 py-1">${item.gainLoss}</td>
+        <td class="border border-gray-300 px-1 py-1">${item.achieved ?? 0}</td>
+        <td class="border border-gray-300 px-1 py-1">${(item.gainLoss ?? 0)}</td>
     </tr>
 `
     })
@@ -1941,7 +1943,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
     gainLossHTML += `
     <tr>
         <td colspan="4" class="border border-gray-300 px-2 py-1 text-right text-sm font-semibold">Total</td>
-        <td class="border border-gray-300 px-2 py-1 font-semibold text-sm">${normGainLoss.toFixed(4)}</td>
+        <td class="border border-gray-300 px-2 py-1 font-semibold text-sm">${(normGainLoss ?? 0).toFixed(4)}</td>
     </tr>
 
 </tbody>
@@ -1973,8 +1975,8 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
         <td class="border border-gray-300 px-2 py-1"><span> ${item.parameter}</span></td>
         <td class="border border-gray-300 px-2 py-1">${item.unit}</td>
         <td class="border border-gray-300 px-1 py-1">${item.normativeValue}</td>
-        <td class="border border-gray-300 px-2 py-1">${item.achieved}</td>
-        <td class="border border-gray-300 px-2 py-1">${item.gain}</td>
+        <td class="border border-gray-300 px-2 py-1">${item.achieved ?? 0}</td>
+        <td class="border border-gray-300 px-2 py-1">${item.gain ?? 0}</td>
     </tr>
 `;
     });
@@ -1982,7 +1984,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
     incentiveGainsHTML += `
     <tr>
         <td colspan="4" class="border border-gray-300 px-2 py-1 text-right font-semibold text-sm">Total</td>
-        <td class="border border-gray-300 px-2 py-1 font-semibold text-sm">${incentiveGainLoss.toFixed(4)}</td>
+        <td class="border border-gray-300 px-2 py-1 font-semibold text-sm">${(incentiveGainLoss ?? 0).toFixed(4)}</td>
     </tr>
 </tbody>
 </table>
@@ -1994,7 +1996,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
     // Net Gain/Loss
     let netGainLossHTML = `
 <h2 class="text-lg font-semibold mt-8">Net Gain/ Loss</h2>
-<p class="mt-4">Net Gain/ Loss: <span class="font-semibold">${netGainLoss.toFixed(4)}</span></p>
+<p class="mt-4">Net Gain/ Loss: <span class="font-semibold">${(netGainLoss ?? 0).toFixed(4)}</span></p>
 `;
 
     //const reportOutput = document.getElementById('reportOutput');
@@ -2003,7 +2005,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
 
     const ctx1 = document.getElementById(`chart6`).getContext('2d');
 
-    const dataValues1 = [gainMTBF, gainRampRate, gainPeakAVF, gainFGMO];
+    const dataValues1 = [(gainMTBF ?? 0), (gainRampRate ?? 0), (gainPeakAVF ?? 0), (gainFGMO ?? 0)];
 
     const getDoughnutColor = (values) => {
         const indexedValues = values.map((value, index) => ({ value, index }));
@@ -2043,7 +2045,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
 
     const ctx2 = document.getElementById(`chart7`).getContext('2d');
 
-    const dataValues = [gainAVF, gainNSHR, gainAPC, gainSFOC, gainTL];
+    const dataValues = [(gainAVF ?? 0), (gainNSHR ?? 0), (gainAPC ?? 0), (gainSFOC ?? 0), (gainTL ?? 0)];
 
     const getColor = (value) => {
         return value > 0 ? '#16a34a' : '#dc2626';
