@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" x-data="{ isSidebarOpen: false, isProfileOpen: false }" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mahagenco - File Upload</title>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="icon" href="images/abhitech-mahagenco-combined-logo.png" type="image/png" />
+</head>
+
+<body class="bg-gray-700 text-white">
+    <!-- NAVBAR -->
+    <nav class="sticky top-0 left-0 w-full z-50 bg-white text-black shadow">
+        <div class="flex items-center justify-between px-4 py-3">
+            <div class="flex items-center space-x-4">
+                <button @click="isSidebarOpen = !isSidebarOpen">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+                <img src="images/abhitech-mahagenco-combined-logo.png" alt="Logo" class="h-8 w-auto" />
+            </div>
+            <div class="flex items-center space-x-4">
+                <span>Welcome User</span>
+                <div class="relative">
+                    <button @click="isProfileOpen = !isProfileOpen"
+                        class="focus:outline-none">
+                        <img src="./images/userprofile.svg" alt="Profile" class="h-8 w-8 rounded-full" />
+                    </button>
+                    <div x-show="isProfileOpen" @click.outside="isProfileOpen = false"
+                        class="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg overflow-hidden z-50">
+                        <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Profile</a>
+                        <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Settings</a>
+                        <a href="./login.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SIDEBAR -->
+    <div class="flex">
+        <aside x-show="isSidebarOpen"
+            x-transition:enter="transition ease-out duration-300 transform"
+            x-transition:enter-start="-translate-x-full"
+            x-transition:enter-end="translate-x-0"
+            x-transition:leave="transition ease-in duration-300 transform"
+            x-transition:leave-start="translate-x-0"
+            x-transition:leave-end="-translate-x-full"
+            class="bg-white text-black w-64 h-screen shadow-lg fixed top-0 left-0 z-40 overflow-y-auto pt-16">
+            <!-- Sidebar content can go here -->
+            <div class="p-4 space-y-4">
+                <a href="./regParams.html" class="block hover:text-blue-600">Regulatory Parameters</a>
+                <a href="./ai.html" class="block hover:text-blue-600">AI Modal</a>
+                <a href="./slagging_coal_page.html" class="block hover:text-blue-600">Slagging Predictor</a>
+                <a href="./login.html" class="block text-red-600 hover:text-red-800">Sign Out</a>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main :class="{ 'ml-64': isSidebarOpen }"
+            class="flex-1 transition-all duration-300 p-6 flex items-center justify-center h-screen">
+            <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-md text-black">
+                <h2 class="text-xl font-semibold mb-4 text-center">Upload a File</h2>
+                <form>
+                    <input type="file" class="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4
+                        file:rounded-full file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-blue-50 file:text-blue-700
+                        hover:file:bg-blue-100
+                        cursor-pointer" />
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
