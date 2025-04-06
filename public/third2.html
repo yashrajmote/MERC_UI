@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      href="images/abhitech-mahagenco-combined-logo.png"
+      type="image/png"
+    />
+    <title>Output - Mahagenco</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js"
+      defer
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <style>
+      canvas#chart2 {
+        max-height: 24vh !important;
+        max-width: 100vh !important;
+        margin: auto !important;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-700">
+    <div class="max-h-screen flex flex-col">
+      <nav class="fixed top-0 left-0 w-full h-14 bg-white shadow z-10">
+        <div class="mb-2 mt-2 flex w-full h-3 bg-white-50">
+          <img
+            src="images/abhitech-mahagenco-combined-logo.png"
+            alt="Logo"
+            class="h-9"
+          />
+        </div>
+        <!-- <div class=" fixed -mt-3 w-full text-center text-sm font-semibold text-gray-700">
+                <span id="datetime"></span>
+            </div> -->
+      </nav>
+      <main class="mt-16 z-0">
+        <div
+          x-data="{ selectedUnit: localStorage.getItem('selectedUnit') || 'Default Value' , 
+            gainLoss: localStorage.getItem('gainLoss') || 'Default Value' }"
+          class="flex justify-between p-4 pb-0 pt-1 items-center"
+        >
+          <span class="text-white text-lg text-bold font-medium">
+            <span class="cursor-pointer">Regulatory Parameters </span> /
+            <span
+              class="cursor-pointer"
+              x-text="selectedUnit"
+              onclick="window.location.href='./output.html'"
+            ></span>
+            /
+            <span x-text="gainLoss" class="bg-yellow-300 p-1 rounded"></span>
+          </span>
+          <div
+            x-data="{ 
+                    daterange: (() => {
+                      const storedDate = localStorage.getItem('selectedDate') || 'Default Value';
+                
+                      if (storedDate === 'Default Value') return storedDate;
+                
+                      const formatDate = (dateString) => {
+                        const [year, month, day] = dateString.split('/').map(Number);
+                        const date = new Date(year, month - 1, day); 
+                        if (!isNaN(date.getTime())) {
+                          const options = { day: '2-digit', month: 'long', year: 'numeric' };
+                          return new Intl.DateTimeFormat('en-GB', options).format(date);
+                        }
+                        return 'Invalid Date';
+                      };
+                
+                      const dates = storedDate.split(' - ');
+                      if (dates.length === 2) {
+                        const startDate = formatDate(dates[0]);
+                        const endDate = formatDate(dates[1]);
+                        if (startDate !== 'Invalid Date' && endDate !== 'Invalid Date') {
+                          return `${startDate} - ${endDate}`;
+                        }
+                      }
+                
+                      return 'Invalid Date'; 
+                    })() 
+                  }"
+            class="flex"
+          >
+            <span
+              x-text="daterange"
+              class="text-white text-sm text-bold font-medium mr-2"
+            ></span>
+            <button
+              onclick="window.location.href='regParams.html'"
+              class="hover:text-blue-600 transition"
+            >
+              <img src="images/back.svg" alt="Back" class="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+        <section class="grid grid-cols-2 gap-3 p-4 pb-2">
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-white shadow-xl rounded-lg w-full p-3">
+              <!-- <h2 class="text-md text-center font-semibold">Analysis</h2> -->
+              <table
+                class="mt-1 border-collapse border border-gray-300 shadow-md rounded-md w-full"
+              >
+                <thead
+                  class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                >
+                  <tr class="bg-gray-200" id="analysisTable">
+                    <th scope="col" class="border py-1">Analytics</th>
+                    <th scope="col" class="border border-gray-300 py-1">
+                      Values
+                    </th>
+                  </tr>
+                </thead>
+                <tbody
+                  class="border-t text-sm text-gray-700"
+                  id="analysisBody"
+                ></tbody>
+              </table>
+
+              <table
+                class="mt-2 border-collapse border border-gray-300 shadow-md rounded-md w-full h-50"
+              >
+                <thead
+                  class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                >
+                  <tr class="bg-gray-200" id="secondTable">
+                    <th scope="col" class="border border-gray-300 py-1">
+                      Performance Analytics
+                    </th>
+                    <th scope="col" class="border border-gray-300 py-1">
+                      Values
+                    </th>
+                  </tr>
+                </thead>
+                <tbody
+                  class="border-t text-sm text-gray-700"
+                  id="secondBody"
+                ></tbody>
+              </table>
+
+              <table
+                class="mt-2 border-collapse border border-gray-300 shadow-md rounded-md w-full h-50"
+              >
+                <thead
+                  class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                  id="thirdTableHead"
+                ></thead>
+                <tbody
+                  class="border-t text-sm text-gray-700"
+                  id="thirdBody"
+                ></tbody>
+              </table>
+            </div>
+
+            <!-- Graphs -->
+            <div
+              class="grid grid-flow-col grid-rows-2 gap-3"
+              x-data="{ insightData: JSON.parse(localStorage.getItem('insightData')) || 'Default Value'}"
+            >
+              <div class="bg-white shadow-xl rounded-lg p-3">
+                <h3
+                  class="text-md text-center font-semibold mb-1"
+                  x-text="insightData.graphHeading1"
+                ></h3>
+                <canvas id="chart1"></canvas>
+              </div>
+              <div
+                class="bg-white shadow-xl rounded-lg p-1 grid grid-row-2 gap-1"
+              >
+                <div>
+                  <h3
+                    class="text-md text-center font-semibold mb-1"
+                    x-text="insightData.graphHeading2"
+                  ></h3>
+                  <canvas id="chart2"></canvas>
+                </div>
+                <template
+                  x-if="insightData.parameter === 'Availability Factor'"
+                >
+                  <div class="px-2">
+                    <table
+                      class="mt-1 border-collapse border border-gray-300 shadow-md rounded-md w-full"
+                    >
+                      <thead
+                        class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                      >
+                        <!-- <tr class="bg-gray-200">
+                                            <th scope="col" class="border border-gray-300 py-1">Achieved AVF (%)</th>
+                                            <th scope="col" class="border border-gray-300 py-1">Type</th>
+                                        </tr> -->
+                      </thead>
+                      <tbody class="text-left text-sm text-gray-700">
+                        <tr>
+                          <td class="border border-gray-300">
+                            Achieved AVF (%)
+                          </td>
+                          <td class="border border-gray-300">83.33</td>
+                        </tr>
+                        <tr>
+                          <td class="border border-gray-300">
+                            AVF disallowance (Rs. Cr)
+                          </td>
+                          <td class="border border-gray-300">-0.03</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-white shadow-xl rounded-lg p-3 w-full overflow-y-auto"
+            style="max-height: 80vh"
+            x-data="{ insightData: JSON.parse(localStorage.getItem('insightData')) || 'Default Value'}"
+          >
+            <!-- <h3 class="text-md text-center font-semibold">Failure Modes and Action Plan</h3> -->
+            <div style="max-height: 71vh" class="overflow-y-auto">
+              <table
+                class="mt-1 border-collapse border border-gray-300 shadow-md rounded-md w-full"
+              >
+                <thead
+                  class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                >
+                  <tr class="bg-gray-200">
+                    <th scope="col" class="border border-gray-300 py-1">
+                      Failure Mode
+                    </th>
+                    <th scope="col" class="border border-gray-300 py-1">
+                      Type
+                    </th>
+                    <th scope="col" class="border border-gray-300 py-1">
+                      Loss in Mus
+                    </th>
+                    <th scope="col" class="border border-gray-300 py-1">
+                      Loss in %
+                    </th>
+                    <th scope="col" class="border border-gray-300 py-1">
+                      Plan of Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody
+                  class="text-left text-sm text-gray-700"
+                  id="insightTableBody"
+                ></tbody>
+              </table>
+            </div>
+            <template x-if="insightData.parameter === 'Availability Factor'">
+              <canvas
+                id="chart3"
+                style="height: 15vh !important; width: 100%; margin-top: 2%"
+              ></canvas>
+            </template>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      function encryptData(data) {
+        const secretKey = CryptoJS.enc.Utf8.parse(
+          "qwertyuiopasdfghjklzxcvbnm123456"
+        );
+        const iv = CryptoJS.enc.Utf8.parse("1234567890123456");
+
+        const encrypted = CryptoJS.AES.encrypt(
+          JSON.stringify(data),
+          secretKey,
+          {
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7,
+          }
+        );
+
+        // Convert Base64 output to Hex
+        const ciphertextWords = CryptoJS.enc.Base64.parse(encrypted.toString());
+        const hexCipherText = CryptoJS.enc.Hex.stringify(ciphertextWords);
+        return hexCipherText;
+      }
+
+      function decryptData(encryptedHexData) {
+        try {
+          const secretKey = CryptoJS.enc.Utf8.parse(
+            "qwertyuiopasdfghjklzxcvbnm123456"
+          );
+          const iv = CryptoJS.enc.Utf8.parse("1234567890123456");
+
+          if (!encryptedHexData || encryptedHexData.length < 16) {
+            console.warn(
+              "⚠️ Encrypted data is missing or too short:",
+              encryptedHexData
+            );
+            return null;
+          }
+
+          const decrypted = CryptoJS.AES.decrypt(
+            {
+              ciphertext: CryptoJS.enc.Hex.parse(encryptedHexData),
+            },
+            secretKey,
+            {
+              iv: iv,
+              mode: CryptoJS.mode.CBC,
+              padding: CryptoJS.pad.Pkcs7,
+            }
+          );
+
+          const decryptedStr = decrypted.toString(CryptoJS.enc.Utf8);
+
+          //  if (!decryptedStr) {
+          //    console.warn("⚠️ Decryption returned empty string. Possibly wrong secret or IV.");
+          //    return null;
+          //  }
+
+          try {
+            return JSON.parse(decryptedStr);
+          } catch (jsonErr) {
+            console.error(
+              "❌ JSON parse failed. Decrypted string:",
+              decryptedStr
+            );
+            throw jsonErr;
+          }
+        } catch (error) {
+          console.error("❌ Decryption error:", error.message);
+          console.log("Raw encrypted input:", encryptedHexData);
+          return null;
+        }
+      }
+
+      async function postEncrypted(endpoint, data) {
+        try {
+          const encryptedPayload = encryptData(data);
+
+          const result = await axios.post(endpoint, {
+            encryptedData: encryptedPayload,
+          });
+
+          const encryptedResponse = result?.data?.data;
+          //  const firstResultSet = encryptedResponse[0];
+
+          //  if (!encryptedResponse) {
+          //    console.warn("⚠️ No encryptedData in server response. Full response:", result);
+          //    throw new Error("Invalid encrypted response");
+          //  }
+
+          const decryptedResponse = decryptData(encryptedResponse);
+          const resultRow = decryptedResponse[0][0]; // First item of the first result set
+          const finalResult = resultRow?.result;
+          //  if (!decryptedResponse) {
+          //    console.warn("⚠️ Decrypted response is empty or null.");
+          //  }
+
+          return finalResult || {};
+        } catch (error) {
+          console.error("🚨 Secure POST Error:", error.message);
+          throw error;
+        }
+      }
+      document.addEventListener("DOMContentLoaded", async () => {
+        const unitId = JSON.parse(localStorage.getItem("unitId"));
+        const companyId = JSON.parse(localStorage.getItem("companyId"));
+        const startDate = JSON.parse(localStorage.getItem("startDate"));
+        const endDate = JSON.parse(localStorage.getItem("endDate"));
+        const arr = JSON.parse(localStorage.getItem("arr"));
+        const fgmos = JSON.parse(localStorage.getItem("fgmos"));
+        const response = await postEncrypted(
+          "http://localhost:3000/api/allCalculations",
+          {
+            p_UnitId: unitId,
+            p_CompanyId: companyId,
+            p_StartDate: startDate,
+            p_EndDate: endDate,
+            p_ARR: arr,
+            p_FGMOS: fgmos,
+          }
+        );
+        console.log("Response for handleGetAllData:", response);
+
+        const parsedMainData = JSON.parse(response.MainData);
+        const parsedCalculationsData = JSON.parse(response.Calculations);
+        const parsedCalculateROEValues = JSON.parse(
+          response.CalculateROEValues
+        );
+        const parsedCalculateGainValues = JSON.parse(
+          response.CalculateGainValues
+        );
+        const storedData = localStorage.getItem("insightData");
+        const reportData = JSON.parse(localStorage.getItem("reportData"));
+
+        const parsedValues = reportData.parsedValues || {};
+        const afterCalculations = reportData.afterCalculations || {};
+        const ROEValues = reportData.ROEValues || {};
+        const gainValues = reportData.gainValues || {};
+        const gainValuesData = {
+          gainMTBF: parsedCalculateGainValues.gainMTBF ?? 0,
+          gainRampRate: parsedCalculateGainValues.gainRampRate ?? 0,
+          gainPeakAVF: parsedCalculateGainValues.gainPeakAVF ?? 0,
+          gainFGMO: parsedCalculateGainValues.gainFGMO ?? 0,
+          gainAPC: parsedCalculateGainValues.gainAPC ?? 0,
+          gainSFOC: parsedCalculateGainValues.gainSFOC ?? 0,
+          gainTL: parsedCalculateGainValues.gainTL ?? 0,
+          gainNSHR: parsedCalculateGainValues.gainNSHR ?? 0,
+          gainAVF: parsedCalculateGainValues.gainAVF ?? 0,
+        };
+
+        const roeValuesData = {
+          ROE_RP: parsedCalculateROEValues.ROE_RP ?? 0,
+          converted_ROE_MTBF: parsedCalculateROEValues.ROE_MTBF ?? 0,
+          converted_ROE_RR: parsedCalculateROEValues.ROE_RR ?? 0,
+          converted_ROE_PAVF: parsedCalculateROEValues.ROE_PAVF ?? 0,
+        };
+
+        const afterCalculationsData = {
+          ASHR: parsedCalculationsData.ASHR ?? 0,
+          AAPC: parsedCalculationsData.AAPC ?? 0,
+          ASFOC: parsedCalculationsData.ASFOC ?? 0,
+        };
+
+        const parsedValuesData = {
+          ATL: parsedCalculationsData.ATL ?? 0,
+          APAVF: parsedMainData.APAVF ?? 0,
+          NAVF: parsedMainData.NAVF ?? 0,
+          NSHR: parsedMainData.NSHR ?? 0,
+          NAPC: parsedMainData.NAPC ?? 0,
+          NSFOC: parsedMainData.NSFOC ?? 0,
+          NTL: parsedMainData.NTL ?? 0,
+        };
+        if (storedData) {
+          const parsedData = JSON.parse(storedData);
+          console.log(parsedData);
+          populateTable([parsedData]);
+          populateAnalysisTable(
+            [parsedData],
+            parsedValuesData,
+            afterCalculationsData,
+            roeValuesData,
+            gainValuesData
+          );
+          populateGraphs([parsedData]);
+        }
+      });
+
+      function populateTable(data) {
+        const tableBody = document.querySelector("#insightTableBody");
+
+        data.forEach((item) => {
+          item.data.forEach((mode) => {
+            const row = document.createElement("tr");
+            row.classList.add();
+            row.classList.add("font-sans", "text-sm");
+            row.innerHTML = `
+            <td class="border border-gray-300">${mode.mode}</td>
+            <td class="border border-gray-300">${mode.sourceSheet}</</td>
+            <td class="border border-gray-300">${mode.lossMus}</td>
+            <td class="border border-gray-300">${mode.lossMussPer}</td>
+            <td class="border border-gray-300">
+            ${mode.actionPlan
+              .map(
+                (action) => `
+            <strong>${action.name}:</strong>
+                <ul class="list-disc pl-5">
+            ${action.data.map((desc) => `<li>${desc}</li>`).join("")}
+            </ul>
+            `
+              )
+              .join("")}
+            </td>
+                    `;
+            tableBody.appendChild(row);
+          });
+        });
+      }
+
+      function populateAnalysisTable(
+        data,
+        newparsedValues,
+        newafterCalculations,
+        newROEValues,
+        gainValues
+      ) {
+        const {
+          gainMTBF,
+          gainRampRate,
+          gainPeakAVF,
+          gainFGMO,
+          gainAPC,
+          gainSFOC,
+          gainTL,
+          gainNSHR,
+          gainAVF,
+        } = gainValues;
+        const {
+          ROE_RP,
+          converted_ROE_MTBF,
+          converted_ROE_RR,
+          converted_ROE_PAVF,
+        } = newROEValues;
+        const { ASHR, AAPC, ASFOC } = newafterCalculations;
+        const { ATL, APAVF, NAVF, NSHR, NAPC, NSFOC, NTL } = newparsedValues;
+
+        const normGainLoss = gainAPC + gainSFOC + gainTL + gainNSHR + gainAVF;
+        const incentiveGainLoss =
+          gainMTBF + gainRampRate + gainPeakAVF + gainFGMO;
+        const netGainLoss = normGainLoss - incentiveGainLoss;
+
+        const AVFDeviation = APAVF - NAVF;
+        const SHRDeviation = ASHR - NSHR;
+        const APCDeviation = AAPC - NAPC;
+        const DOCDeviation = ASFOC - NSFOC;
+        const TLDeviation = NTL - ATL;
+
+        const insightData = [
+          {
+            parameter: "Availability Factor",
+            firstTable: [NAVF, APAVF, AVFDeviation, gainAVF],
+          },
+          {
+            parameter: "Heat Rate",
+            firstTable: [ASHR, NSHR, SHRDeviation, gainNSHR],
+          },
+          {
+            parameter: "Auxiliary Power Consumption",
+            firstTable: [NAVF, APAVF, AVFDeviation, gainAVF],
+          },
+          {
+            parameter: "Specific Oil Consumption",
+            firstTable: [NAVF, APAVF, AVFDeviation, gainAVF],
+          },
+          {
+            parameter: "Transit Loss",
+            firstTable: [NAVF, APAVF, AVFDeviation, gainAVF],
+          },
+        ];
+        console.log(insightData);
+        const analysisHeader = document.querySelector("#analysisTable");
+        const analysisBody = document.querySelector("#analysisBody");
+        const secondHeader = document.querySelector("#secondTable");
+        const secondBody = document.querySelector("#secondBody");
+        const thirdTableHead = document.querySelector("#thirdTableHead");
+        const thirdBody = document.querySelector("#thirdBody");
+
+        // const headerRow = document.createElement('tr');
+        // data.forEach(item => {
+        //     item.header.forEach(headerText => {
+        //         const headers = document.createElement('th');
+        //         headers.classList.add('border', 'border-gray-300', 'py-1');
+        //         headers.textContent = headerText;
+        //         analysisHeader.appendChild(headers)
+        //     });
+        // });
+
+        // analysisHeader.appendChild(headerRow)
+
+        data.forEach((item) => {
+          item.values.forEach((bodyValue, i) => {
+            const body = document.createElement("tr");
+            body.classList.add("font-sans", "text-sm");
+
+            const cell1 = document.createElement("td");
+            cell1.classList.add("border", "border-gray-300", "px-1", "py-1");
+            cell1.textContent = item.header[i];
+
+            const cell2 = document.createElement("td");
+            cell2.classList.add("border", "border-gray-300", "px-1", "py-1");
+            cell2.textContent = bodyValue;
+
+            body.appendChild(cell1);
+            body.appendChild(cell2);
+
+            analysisBody.appendChild(body);
+          });
+        });
+
+        data.forEach((item) => {
+          const { secondTable, secondValues } = item;
+
+          for (let i = 0; i < secondTable.length; i++) {
+            const secondRow = document.createElement("tr");
+            secondRow.classList.add("font-sans", "text-sm");
+            const cell1 = document.createElement("td");
+            cell1.classList.add("border", "border-gray-300", "px-1", "py-1");
+            cell1.textContent = secondTable[i];
+
+            const cell2 = document.createElement("td");
+            cell2.classList.add("border", "border-gray-300", "px-1", "py-1");
+            cell2.textContent = secondValues[i];
+
+            secondRow.appendChild(cell1);
+            secondRow.appendChild(cell2);
+
+            secondBody.appendChild(secondRow);
+          }
+        });
+
+        data.forEach((item) => {
+          const { thirdTable, thirdTableHeader, thirdValues1, thirdValues2 } =
+            item;
+
+          const thirdRowHeader = document.createElement("tr");
+          thirdRowHeader.classList.add("bg-gray-200");
+          thirdTableHeader.forEach((element) => {
+            const cell1 = document.createElement("th");
+            cell1.classList.add("border", "border-gray-300", "py-1");
+            cell1.textContent = element;
+            thirdRowHeader.appendChild(cell1);
+          });
+          thirdTableHead.appendChild(thirdRowHeader);
+
+          for (let i = 0; i < thirdTable.length; i++) {
+            const thirdRow = document.createElement("tr");
+            thirdRow.classList.add("font-sans", "text-sm");
+            const cell1 = document.createElement("td");
+            cell1.classList.add("border", "border-gray-300", "px-1", "py-1");
+            cell1.textContent = thirdTable[i];
+
+            const cell2 = document.createElement("td");
+            cell2.classList.add("border", "border-gray-300", "px-1", "py-1");
+            cell2.textContent = thirdValues1[i];
+
+            const cell3 = document.createElement("td");
+            cell3.classList.add("border", "border-gray-300", "px-1", "py-1");
+            cell3.textContent = thirdValues2[i];
+
+            thirdRow.appendChild(cell1);
+            thirdRow.appendChild(cell2);
+            thirdRow.appendChild(cell3);
+
+            thirdBody.appendChild(thirdRow);
+          }
+        });
+      }
+
+      function populateGraphs(data) {
+        console.log(data);
+        const ctx = document.getElementById(`chart1`).getContext("2d");
+        const ctx1 = document.getElementById(`chart2`).getContext("2d");
+
+        data.forEach((item) => {
+          new Chart(ctx, {
+            type: "bar",
+            data: {
+              labels: item.graphLegend1,
+              datasets: [
+                {
+                  label: "AVF ",
+                  data: item.graphValues1,
+                  backgroundColor: ["#F70000", "#70AD47", "#F70000"],
+                  borderWidth: 2,
+                },
+              ],
+            },
+            options: {
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+              responsive: true,
+              scales: {
+                x: {
+                  beginAtZero: true,
+                },
+                y: {
+                  beginAtZero: true,
+                },
+              },
+            },
+          });
+          if (item.parameter !== "Transit Loss") {
+            new Chart(ctx1, {
+              type: "pie",
+              data: {
+                labels: ["Fixed cost recovered", "Fixed cost disallowance"],
+                datasets: [
+                  {
+                    label: "AVF Disallowance",
+                    data: item.graphValues2,
+                    backgroundColor: ["#70AD47", "#ED7D31"],
+                  },
+                ],
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false, // This allows setting a custom height
+              },
+            });
+          } else {
+            new Chart(ctx1, {
+              type: "bar",
+              data: {
+                labels: [
+                  "WCL - Umred (Rail)",
+                  "WCL - Gondegaon (Rail)",
+                  "WCL - Gondegaon (Road)",
+                  "WCL - Saoner (Road)",
+                ],
+                datasets: [
+                  {
+                    label: "TL",
+                    data: [843, 294, 498, 345],
+                    backgroundColor: "rgba(54, 162, 235, 0.6)",
+                    borderColor: "rgba(54, 162, 235, 1)",
+                    borderWidth: 1,
+                  },
+                  {
+                    label: "%",
+                    data: [0.43, 0.15, 0.25, 0.17],
+                    backgroundColor: "rgba(255, 99, 132, 0.6)",
+                    borderColor: "rgba(255, 99, 132, 1)",
+                    borderWidth: 1,
+                  },
+                ],
+              },
+              options: {
+                responsive: true,
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                  },
+                },
+              },
+            });
+          }
+          if (item.parameter === "Availability Factor") {
+            const ctx2 = document.getElementById(`chart3`).getContext("2d");
+            new Chart(ctx2, {
+              type: "bar",
+              data: {
+                labels: ["AVF Chart"], // Single label for one stacked bar
+                datasets: [
+                  {
+                    label: "Achieved AVF (%)",
+                    data: [83.33], // First segment in the stack
+                    backgroundColor: "#70AD47",
+                  },
+                  {
+                    label: "C/F Problem",
+                    data: [5.75], // Second segment in the stack
+                    backgroundColor: "#F48239",
+                  },
+                  {
+                    label: "FG Temp. High",
+                    data: [2.08], // Third segment in the stack
+                    backgroundColor: "#A6A6A6",
+                  },
+                  {
+                    label: "CHP Problem",
+                    data: [3.17], // Fourth segment in the stack
+                    backgroundColor: "#FFC608",
+                  },
+                ],
+              },
+              options: {
+                indexAxis: "y", // Converts to a horizontal bar chart
+                responsive: true,
+                maintainAspectRatio: true, // Allows setting custom height
+                scales: {
+                  x: {
+                    stacked: true, // Enables stacking on the x-axis
+                    beginAtZero: true,
+                    max: 100, // Ensures the total fits within 100%
+                  },
+                  y: {
+                    stacked: true, // Enables stacking on the y-axis
+                  },
+                },
+                plugins: {
+                  legend: {
+                    display: true, // Shows the legend for each segment
+                  },
+                },
+              },
+            });
+          }
+          // if (item.parameter === "Heat Rate") {
+          //     new Chart(ctx, {
+          //         type: 'bar',
+          //         data: {
+          //             labels: ['Normative SHR (kcal/kwh)', 'Achieved SHR (kcal/kwh)'],
+          //             datasets: [{
+          //                 label: 'AVF ',
+          //                 data: item.graphValues1,
+          //                 backgroundColor: ['#FF0000', '#00FF00'],
+          //                 borderWidth: 2
+          //             }]
+          //         },
+          //         options: {
+          //             plugins: {
+          //                 legend: {
+          //                     display: false
+          //                 }
+          //             },
+          //             responsive: true,
+          //             scales: {
+          //                 x: {
+          //                     beginAtZero: true
+          //                 },
+          //                 y: {
+          //                     beginAtZero: true
+          //                 }
+          //             }
+          //         }
+          //     });
+          // }
+        });
+      }
+    </script>
+  </body>
+</html>

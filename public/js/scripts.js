@@ -1851,6 +1851,21 @@ function moreInfoPage(parameter) {
 
 }
 
+function moreInfoPage2(parameter) {
+
+    console.log(parameter)
+    console.log(insightData)
+    localStorage.setItem('gainLoss', parameter)
+    const matchingObject = insightData.find(item => item.parameter === parameter);
+    console.log(matchingObject)
+
+    if (matchingObject) {
+        localStorage.setItem('insightData', JSON.stringify(matchingObject));
+    }
+    window.location.href = 'third2.html';
+
+}
+
 function populateTable(data) {
     const tableBody = document.querySelector('#insightTableBody');
 
@@ -1931,6 +1946,248 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
     <tr class="font-sans text-sm">
         <td class="border border-gray-300 px-1 py-1">
         <a onClick="moreInfoPage('${item.parameter}')" class="cursor-pointer text-blue-500 underline hover:text-blue-700">${item.parameter}</a>
+        </td>
+        <td class="border border-gray-300 px-1 py-1">${item.unit}</td>
+        <td class="border border-gray-300 px-1 py-1">${item.normativeValue}</td>
+        <td class="border border-gray-300 px-1 py-1">${item.achieved ?? 0}</td>
+        <td class="border border-gray-300 px-1 py-1">${(item.gainLoss ?? 0)}</td>
+    </tr>
+`
+    })
+
+    gainLossHTML += `
+    <tr>
+        <td colspan="4" class="border border-gray-300 px-2 py-1 text-right text-sm font-semibold">Total</td>
+        <td class="border border-gray-300 px-2 py-1 font-semibold text-sm">${(normGainLoss ?? 0).toFixed(4)}</td>
+    </tr>
+
+</tbody>
+</table>
+</div>
+`
+    document.getElementById('gain-loss-report').innerHTML = gainLossHTML;
+
+    // Constructing Incentive Gains Report HTML
+    let incentiveGainsHTML = `
+<div class="relative overflow-y-auto">
+<h2 class="text-md text-center font-semibold"">Incentive Gains Report as per Regulations</h2>
+<table class="mt-1 w-full border-collapse border border-gray-300 shadow-md rounded-md">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr class="bg-gray-200">
+            <th class="border border-gray-300 px-2 py-1">Parameter</th>
+            <th class="border border-gray-300 px-2 py-1">Unit</th>
+            <th class="border border-gray-300 px-2 py-1">Note</th>
+            <th class="border border-gray-300 px-2 py-1">Achieved</th>
+            <th class="border border-gray-300 px-2 py-1">Gain/Loss</th>
+        </tr>
+    </thead>
+    <tbody>
+`;
+
+    incentiveGainsData.forEach(item => {
+        incentiveGainsHTML += `
+    <tr class="font-sans text-sm">
+        <td class="border border-gray-300 px-2 py-1"><span> ${item.parameter}</span></td>
+        <td class="border border-gray-300 px-2 py-1">${item.unit}</td>
+        <td class="border border-gray-300 px-1 py-1">${item.normativeValue}</td>
+        <td class="border border-gray-300 px-2 py-1">${item.achieved ?? 0}</td>
+        <td class="border border-gray-300 px-2 py-1">${item.gain ?? 0}</td>
+    </tr>
+`;
+    });
+
+    incentiveGainsHTML += `
+    <tr>
+        <td colspan="4" class="border border-gray-300 px-2 py-1 text-right font-semibold text-sm">Total</td>
+        <td class="border border-gray-300 px-2 py-1 font-semibold text-sm">${(incentiveGainLoss ?? 0).toFixed(4)}</td>
+    </tr>
+</tbody>
+</table>
+</div>
+`;
+
+    document.getElementById('incentive-gains-report').innerHTML = incentiveGainsHTML;
+
+    // Net Gain/Loss
+    let netGainLossHTML = `
+<h2 class="text-lg font-semibold mt-8">Net Gain/ Loss</h2>
+<p class="mt-4">Net Gain/ Loss: <span class="font-semibold">${(netGainLoss ?? 0).toFixed(4)}</span></p>
+`;
+
+    //const reportOutput = document.getElementById('reportOutput');
+    //reportOutput.innerHTML = gainLossHTML + incentiveGainsHTML;
+
+
+    const ctx1 = document.getElementById(`chart6`).getContext('2d');
+
+    const dataValues1 = [(gainMTBF ?? 0), (gainRampRate ?? 0), (gainPeakAVF ?? 0), (gainFGMO ?? 0)];
+
+    const getDoughnutColor = (values) => {
+        const indexedValues = values.map((value, index) => ({ value, index }));
+
+        indexedValues.sort((a, b) => b.value - a.value);
+
+        const colors = new Array(values.length).fill('#000000');
+        if (indexedValues.length > 0) colors[indexedValues[0].index] = '#7f6519'; // Highest
+        if (indexedValues.length > 1) colors[indexedValues[1].index] = '#848406'; // 2nd highest
+        if (indexedValues.length > 2) colors[indexedValues[2].index] = '#e4c97b'; // 3rd highest
+        if (indexedValues.length > 3) colors[indexedValues[3].index] = '#f3f017'; // 4th highest
+
+        return colors;
+    };
+
+
+
+    new Chart(ctx1, {
+        type: 'doughnut',
+        data: {
+            labels: ['MTBF', 'Ramp Rate', 'Peak AVF', 'FGMO Status'],
+            datasets: [{
+                label: 'Gains',
+                data: dataValues1,
+                backgroundColor: getDoughnutColor(dataValues1),
+            }]
+        },
+        options: {
+            responsive: false,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                }
+            }
+        }
+    });
+
+    const ctx2 = document.getElementById(`chart7`).getContext('2d');
+
+    const dataValues = [(gainAVF ?? 0), (gainNSHR ?? 0), (gainAPC ?? 0), (gainSFOC ?? 0), (gainTL ?? 0)];
+
+    const getColor = (value) => {
+        return value > 0 ? '#16a34a' : '#dc2626';
+    };
+
+    const incentivesChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: ['Avail Factor', 'Heat Rate', 'Aux Power Con', 'Spec Oil Con', 'Transit Loss'],
+            datasets: [{
+                label: 'Gain/Loss',
+                data: dataValues,
+                backgroundColor: dataValues.map(getColor),
+                minBarLength: 7,
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        position: 'top',
+                    },
+                    stacked: true
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Loss/Gain'
+                    }
+                }
+            },
+            onClick: function (e) {
+                const points = incentivesChart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
+
+                if (points.length) {
+                    const firstPoint = points[0];
+                    const label = incentivesChart.data.labels[firstPoint.index];
+
+                    const chartMapping = {
+                        'Avail Factor': 'chart1',
+                        'Heat Rate': 'chart2',
+                        'Aux Power Con': 'chart3',
+                        'Spec Oil Con': 'chart4',
+                        'Transit Loss': 'chart5'
+                    };
+
+                    const chartID = chartMapping[label];
+
+                    console.log(chartID);
+
+                    if (chartID) {
+                        updateSmallerChart(chartID, label, parsedValues, afterCalculations);
+                    }
+                }
+            }
+        }
+    });
+
+
+}
+
+function generateReport2(gainValues, afterCalculations, ROEValues, parsedValues) {
+
+    const { ROE_RP, converted_ROE_MTBF, converted_ROE_RR, converted_ROE_PAVF } = ROEValues;
+
+    const { gainMTBF, gainRampRate, gainPeakAVF, gainFGMO, gainAPC, gainSFOC, gainTL, gainNSHR, gainAVF } = gainValues;
+
+    const { AAPC, AAVFTDR, ASHR, ASFOC } = afterCalculations;
+
+    const { ATL, ATLC, AMTBF, ARR, APAVF, NAVF, NSHR, NAPC, NSFOC, NTL } = parsedValues;
+
+    // Gain/Loss Report Data
+    const gainLossData = [
+        { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: (AAVFTDR ?? 0).toFixed(3), gainLoss: (gainAVF ?? 0).toFixed(3) },
+        { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: (ASHR ?? 0).toFixed(3), gainLoss: (gainNSHR ?? 0).toFixed(3) },
+        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: (AAPC ?? 0).toFixed(3), gainLoss: (gainAPC?? 0).toFixed(3) },
+        { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: NSFOC, achieved: (ASFOC ?? 0).toFixed(3), gainLoss: (gainSFOC ?? 0).toFixed(3) },
+        { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: NTL, achieved: (ATL ?? 0), gainLoss: (gainTL ?? 0).toFixed(3) }
+    ];
+
+    console.log(gainLossData);
+
+    // Incentive Gains Report Data
+    const incentiveGainsData = [
+        { srNo: 6, parameter: 'MTBF', unit: 'days', normativeValue: 45, achieved: (AMTBF ?? 0), gain: (gainMTBF ?? 0).toFixed(3) },
+        { srNo: 7, parameter: 'Ramp rate above 1%', normativeValue: '%/min', description: 'above 1% ramp rate', achieved: (ARR ?? 0).toFixed(3), gain: (gainRampRate ?? 0).toFixed(3) },
+        { srNo: 8, parameter: 'Peak AVF', unit: '%', normativeValue: 75, achieved: (APAVF ?? 0), gain: (gainPeakAVF ?? 0).toFixed(3) },
+        { srNo: 9, parameter: 'FGMO status', unit: '-', normativeValue: 'In service', achieved: 'y', gain: (gainFGMO ?? 0).toFixed(3) }
+    ];
+
+    // Net Gain/Loss
+    const normGainLoss = (gainAPC ?? 0) + (gainSFOC ?? 0) + (gainTL ?? 0) + (gainNSHR ?? 0) + (gainAVF ?? 0);
+
+    const incentiveGainLoss = (gainMTBF ?? 0) + (gainRampRate ?? 0) + (gainPeakAVF ?? 0) + (gainFGMO ?? 0);
+
+    const netGainLoss = (normGainLoss ?? 0) - (incentiveGainLoss?? 0);
+
+    // Constructing Gain/Loss Report HTML
+
+    let gainLossHTML = `
+<div class="relative overflow-x-auto">
+<h2 class="text-md text-center font-semibold">Gain/ Loss Report as per Norms</h2>
+<table class="mt-1 w-full border-collapse border border-gray-300 shadow-md rounded-md">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr class="bg-gray-200">
+            <th scope="col" class="border border-gray-300 py-1">Parameter</th>
+            <th scope="col" class="border border-gray-300 py-1">Unit</th>
+            <th scope="col" class="border border-gray-300 px-1 py-1">Normative</th>
+            <th scope="col" class="border border-gray-300 py-1">Achieved</th>
+            <th scope="col" class="border border-gray-300 py-1">Gain/ Loss(Cr.)</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+`
+
+    gainLossData.forEach(item => {
+        gainLossHTML += `
+    <tr class="font-sans text-sm">
+        <td class="border border-gray-300 px-1 py-1">
+        <a onClick="moreInfoPage2('${item.parameter}')" class="cursor-pointer text-blue-500 underline hover:text-blue-700">${item.parameter}</a>
         </td>
         <td class="border border-gray-300 px-1 py-1">${item.unit}</td>
         <td class="border border-gray-300 px-1 py-1">${item.normativeValue}</td>
