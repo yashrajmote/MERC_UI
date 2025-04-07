@@ -765,8 +765,8 @@ function adjustWidth(input) {
         document.getElementById("expectedVariationFromPreviousBlendedGCV").innerText = expectedVariation.toFixed(2);
         
         // Calculate expected achieved heat rate
-        let expectedAchievedHeatRate = expectedTotalConsumption * expectedAchievedBlendedGCV / expectedGenerationMus / 1000;
-        document.getElementById("expectedAchievedHeatRate").innerText = expectedAchievedHeatRate.toFixed(2);
+        let expectedAchievedHeatRate = (((expectedTotalConsumption * expectedAchievedBlendedGCV) / expectedGenerationMus) / 1000);
+        document.getElementById("expectedAchievedHeatRate").innerText = expectedAchievedHeatRate
         
         // Calculate expected variation from previous month heat rate
         let expectedHeatRateVariation = achievedHeatRate - expectedAchievedHeatRate;
