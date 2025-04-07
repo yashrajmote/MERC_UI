@@ -276,7 +276,7 @@
         fgmos
       ) {
         const response = await postEncrypted(
-          "http://localhost:3000/api/allCalculations",
+          "http://13.233.250.229:3000/api/allCalculations",
           {
             p_UnitId: unitId,
             p_CompanyId: companyId,
@@ -405,7 +405,7 @@
         const arr = JSON.parse(localStorage.getItem("arr"));
         const fgmos = JSON.parse(localStorage.getItem("fgmos"));
         const response = await postEncrypted(
-          "http://localhost:3000/api/allCalculations",
+          "http://13.233.250.229:3000/api/allCalculations",
           {
             p_UnitId: unitId,
             p_CompanyId: companyId,

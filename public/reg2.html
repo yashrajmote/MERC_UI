@@ -863,12 +863,12 @@ async function postEncrypted(endpoint, data) {
 }
 
 async function handleGetRegulationData(financialYear) {
-  const response = await postEncrypted('http://localhost:3000/api/getRegulationDetails', { p_FinancialYear : financialYear });
+  const response = await postEncrypted('http://13.233.250.229:3000/api/getRegulationDetails', { p_FinancialYear : financialYear });
   console.log("Response for handleGetRegulationData:",response);
   return response;
 }
 async function handleGetAllData(unitId , companyId , startDate , endDate , arr , fgmos){
-   const response = await postEncrypted('http://localhost:3000/api/allCalculations', {p_UnitId : unitId ,p_CompanyId : companyId , p_StartDate : startDate , p_EndDate : endDate , p_ARR : arr , p_FGMOS : fgmos});
+   const response = await postEncrypted('http://13.233.250.229:3000/api/allCalculations', {p_UnitId : unitId ,p_CompanyId : companyId , p_StartDate : startDate , p_EndDate : endDate , p_ARR : arr , p_FGMOS : fgmos});
    console.log("Response for handleGetAllData:",response);
    const parsedMainData = JSON.parse(response.MainData);
    document.getElementById("AGEN").value = parsedMainData.AGEN;
@@ -1014,7 +1014,7 @@ console.log("Selected Unit IDs:", unitId);
     localStorage.setItem("endDate", JSON.stringify(endDate));
     localStorage.setItem("arr", JSON.stringify(arr));
     localStorage.setItem("fgmos", JSON.stringify(fgmos));
-   //  const response111 = await axios.post('http://localhost:3000/api/getRegulationDetails', { encryptedData: a });
+   //  const response111 = await axios.post('http://13.233.250.229:3000/api/getRegulationDetails', { encryptedData: a });
    //  console.log("Response for handleGetRegulationData:",response111)
      const regulationData = await handleGetRegulationData(financialYear);
      const allData = await handleGetAllData(unitId, companyId, startDate, endDate, arr, fgmos);
