@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      href="images/abhitech-mahagenco-combined-logo.png"
+      type="image/png"
+    />
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
+    <title>Output - Mahagenco</title>
+  </head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <body class="bg-gray-700">
+    <div class="max-h-screen flex flex-col">
+      <nav class="fixed top-0 left-0 w-full h-14 bg-white shadow z-10">
+        <div class="mb-2 mt-2 flex w-full h-3 bg-white-50">
+          <img
+            src="images/abhitech-mahagenco-combined-logo.png"
+            alt="Logo"
+            class="h-9"
+          />
+        </div>
+        <!-- <div class=" fixed -mt-3 w-full text-center text-sm font-semibold text-gray-700">
+                <span id="datetime"></span>
+            </div> -->
+      </nav>
+      <main class="mt-16 z-0">
+        <div
+          x-data="{ selectedUnit: localStorage.getItem('selectedUnit') || 'Default Value'}"
+          class="flex justify-between p-4 pb-0 pt-1 items-center"
+        >
+          <span class="text-white text-lg text-bold font-medium">
+            <span
+              class="cursor-pointer"
+              onclick="window.location.href='./regParams.html'"
+              >Regulatory Parameters
+            </span>
+            /
+            <span
+              x-text="selectedUnit"
+              class="bg-yellow-300 p-1 rounded"
+            ></span>
+          </span>
+          <div
+            x-data="{ 
+    daterange: (() => {
+      const storedDate = localStorage.getItem('selectedDate') || 'Default Value';
+
+      if (storedDate === 'Default Value') return storedDate;
+
+      const formatDate = (dateString) => {
+        const [year, month, day] = dateString.split('/').map(Number);
+        const date = new Date(year, month - 1, day); 
+        if (!isNaN(date.getTime())) {
+          const options = { day: '2-digit', month: 'long', year: 'numeric' };
+          return new Intl.DateTimeFormat('en-GB', options).format(date);
+        }
+        return 'Invalid Date';
+      };
+
+      const dates = storedDate.split(' - ');
+      if (dates.length === 2) {
+        const startDate = formatDate(dates[0]);
+        const endDate = formatDate(dates[1]);
+        if (startDate !== 'Invalid Date' && endDate !== 'Invalid Date') {
+          return `${startDate} - ${endDate}`;
+        }
+      }
+
+      return 'Invalid Date'; 
+    })() 
+  }"
+            class="flex"
+          >
+            <span
+              x-text="daterange"
+              class="text-white text-sm text-bold font-medium mr-2"
+            ></span>
+            <button
+              onclick="window.location.href='regParams.html'"
+              class="hover:text-blue-600 transition"
+            >
+              <img src="images/back.svg" alt="Back" class="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3 p-4 pb-2">
+          <!-- Row 1: Gain/Loss Report -->
+          <div
+            class="col-span-1 p-4 pt-2 rounded-lg shadow-lg bg-white flex-1 flex justify-center"
+          >
+            <div
+              id="gain-loss-report"
+              class="h-full relative overflow-x-auto w-full max-w-4xl bg-white"
+            >
+              <!-- Dynamic content for Gain/Loss -->
+            </div>
+          </div>
+          <!-- Chart Section: GAIN/LOSS Report -->
+          <div
+            class="col-span-1 bg-white shadow-md rounded-lg p-4 pt-2 flex flex-col justify-center"
+          >
+            <h2 class="text-md text-center font-medium">
+              Gain/ Loss Report (in Cr.)
+            </h2>
+            <canvas id="chart7" width="440" height="150"></canvas>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 p-4 pt-2">
+          <div
+            class="col-span-1 p-4 pt-2 rounded-lg shadow-lg bg-white flex-1 h-full flex justify-center"
+          >
+            <div
+              id="incentive-gains-report"
+              class="h-full relative overflow-x-auto w-full max-w-4xl bg-white"
+            >
+              <!-- Dynamic content for Incentive Gains -->
+            </div>
+          </div>
+
+          <!-- Report Container -->
+          <div id="reportContainer" class="grid grid-cols-2 gap-4">
+            <!-- Report 1: Dynamic Incentives -->
+            <div
+              class="col-span-1 bg-white shadow-md rounded-lg p-4 pt-2 flex flex-col items-center justify-center"
+            >
+              <h2 id="chartTitle" class="text-md text-center font-medium">
+                Incentives
+              </h2>
+              <canvas id="dynamicIncentives" width="400" height="140"></canvas>
+            </div>
+
+            <!-- Report 2: Incentives Chart -->
+            <div
+              class="col-span-1 p-4 pt-2 rounded-lg shadow-lg bg-white h-50 flex flex-col justify-center"
+            >
+              <h2 class="text-md text-center font-medium">Incentives</h2>
+              <div class="flex items-center justify-center">
+                <canvas
+                  id="chart6"
+                  width="300"
+                  height="140"
+                  class="p-2"
+                ></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js"
+      defer
+    ></script>
+    <script>
+      function encryptData(data) {
+        const secretKey = CryptoJS.enc.Utf8.parse(
+          "qwertyuiopasdfghjklzxcvbnm123456"
+        );
+        const iv = CryptoJS.enc.Utf8.parse("1234567890123456");
+
+        const encrypted = CryptoJS.AES.encrypt(
+          JSON.stringify(data),
+          secretKey,
+          {
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7,
+          }
+        );
+
+        // Convert Base64 output to Hex
+        const ciphertextWords = CryptoJS.enc.Base64.parse(encrypted.toString());
+        const hexCipherText = CryptoJS.enc.Hex.stringify(ciphertextWords);
+        return hexCipherText;
+      }
+
+      function decryptData(encryptedHexData) {
+        try {
+          const secretKey = CryptoJS.enc.Utf8.parse(
+            "qwertyuiopasdfghjklzxcvbnm123456"
+          );
+          const iv = CryptoJS.enc.Utf8.parse("1234567890123456");
+
+          if (!encryptedHexData || encryptedHexData.length < 16) {
+            console.warn(
+              "⚠️ Encrypted data is missing or too short:",
+              encryptedHexData
+            );
+            return null;
+          }
+
+          const decrypted = CryptoJS.AES.decrypt(
+            {
+              ciphertext: CryptoJS.enc.Hex.parse(encryptedHexData),
+            },
+            secretKey,
+            {
+              iv: iv,
+              mode: CryptoJS.mode.CBC,
+              padding: CryptoJS.pad.Pkcs7,
+            }
+          );
+
+          const decryptedStr = decrypted.toString(CryptoJS.enc.Utf8);
+
+          //  if (!decryptedStr) {
+          //    console.warn("⚠️ Decryption returned empty string. Possibly wrong secret or IV.");
+          //    return null;
+          //  }
+
+          try {
+            return JSON.parse(decryptedStr);
+          } catch (jsonErr) {
+            console.error(
+              "❌ JSON parse failed. Decrypted string:",
+              decryptedStr
+            );
+            throw jsonErr;
+          }
+        } catch (error) {
+          console.error("❌ Decryption error:", error.message);
+          console.log("Raw encrypted input:", encryptedHexData);
+          return null;
+        }
+      }
+
+      async function postEncrypted(endpoint, data) {
+        try {
+          const encryptedPayload = encryptData(data);
+
+          const result = await axios.post(endpoint, {
+            encryptedData: encryptedPayload,
+          });
+
+          const encryptedResponse = result?.data?.data;
+          //  const firstResultSet = encryptedResponse[0];
+
+          //  if (!encryptedResponse) {
+          //    console.warn("⚠️ No encryptedData in server response. Full response:", result);
+          //    throw new Error("Invalid encrypted response");
+          //  }
+
+          const decryptedResponse = decryptData(encryptedResponse);
+          const resultRow = decryptedResponse[0][0]; // First item of the first result set
+          const finalResult = resultRow?.result;
+          //  if (!decryptedResponse) {
+          //    console.warn("⚠️ Decrypted response is empty or null.");
+          //  }
+
+          return finalResult || {};
+        } catch (error) {
+          console.error("🚨 Secure POST Error:", error.message);
+          throw error;
+        }
+      }
+
+      async function handleGetAllData(
+        unitId,
+        companyId,
+        startDate,
+        endDate,
+        arr,
+        fgmos
+      ) {
+        const response = await postEncrypted(
+          "http://13.233.250.229:3000/api/allCalculations",
+          {
+            p_UnitId: unitId,
+            p_CompanyId: companyId,
+            p_StartDate: startDate,
+            p_EndDate: endDate,
+            p_ARR: arr,
+            p_FGMOS: fgmos,
+          }
+        );
+        console.log("Response for handleGetAllData:", response);
+
+        //   const parsedMainData = JSON.parse(response.MainData);
+        //   document.getElementById("AGEN").value = parsedMainData.AGEN;
+        //   console.log("Parsed Main Data:", parsedMainData.AGEN);
+        //   document.getElementById("AAPC").value = parsedMainData.AAPC;
+        //   console.log("Parsed Main Data:", parsedMainData.AAPC);
+        //   document.getElementById("ARGCVB").value = parsedMainData.ARGCVB;
+        //   console.log("Parsed Main Data:", parsedMainData.ARGCVB);
+        //   document.getElementById("AWGCVB").value = parsedMainData.AWGCVB;
+        //   console.log("Parsed Main Data:", parsedMainData.AWGCVB);
+        //   document.getElementById("AIGCVB").value = parsedMainData.AIGCVB;
+        //   console.log("Parsed Main Data:", parsedMainData.AIGCVB);
+        //   document.getElementById("ARGCVR").value = parsedMainData.ARGCVR;
+        //   console.log("Parsed Main ARGCVR:", parsedMainData.ARGCVR);
+        //   document.getElementById("AWGCVR").value = parsedMainData.AWGCVR;
+        //   console.log("Parsed Main AWGCVR:", parsedMainData.AWGCVR);
+        //   document.getElementById("AIGCVR").value = parsedMainData.AIGCVR;
+        //   console.log("Parsed Main AIGCVR:", parsedMainData.AIGCVR);
+        //   document.getElementById("ALDOGCV").value = parsedMainData.ALDOGCV;
+        //   console.log("Parsed Main ALDOGCV:", parsedMainData.ALDOGCV);
+        //   document.getElementById("AFOGCV").value = parsedMainData.AFOGCV;
+        //   console.log("Parsed Main AFOGCV:", parsedMainData.AFOGCV);
+        //   document.getElementById("ACGCV").value = parsedMainData.ACGCV;
+        //   console.log("Parsed Main ACGCV:", parsedMainData.ACGCV);
+        //   document.getElementById("ARCLC").value = parsedMainData.ARCLC;
+        //   console.log("Parsed Main ARCLC:", parsedMainData.ARCLC);
+        //   document.getElementById("AWCLC").value = parsedMainData.AWCLC;
+        //   console.log("Parsed Main AWCLC:", parsedMainData.AWCLC);
+        //   document.getElementById("AICLC").value = parsedMainData.AICLC;
+        //   console.log("Parsed Main AICLC:", parsedMainData.AICLC);
+        //   document.getElementById("ALDOLC").value = parsedMainData.ALDOLC;
+        //   console.log("Parsed Main ALDOLC:", parsedMainData.ALDOLC);
+        //   document.getElementById("AFOLC").value = parsedMainData.AFOLC;
+        //   console.log("Parsed Main AFOLC:", parsedMainData.AFOLC);
+        //   document.getElementById("IRCCC").value = parsedMainData.IRCCC;
+        //   console.log("Parsed Main IRCCC:", parsedMainData.IRCCC);
+        //   document.getElementById("IWCCC").value = parsedMainData.IWCCC;
+        //   console.log("Parsed Main IWCCC:", parsedMainData.IWCCC);
+        //   document.getElementById("IICCC").value = parsedMainData.IICCC;
+        //   console.log("Parsed Main IICCC:", parsedMainData.IICCC);
+        //   document.getElementById("ARCC").value = parsedMainData.ARCC;
+        //   console.log("Parsed Main ARCC:", parsedMainData.ARCC);
+        //   document.getElementById("AWCC").value = parsedMainData.AWCC;
+        //   console.log("Parsed Main AWCC:", parsedMainData.AWCC);
+        //   document.getElementById("AICC").value = parsedMainData.AICC;
+        //   console.log("Parsed Main AICC:", parsedMainData.AICC);
+        //   document.getElementById("ALDOC").value = parsedMainData.ALDOC;
+        //   console.log("Parsed Main ALDOC:", parsedMainData.ALDOC);
+        //   document.getElementById("AFOC").value = parsedMainData.AFOC;
+        //   console.log("Parsed Main AFOC:", parsedMainData.AFOC);
+        //   document.getElementById("OVC").value = parsedMainData.OVC;
+        //   console.log("Parsed Main OVC:", parsedMainData.OVC);
+        //   document.getElementById("ATL").value = parsedMainData.ATL;
+        //   console.log("Parsed Main ATL:", parsedMainData.ATL);
+        //   document.getElementById("ATLC").value = parsedMainData.ATLC;
+        //   console.log("Parsed Main ATLC:", parsedMainData.ATLC);
+        //   document.getElementById("AMTBF").value = parsedMainData.AMTBF;
+        //   console.log("Parsed Main AMTBF:", parsedMainData.AMTBF);
+        //   document.getElementById("ARR").value = parsedMainData.ARR;
+        //   console.log("Parsed Main ARR:", parsedMainData.ARR);
+        //   document.getElementById("APAVF").value = parsedMainData.APAVF;
+        //   console.log("Parsed Main APAVF:", parsedMainData.APAVF);
+        //   document.getElementById("FGMO").value = parsedMainData.FGMO;
+        //   console.log("Parsed Main FGMO:", parsedMainData.FGMO);
+        //   document.getElementById("PDCTDR").value = parsedMainData.PDCTDR;
+        //   console.log("Parsed Main PDCTDR:", parsedMainData.PDCTDR);
+        //   document.getElementById("OPDCTDR").value = parsedMainData.OPDCTDR;
+        //   console.log("Parsed Main OPDCTDR:", parsedMainData.OPDCTDR);
+        //   document.getElementById("ADCTDR").value = parsedMainData.ADCTDR;
+        //   console.log("Parsed Main ADCTDR:", parsedMainData.ADCTDR);
+        //   document.getElementById("PDCHDS").value = parsedMainData.PDCHDS;
+        //   console.log("Parsed Main PDCHDS:", parsedMainData.PDCHDS);
+        //   document.getElementById("OPDCHDS").value = parsedMainData.OPDCHDS;
+        //   console.log("Parsed Main OPDCHDS:", parsedMainData.OPDCHDS);
+        //   document.getElementById("ADCHDS").value = parsedMainData.ADCHDS;
+        //   console.log("Parsed Main ADCHDS:", parsedMainData.ADCHDS);
+        //   document.getElementById("PDCLDS").value = parsedMainData.PDCLDS;
+        //   console.log("Parsed Main PDCLDS:", parsedMainData.PDCLDS);
+        //   document.getElementById("OPDCLDS").value = parsedMainData.OPDCLDS;
+        //   console.log("Parsed Main OPDCLDS:", parsedMainData.OPDCLDS);
+        //   document.getElementById("ADCLDS").value = parsedMainData.ADCLDS;
+        //   console.log("Parsed Main ADCLDS:", parsedMainData.ADCLDS);
+        //   document.getElementById("IC").value = parsedMainData.IC;
+        //   console.log("Parsed Main IC:", parsedMainData.IC);
+        //   document.getElementById("NAVF").value = parsedMainData.NAVF;
+        //   console.log("Parsed Main NAVF:", parsedMainData.NAVF);
+        //   document.getElementById("NSHR").value = parsedMainData.NSHR;
+        //   console.log("Parsed Main NSHR:", parsedMainData.NSHR);
+        //   document.getElementById("NAPC").value = parsedMainData.NAPC;
+        //   console.log("Parsed Main NAPC:", parsedMainData.NAPC);
+        //   document.getElementById("NSFOC").value = parsedMainData.NSFOC;
+        //   console.log("Parsed Main NSFOC:", parsedMainData.NSFOC);
+        //   document.getElementById("NTL").value = parsedMainData.NTL;
+        //   console.log("Parsed Main NTL:", parsedMainData.NTL);
+        //   document.getElementById("NSL").value = parsedMainData.NSL;
+        //   console.log("Parsed Main NSL:", parsedMainData.NSL);
+        //   document.getElementById("NFC").value = parsedMainData.NFC;
+        //   console.log("Parsed Main NFC:", parsedMainData.NFC);
+        //   document.getElementById("NFCEWC").value = parsedMainData.NFCEWC;
+        //   console.log("Parsed Main NFCEWC:", parsedMainData.NFCEWC);
+        //   document.getElementById("ROE").value = parsedMainData.ROE;
+        //   console.log("Parsed Main ROE:", parsedMainData.ROE);
+        //   document.getElementById("NADLURGCV").value = parsedMainData.NADLURGCV;
+        //   console.log("Parsed Main NADLURGCV:", parsedMainData.NADLURGCV);
+        //   document.getElementById("NADLUWGCV").value = parsedMainData.NADLUWGCV;
+        //   console.log("Parsed Main NADLUWGCV:", parsedMainData.NADLUWGCV);
+
+        return response;
+      }
+
+      document.addEventListener("DOMContentLoaded", async function () {
+        const unitId = JSON.parse(localStorage.getItem("unitId"));
+        const companyId = JSON.parse(localStorage.getItem("companyId"));
+        const startDate = JSON.parse(localStorage.getItem("startDate"));
+        const endDate = JSON.parse(localStorage.getItem("endDate"));
+        const arr = JSON.parse(localStorage.getItem("arr"));
+        const fgmos = JSON.parse(localStorage.getItem("fgmos"));
+        const response = await postEncrypted(
+          "http://13.233.250.229:3000/api/allCalculations",
+          {
+            p_UnitId: unitId,
+            p_CompanyId: companyId,
+            p_StartDate: startDate,
+            p_EndDate: endDate,
+            p_ARR: arr,
+            p_FGMOS: fgmos,
+          }
+        );
+        console.log("Response for handleGetAllData:", response);
+
+        const parsedMainData = JSON.parse(response.MainData);
+        const parsedCalculationsData = JSON.parse(response.Calculations);
+        const parsedCalculateROEValues = JSON.parse(
+          response.CalculateROEValues
+        );
+        const parsedCalculateGainValues = JSON.parse(
+          response.CalculateGainValues
+        );
+        // Retrieve the stored data from localStorage
+        const reportData = JSON.parse(localStorage.getItem("reportData"));
+        const selectedLabel = JSON.parse(localStorage.getItem("selectedLabel"));
+        console.log(selectedLabel);
+        const x = 
+        { gainMTBF: parsedCalculateGainValues.GainMTBF,
+         gainRampRate : parsedCalculateGainValues.GainRampRate,
+         gainPeakAVF: parsedCalculateGainValues.GainPeakAVF,
+         gainFGMO : parsedCalculateGainValues.GainFGMO,
+         gainAPC : parsedCalculateGainValues.GainAPC,
+         gainSFOC :  parsedCalculateGainValues.GainSFOC,
+         gainTL : parsedCalculateGainValues.GainTL,
+         gainNSHR : parsedCalculateGainValues.GainNSHR,
+         gainAVF : parsedCalculateGainValues.GainAVF
+        };
+        
+        const y = 
+        { AAPC : parsedMainData.AAPC,
+         AAVFTDR :parsedCalculationsData.AAVFTDR,
+         ASHR : parsedCalculationsData.ASHR,
+         ASFOC : parsedCalculationsData.ASFOC
+        };
+        console.log(y);
+        const z = 
+        {ROE_RP : parsedCalculateROEValues.ROE_RP ?? 0,
+         converted_ROE_MTBF : parsedCalculateROEValues.ROE_MTBF ?? 0,
+         converted_ROE_RR : parsedCalculateROEValues.ROE_RR ?? 0,
+         converted_ROE_PAVF : parsedCalculateROEValues.ROE_PAVF ?? 0
+        };
+
+        const d = {
+         ATL : parsedMainData.ATL ?? 0,
+         ATLC: parsedMainData.ATLC ?? 0,
+         AMTBF: parsedMainData.AMTBF ?? 0,
+         ARR: parsedMainData.ARR ?? 0,
+         APAVF: parsedMainData.APAVF ?? 0,
+         NAVF: parsedMainData.NAVF ?? 0,
+         NSHR: parsedMainData.NSHR ?? 0,
+         NAPC: parsedMainData.NAPC ?? 0,
+         NSFOC: parsedMainData.NSFOC ?? 0,
+         NTL : parsedMainData.NTL ?? 0
+        };
+
+        const d2 = 
+        { ATL:  parsedMainData.ATL ?? 0,
+          // (parsedMainData.ATLC ?? 0),
+          // (parsedMainData.AMTBF ?? 0) ,
+          // (parsedMainData.ARR ?? 0) ,
+          APAVF: parsedMainData.APAVF ?? 0,
+          NAVF: parsedMainData.NAVF ?? 0,
+          NSHR: parsedMainData.NSHR ?? 0,
+          NAPC: parsedMainData.NAPC ?? 0,
+          NSFOC: parsedMainData.NSFOC ?? 0,
+          NTL: parsedMainData.NTL ?? 0
+        };
+
+        const y2 = 
+        {  AAPC :parsedMainData.AAPC ?? 0,
+          // parsedCalculationsData.AAVFTDR,
+          ASHR : parsedCalculationsData.ASHR ?? 0,
+          ASFOC: parsedCalculationsData.ASFOC ?? 0
+        };
+
+        if (reportData) {
+          generateReport2(x, y, z, d);
+        }
+
+        console.log(reportData);
+        updateSmallerChart("chart1", "Avail Factor", d2, y2);
+      });
+
+      function updateDateTime() {
+        const now = new Date();
+        const dateTimeString = now.toLocaleString(); // This will give the current date and time
+        // document.getElementById("datetime").textContent = dateTimeString;
+      }
+      // Update the date and time every second
+      setInterval(updateDateTime, 1000);
+
+      // Call the function once to display the initial date and time
+      updateDateTime();
+    </script>
+  </body>
+</html>
