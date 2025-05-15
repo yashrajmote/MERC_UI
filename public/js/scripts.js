@@ -1898,21 +1898,21 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
 
     // Gain/Loss Report Data
     const gainLossData = [
-        { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: (AAVFTDR ?? 0).toFixed(3), gainLoss: (gainAVF ?? 0).toFixed(3) },
-        { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: (ASHR ?? 0).toFixed(3), gainLoss: (gainNSHR ?? 0).toFixed(3) },
-        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: (AAPC ?? 0).toFixed(3), gainLoss: (gainAPC?? 0).toFixed(3) },
-        { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: NSFOC, achieved: (ASFOC ?? 0).toFixed(3), gainLoss: (gainSFOC ?? 0).toFixed(3) },
-        { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: NTL, achieved: (ATL ?? 0), gainLoss: (gainTL ?? 0).toFixed(3) }
+        { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: (AAVFTDR ?? 0).toFixed(2), gainLoss: (gainAVF ?? 0).toFixed(1) },
+        { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: (ASHR ?? 0).toFixed(2), gainLoss: (gainNSHR ?? 0).toFixed(1) },
+        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: (AAPC ?? 0).toFixed(2), gainLoss: (gainAPC?? 0).toFixed(1) },
+        { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: NSFOC, achieved: (ASFOC ?? 0).toFixed(2), gainLoss: (gainSFOC ?? 0).toFixed(1) },
+        { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: NTL, achieved: (ATL ?? 0), gainLoss: (gainTL ?? 0).toFixed(1) }
     ];
 
     console.log(gainLossData);
 
     // Incentive Gains Report Data
     const incentiveGainsData = [
-        { srNo: 6, parameter: 'MTBF', unit: 'days', normativeValue: 45, achieved: (AMTBF ?? 0), gain: (gainMTBF ?? 0).toFixed(3) },
-        { srNo: 7, parameter: 'Ramp rate above 1%', normativeValue: '%/min', description: 'above 1% ramp rate', achieved: (ARR ?? 0).toFixed(3), gain: (gainRampRate ?? 0).toFixed(3) },
-        { srNo: 8, parameter: 'Peak AVF', unit: '%', normativeValue: 75, achieved: (APAVF ?? 0), gain: (gainPeakAVF ?? 0).toFixed(3) },
-        { srNo: 9, parameter: 'FGMO status', unit: '-', normativeValue: 'In service', achieved: 'y', gain: (gainFGMO ?? 0).toFixed(3) }
+        { srNo: 6, parameter: 'MTBF', unit: 'days', normativeValue: 45, achieved: (AMTBF ?? 0), gain: (gainMTBF ?? 0).toFixed(2) },
+        { srNo: 7, parameter: 'Ramp rate above 1%', normativeValue: '%/min', description: 'above 1% ramp rate', achieved: (ARR ?? 0).toFixed(3), gain: (gainRampRate ?? 0).toFixed(2) },
+        { srNo: 8, parameter: 'Peak AVF', unit: '%', normativeValue: 75, achieved: (APAVF ?? 0), gain: (gainPeakAVF ?? 0).toFixed(2) },
+        { srNo: 9, parameter: 'FGMO status', unit: '-', normativeValue: 'In service', achieved: 'y', gain: (gainFGMO ?? 0).toFixed(2) }
     ];
 
     // Net Gain/Loss
@@ -1958,7 +1958,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
     gainLossHTML += `
     <tr>
         <td colspan="4" class="border border-gray-300 px-2 py-1 text-right text-sm font-semibold">Total</td>
-        <td class="border border-gray-300 px-2 py-1 font-semibold text-sm">${(normGainLoss ?? 0).toFixed(4)}</td>
+        <td class="border border-gray-300 px-2 py-1 font-semibold text-sm">${(normGainLoss ?? 0).toFixed(1)}</td>
     </tr>
 
 </tbody>
