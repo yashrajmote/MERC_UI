@@ -1999,7 +1999,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
     incentiveGainsHTML += `
     <tr>
         <td colspan="4" class="border border-gray-300 px-2 py-1 text-right font-semibold text-sm">Total</td>
-        <td class="border border-gray-300 px-2 py-1 font-semibold text-sm">${(incentiveGainLoss ?? 0).toFixed(4)}</td>
+        <td class="border border-gray-300 px-2 py-1 font-semibold text-sm">${(incentiveGainLoss ?? 0).toFixed(1)}</td>
     </tr>
 </tbody>
 </table>
