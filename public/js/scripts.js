@@ -1639,7 +1639,7 @@ function calculations(parsedValues, TDR, TDFY) {
     const AHCLDO = ALDOC * ALDOGCV * 0.853 / 1000;
     const AHCFO = AFOC * AFOGCV * 0.933 / 1000;
     const ATHCF = AHCRC + AHCWC + AHCIC + AHCLDO + AHCFO;
-    const ASHR = (((ARCC + AWCC + AICC) * NCGCV) / AGEN) / 1000;
+    const ASHR = (((ARCC + AWCC + AICC) * ACGCV) / AGEN) / 1000;
     const ASLDOC = ALDOC / AGEN;
     const ASFOC = AFOC / AGEN;
     const ACSFOC = ASLDOC + ASFOC;
