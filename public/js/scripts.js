@@ -4,40 +4,149 @@ const insightData = [
         primaryTrigger: "AVF < Normative value",
         data: [
             {
-                mode: "Low GCV",
-                sourceSheet: "External Factor loss sheet",
+                mode: "GCV",
+                sourceSheet: "External Factor",
+                lossMus: "0.5",
+                lossMussPer: "4.17",
                 actionPlan: [
-                    "Resampling of coal samples to be done",
-                    "Review the past GCV data for the similar coal received",
-                    "Check the loading of coal mills",
-                    "Check the blending ratio / required change in blending",
-                    "Review the coal procurement strategy"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Check Loading of Coal Mills.",
+                            "Check the blending ratio/ Change the blending ratio.",
+                            "Recheck the GCV if required."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Review the GCV data of the coal source used."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Review the coal procurement strategy using AI model."
+                        ]
+                    }
+
                 ]
             },
             {
-                mode: "Non-availability of equipment",
-                sourceSheet: "O&M loss sheet",
+                mode: "LDBD",
+                sourceSheet: "External Factor",
+                lossMus: "0.18",
+                lossMussPer: "1.5",
                 actionPlan: [
-                    "Review the auxiliary outage/ partial losses for the unit",
-                    "Review the frequency of recurring auxiliary outage for the unit",
-                    "Review the Inventory and corresponding spare consumption pattern",
-                    "Review the procurement pattern with regards to spares"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Check the ramping rate / response of the unit",
+                            "Check for DSM gain/ loss during the transition."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Review the MOD rate calculations for upcoming period."
+                        ]
+                    },
+                    {
+                        name: "Long term",
+                        data: [
+                            "NA"
+                        ]
+                    }
+
                 ]
             },
             {
-                mode: "Low Coal stock",
-                sourceSheet: "External Factor loss sheet",
+                mode: "Coal feeder problem",
+                sourceSheet: "O&M",
+                lossMus: "0.69",
+                lossMussPer: "5.75",
                 actionPlan: [
-                    "Ensure proper coordination with the coal company ensuring proper supply of coal",
-                    "Optimize available stock to get maximum possible generation"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Verify the efficient resolution of occurred problem.",
+                            "Reinspect the equipment if necessary."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Observe all the equipments for similar symptoms.",
+                            "Carryout equipment changeover if similar symptoms persist in any of the equipment and carry out required repairs.",
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Ensure optimized inventory of required spares and fast track proposals is required."
+                        ]
+                    }
+
                 ]
             },
             {
-                mode: "Wet Coal",
-                sourceSheet: "External Factor loss sheet",
+                mode: "FG temp. High",
+                sourceSheet: "O&M",
+                lossMus: "0.25",
+                lossMussPer: "2.08",
                 actionPlan: [
-                    "Check the coal blending ratio and usage of available coal (Direct bunkering / Reclaiming)",
-                    "Maintain coal mill availability by thorough monitoring of coal bunkers/feeders"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Monitor the furnace operating parameters to optimize the FG exit temperature.",
+                            "Ensure no slagging on pressure parts.",
+                            "Ensure sootblowing operation (Waterwall + APH) is properly optimized."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Check for APH basket chokeup, excessive slag buildup on pressure parts.",
+                            "Conduct APH basket washing if possible."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Plan for required APH basket replacement.",
+                            "Plan for carrying out CAVT if required."
+                        ]
+                    }
+
+                ]
+            },
+            {
+                mode: "CHP Problem",
+                sourceSheet: "O&M",
+                lossMus: "0.38",
+                lossMussPer: "3.17",
+                actionPlan: [
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Verify the efficient resolution of occurred problem.",
+                            "Reinspect the equipment if necessary.",
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Observe all the equipments for similar symptoms.",
+                            "Carryout equipment changeover if similar symptoms persist in any of the equipment and carry out required repairs."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Ensure optimized inventory of required spares and fast track proposals is required.",
+                        ]
+                    }
+
                 ]
             }
         ],
@@ -48,17 +157,44 @@ const insightData = [
             "Gain/Loss (in Rs.Crs.)"
         ],
         values: [
-            "85", "80.3", "-4.7", "-8.76"
+            "85", "83.33", "-1.67", "-0.03"
         ],
 
         secondTable: [
             "Achieved Generation (Mus)", "Average AVF achieved", "AVF achieved in HDS", "AVF achieved in LDS"
         ],
         secondValues: [
-            "300", "80.3", "86.57", "78.9"
+            "10", "83.33", "86.57", "80.6"
+        ],
+        thirdTable: [
+            "Total Loss",
+            "Total Loss impacting AVF",
+            "C/F problem",
+            "FG temp. High",
+            "CHP problem"
+        ],
+        thirdTableHeader:[
+            "Particulars", "Mus","%"
+        ],
+        thirdValues1: [
+            "2", "1.82", "0.69", "0.25", "0.38"
+        ],
+        thirdValues2: [
+            "16.67", "15.17", "5.75", "2.08", "3.17"
+        ],
+        graphHeading1:'Availability Factor',
+        graphHeading2:'AVF Disallowance',
+        graphLegend1:[
+            'Avg AVF achieved', 'AVF achieved in HDS', 'AVF achieved in LDS'
+        ],
+        graphLegend2:[
+            'Fixed cost recovered', 'Fixed cost disallowance'
         ],
         graphValues1: [
             80.3, 86.57, 78.9
+        ],
+        graphValues2: [
+            1.45, -0.03
         ]
 
     },
@@ -69,56 +205,132 @@ const insightData = [
         data: [
             {
                 mode: "High Coal Consumption",
-                sourceSheet: "Unit performance report",
+                sourceSheet: "O&M",
+                lossMus: "0.65",
+                lossMussPer: "0.78",
                 actionPlan: [
-                    "Review the receieved coal parameters with historical data",
-                    "Check the Coal mill operation and loading of coal mills",
-                    "Review the Boiler operational parameters and check for deviations"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Check Loading of Coal Mills.",
+                            "Check the blending ratio/ Change the blending ratio.",
+                            "Recheck the GCV if required."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Review the GCV data of the coal source used."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Review the coal procurement strategy using AI model."
+                        ]
+                    }
+
+                ]
+            },
+            {
+                mode: "Generation",
+                sourceSheet: "O&M",
+                lossMus: "12",
+                lossMussPer: "10",
+                actionPlan: [
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Check for the O&M losses for auxiliary outages.",
+                            "Verify for resolution of O&M outages."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Review the maintenance issues for repeated outages.",
+                            "Ensure the capital overhauling of auxiliaries."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Ensure timely planning of overhauls."
+                        ]
+                    }
+
                 ]
             },
             {
                 mode: "GCV variation",
-                sourceSheet: "Unit performance report",
+                sourceSheet: "External",
+                lossMus: "3400",
+                lossMussPer: "3125",
                 actionPlan: [
-                    "Resampling of coal samples to be done",
-                    "Review the past GCV data for the similar coal recieved",
-                    "Check the loading of coal mills",
-                    "Check the blending ratio / required change in blending",
-                    "Review the coal procurement strategy"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Check Loading of Coal Mills.",
+                            "Check the blending ratio/ Change the blending ratio.",
+                            "Recheck the GCV if required."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Review the GCV data of the coal source used."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Review the coal procurement strategy using AI model."
+                        ]
+                    }
                 ]
             },
-            {
-                mode: "Generation loss",
-                sourceSheet: "External and O&M generation loss sheet",
-                actionPlan: [
-                    "Review Availability of equipments of the unit",
-                    "Review minor partial losses due to auxiliary changeover/ tripping for the unit",
-                    "Check weightage of External loss factors like GCV, LDBD, Wet Coal etc."
-                ]
-            }
         ],
         header: [
             "Normative SHR (kcal/kwh)",
-            "Achieved SHR (kcal/kwh)",
+            "Actual SHR (kcal/kwh)",
             "Deviation (kcal/kwh)",
-            "Gain/Loss (in Rs.Crs.)",
-            "Total Loss (in Rs.Crs.)"
+            "Gain/Loss (in Rs.Crs.)"
         ],
         values: [
-            "2375", "2580", "-205", "-89.66", "-112.36"
+            "2375", "2437.5", "-62.5", "-1.2"
         ],
         secondTable: [
-            "Achieved Generation (Mus)", "Coal factor achieved (%)", "Approved Coal factor (%)", "Difference in Loading end and Unloading end GCV", "Normative Rs./Mkcal",
-            "Effective Rs./Mkcal"
+            "Achieved Generation (Mus)", "Noramtive Rs./Mkcal", "Achieved Rs./Mkcal", "Deviation from Approved GCV (kacl/kg)"
         ],
         secondValues: [
-            "300", "0.78", "0.68", "860", "1050", "1280"
+            "10", "892", "1059", "-215"
+        ],
+        thirdTable: [
+            "Coal factor",
+            "Approved GCV"
+        ],
+        thirdTableHeader:[
+            "Particulars", "Normative","Actual"
+        ],
+        thirdValues1: [
+            "0.65", "3400"
+        ],
+        thirdValues2: [
+            "0.75", "3125"
+        ],
+        graphHeading1:'Normative vs Actual SHR',
+        graphHeading2:'Normative vs Actual Rs. /Mkcal',
+        graphLegend1:[
+            'Actual SHR (kcal/kWh)', 'Normative SHR (kcal/kWh)'
+        ],
+        graphLegend2:[
+            'Achieved Rs./Mkcal', 'Normative Rs./Mkcal'
         ],
         graphValues1: [
-            2375, 2580
+            2375.5, 2375
         ],
         graphValues2: [
-            1050, 128
+            1059, 892
         ]
     },
 
@@ -127,43 +339,198 @@ const insightData = [
         primaryTrigger: "APC > Normative value",
         data: [
             {
-                mode: "High Auxilliary Consumption",
-                sourceSheet: "Unit performance report / Energy Management system report",
+                mode: "GCV",
+                sourceSheet: "External Factor",
+                lossMus: "0.5",
+                lossMussPer: "4.17",
                 actionPlan: [
-                    "Review the sectorwise auxiliary power consumption (CHP, Coal mill, ODP) of the unit"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Check Loading of Coal Mills.",
+                            "Check the blending ratio/ Change the blending ratio.",
+                            "Recheck the GCV if required."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Review the GCV data of the coal source used."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Review the coal procurement strategy using AI model."
+                        ]
+                    }
+
                 ]
             },
             {
-                mode: "Low Generation",
-                sourceSheet: "External and O&M generation loss sheet",
+                mode: "LDBD",
+                sourceSheet: "External Factor",
+                lossMus: "0.18",
+                lossMussPer: "1.5",
                 actionPlan: [
-                    "Review Availability of equipments of the unit",
-                    "Review minor partial losses due to auxiliary changeover/ tripping for the unit",
-                    "Check weightage of External loss factors like GCV, LDBD, Wet Coal etc."
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Check the ramping rate / response of the unit",
+                            "Check for DSM gain/ loss during the transition."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Review the MOD rate calculations for upcoming period."
+                        ]
+                    },
+                    {
+                        name: "Long term",
+                        data: [
+                            "NA"
+                        ]
+                    }
+
+                ]
+            },
+            {
+                mode: "Coal feeder problem",
+                sourceSheet: "O&M",
+                lossMus: "0.69",
+                lossMussPer: "5.75",
+                actionPlan: [
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Verify the efficient resolution of occurred problem.",
+                            "Reinspect the equipment if necessary."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Observe all the equipments for similar symptoms.",
+                            "Carryout equipment changeover if similar symptoms persist in any of the equipment and carry out required repairs.",
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Ensure optimized inventory of required spares and fast track proposals is required."
+                        ]
+                    }
+
+                ]
+            },
+            {
+                mode: "FG temp. High",
+                sourceSheet: "O&M",
+                lossMus: "0.25",
+                lossMussPer: "2.08",
+                actionPlan: [
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Monitor the furnace operating parameters to optimize the FG exit temperature.",
+                            "Ensure no slagging on pressure parts.",
+                            "Ensure sootblowing operation (Waterwall + APH) is properly optimized."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Check for APH basket chokeup, excessive slag buildup on pressure parts.",
+                            "Conduct APH basket washing if possible."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Plan for required APH basket replacement.",
+                            "Plan for carrying out CAVT if required."
+                        ]
+                    }
+
+                ]
+            },
+            {
+                mode: "CHP Problem",
+                sourceSheet: "O&M",
+                lossMus: "0.38",
+                lossMussPer: "3.17",
+                actionPlan: [
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Verify the efficient resolution of occurred problem.",
+                            "Reinspect the equipment if necessary.",
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Observe all the equipments for similar symptoms.",
+                            "Carryout equipment changeover if similar symptoms persist in any of the equipment and carry out required repairs."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Ensure optimized inventory of required spares and fast track proposals is required.",
+                        ]
+                    }
+
                 ]
             }
         ],
         header: [
             "Normative APC (%)",
-            "Achieved APC (%)",
+            "Actual APC (%)",
             "Deviation (%)",
-            "Gain/Loss (in Rs.Crs.)",
-            "Total Loss (in Rs.Crs.)"
+            "Deviation (%)",
+            "Gain /Loss (in Rs.Crs)"
         ],
         values: [
-            "6", "6.2", "-0.2", "-1.42", "-112.36"
+            "6", "6.12", "-0.12", "-0.3"
         ],
         secondTable: [
-            "Achieved Generation (Mus)", "APC achieved (Mus)", "Approved APC (Mus)", "Loss due to External factors (%)", "Loss due to O&M factors (%)"
+            "Achieved Generation (Mus)", "Partial loss due to external factors (MUs)", "Partial loss due to external factors (Mus)", "Generation excluding LDBD loss (Mus)"
         ],
         secondValues: [
-            "300", "18.6", "18", "9.87", "6.796"
+            "10", "1.32", "0.68", "10.18"
+        ],
+        thirdTable: [
+            "Actual Generation",
+            "GCV",
+            "LDBD",
+            "C/F problem",
+            "Flue gas temp. high",
+            "CHP problem"
+        ],
+        thirdTableHeader:[
+            "Particulars", "MUs","%"
+        ],
+        thirdValues1: [
+            "10", "0.5", "0.18", "0.69", "0.25",'0.38'
+        ],
+        thirdValues2: [
+            "83.33", "4.17", "1.5", "5.75", "2.08","3.17"
+        ],
+        graphHeading1:'Normative vs Actual APC',
+        graphHeading2:'Loss Contribution',
+        graphLegend1:[
+            'Actual APC (%)', 'Normative APC (%)'
+        ],
+        graphLegend2:[
+            'Actual Generation', 'Losses'
         ],
         graphValues1: [
-            6, 6.2
+            6.12, 6
         ],
         graphValues2: [
-            9.87, 6.796
+            83.33, 16.67
         ]
     },
 
@@ -172,43 +539,105 @@ const insightData = [
         primaryTrigger: "SOC > Normative value",
         data: [
             {
-                mode: "High Secondary Consumption",
-                sourceSheet: "Specific Oil Consumption report",
+                mode: "Coal Feeder problem",
+                sourceSheet: "O&M",
+                lossMus: "0",
+                lossMussPer: "1.5",
                 actionPlan: [
-                    "Review the secondary oil consumption reasons for flame stability"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Verfiy the efficient resolution of occured problem.",
+                            "Re-inspect the equipment if necessary.",
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Observe all the equipments for similar symptoms.",
+                            "Carryout equipment changeover if similar symptoms persist in any of the equipment and carry out required repairs."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Ensure optimized inventory of required spares and fast track proposals is required."
+                        ]
+                    }
+
                 ]
             },
             {
-                mode: "Plant Outages",
-                sourceSheet: "External and O&M generation loss sheet",
+                mode: "CHP Problem",
+                sourceSheet: "O&M",
+                lossMus: "0",
+                lossMussPer: "3",
                 actionPlan: [
-                    "Review the plant outage factors",
-                    "Review the time required for startup",
-                    " Review the set stabilization period"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Verify the efficient resolution of occurred problem.",
+                            "Reinspect the equipment if necessary."
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Observe all the equipments for similar symptoms.",
+                            "Carryout equipment changeover if similar symptoms persist in any of the equipment and carry out required repairs."
+                        ]
+                    },
+                    {
+                        name: "Long term",
+                        data: [
+                            "Ensure optimized inventory of required spares and fast track proposals is required."
+                        ]
+                    }
+
                 ]
             }
         ],
         header: [
             "Normative SOC (ml/kwh)",
-            "Achieved SOC (ml/kwh)",
+            "Actual SOC (ml/kwh)",
             "Deviation (ml/kwh)",
-            "Gain/Loss (in Rs.Crs.)",
-            "Total Loss (in Rs.Crs.)"
+            "Gain/Loss (in Rs.Crs.)"
         ],
         values: [
-            "0.5", "0.78", "-0.28", "-2.36", "-112.36"
+            "0.5", "0.45", "0.05", "0.12"
         ],
         secondTable: [
-            "SOC achieved (ml/kwh)", "Approved SOC (ml/kwh)", "Oil Consumption reasons", "Unit startup", "Set stabilization", "Flame stability"
+            "Achieved Generation (MUs)", "Total LDO consumption (kL)", "Total FO consumption (kL)", "Total Oil Consumption (kL)"
         ],
         secondValues: [
-            "0.78", "0.5", "", "0.38", "0.24", "0.16"
+            "10", "0", "", "4.5", "4.5"
+        ],
+        thirdTable: [
+            "Coal Feeder problem",
+            "CHP problem"
+        ],
+        thirdTableHeader:[
+            "Oil Consumption", "KL","SOC"
+        ],
+        thirdValues1: [
+            "1.5", "3"
+        ],
+        thirdValues2: [
+            "0.15", "0.3"
+        ],
+        graphHeading1:'Normative vs Actual SOC',
+        graphHeading2:'SOC Details',
+        graphLegend1:[
+            'Actual SOC (ml/kWh)', 'Normative SOC (ml/kWh)'
+        ],
+        graphLegend2:[
+            'Coal Feeder problem', 'CHP problem'
         ],
         graphValues1: [
-            0.5, 0.78
+            0.45, 0.5
         ],
         graphValues2: [
-            0.38, 0.24, 0.16
+            0.15, 0.3
         ]
     },
 
@@ -217,34 +646,78 @@ const insightData = [
         primaryTrigger: "Coal TL > Normative Value",
         data: [
             {
-                mode: "High Coal TL",
-                sourceSheet: "Unit performance report / Coal receipt and accounting report",
+                mode: "Transit Loss",
+                sourceSheet: "",
+                lossMus: "1980",
+                lossMussPer: "0.83",
                 actionPlan: [
-                    "Co-ordinate with transport agency for ensuring no transport losses",
-                    "Verify the loading end weighing data with coal company",
-                    "Arrange for mutual calibration of weigh bridges at coal loading end",
-                    "Ensure proper and periodic calibration of weigh bridges at unloading end"
+                    {
+                        name: "Immediate",
+                        data: [
+                            "Identify rakewise loading and unloading weights descrepancy.",
+                            "Check for load cell calibration values.",
+                        ]
+                    },
+                    {
+                        name: "Medium Term",
+                        data: [
+                            "Maintain the calibration schedule.",
+                            "Analyze the transit loss data on minewise basis for past records."
+                        ]
+                    },
+                    {
+                        name: "Long Term",
+                        data: [
+                            "Co-ordinate at loading end and optimize the supply chain matrix as per requirement."
+                        ]
+                    }
+
                 ]
             }
         ],
         header: [
-            "Normative SHR (%)",
-            "Achieved SHR (%)",
+            "Normative TL (%)",
+            "Actual SOC (%)",
             "Deviation (%)",
-            "Gain/Loss (in Rs.Crs.)",
-            "Total Loss (in Rs.Crs.)"
+            "Gain/Loss (in Rs.Crs.)"
         ],
         values: [
-            "0.8", "1.2", "-0.4", "-5.93", "-112.36"
+            "0.8", "0.83", "-0.03", "-0.26"
         ],
         secondTable: [
-            "TL achieved (%)", "Approved TL (%)", "TL analysis", "Coal Source", "WCL", "MCL"
+            "Raw coal TL railway (MT)", "Raw coal TL road (MT)","Total TL (MT)"
         ],
         secondValues: [
-            "0.8", "1.2", ""
+            "1137", "843", "1980"
+        ],
+        thirdTable: [
+            "WCL - Umred (Rail)",
+            "WCL - Gondegaon (Rail)",
+            "WCL - Gondegaon (Road)",
+            "WCL - Saoner (Road)"
+        ],
+        thirdTableHeader:[
+            "Coal Source", "TL","%"
+        ],
+        thirdValues1: [
+            "843", "294","498","345"
+        ],
+        thirdValues2: [
+            "0.43", "0.15","0.25","0.17"
+        ],
+        graphHeading1:'Normative vs Actual TL',
+        graphHeading2:'TL Details',
+        graphLegend1:[
+            'Actual SOC (%)', 'Normative SOC (%)'
+        ],
+        graphLegend2:[
+            'TL', '%'
         ],
         graphValues1: [
-            0.8, 1.2
+            0.8, 0.83
+        ],
+        graphValues2: [
+            0.15, 0.3
         ]
     }
 
@@ -1001,7 +1474,7 @@ function setTDR() {
     const startDateInput = document.getElementById('start-date').value;
     const endDateInput = document.getElementById('end-date').value;
 
-    localStorage.setItem('selectedDate',`${startDateInput.replace(/-/g, '/')} - ${endDateInput.replace(/-/g, '/')}`)
+    localStorage.setItem('selectedDate', `${startDateInput.replace(/-/g, '/')} - ${endDateInput.replace(/-/g, '/')}`)
 
     const startDate = new Date(startDateInput);
     const endDate = new Date(endDateInput);
@@ -1166,7 +1639,7 @@ function calculations(parsedValues, TDR, TDFY) {
     const AHCLDO = ALDOC * ALDOGCV * 0.853 / 1000;
     const AHCFO = AFOC * AFOGCV * 0.933 / 1000;
     const ATHCF = AHCRC + AHCWC + AHCIC + AHCLDO + AHCFO;
-    const ASHR = (((ARCC + AWCC + AICC) * NCGCV) / AGEN) / 1000;
+    const ASHR = (((ARCC + AWCC + AICC) * ACGCV) / AGEN) / 1000;
     const ASLDOC = ALDOC / AGEN;
     const ASFOC = AFOC / AGEN;
     const ACSFOC = ASLDOC + ASFOC;
@@ -1303,7 +1776,15 @@ function updateSmallerChart(chartID, label, parsedValues, afterCalculations) {
 
     console.log(dataToUpdate);
 
-    const ctx = document.getElementById(`dynamicIncentives`).getContext('2d');
+    const chartId = "dynamicIncentives"; // ID of your canvas element
+
+    // Store chart instances globally
+    let existingChart = Chart.getChart(chartId);
+    if (existingChart) {
+        existingChart.destroy(); // Destroy the previous chart before creating a new one
+    }
+
+    const ctx = document.getElementById(chartId).getContext('2d');
     const chartTitle = document.getElementById(`chartTitle`)
 
     chartTitle.textContent = label;
@@ -1359,7 +1840,7 @@ function moreInfoPage(parameter) {
 
     console.log(parameter)
     console.log(insightData)
-    localStorage.setItem('gainLoss',parameter)
+    localStorage.setItem('gainLoss', parameter)
     const matchingObject = insightData.find(item => item.parameter === parameter);
     console.log(matchingObject)
 
@@ -1367,6 +1848,21 @@ function moreInfoPage(parameter) {
         localStorage.setItem('insightData', JSON.stringify(matchingObject));
     }
     window.location.href = 'third.html';
+
+}
+
+function moreInfoPage2(parameter) {
+
+    console.log(parameter)
+    console.log(insightData)
+    localStorage.setItem('gainLoss', parameter)
+    const matchingObject = insightData.find(item => item.parameter === parameter);
+    console.log(matchingObject)
+
+    if (matchingObject) {
+        localStorage.setItem('insightData', JSON.stringify(matchingObject));
+    }
+    window.location.href = 'third2.html';
 
 }
 
@@ -1402,27 +1898,29 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
 
     // Gain/Loss Report Data
     const gainLossData = [
-        { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: AAVFTDR.toFixed(3), gainLoss: gainAVF.toFixed(3) },
-        { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: ASHR.toFixed(3), gainLoss: gainNSHR.toFixed(3) },
-        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: AAPC.toFixed(3), gainLoss: gainAPC.toFixed(3) },
-        { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: NSFOC, achieved: ASFOC.toFixed(3), gainLoss: gainSFOC.toFixed(3) },
-        { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: NTL, achieved: ATL, gainLoss: gainTL.toFixed(3) }
+        { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: (AAVFTDR ?? 0).toFixed(2), gainLoss: (gainAVF ?? 0).toFixed(1) },
+        { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: (ASHR ?? 0).toFixed(2), gainLoss: (gainNSHR ?? 0).toFixed(1) },
+        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: (AAPC ?? 0).toFixed(2), gainLoss: (gainAPC?? 0).toFixed(1) },
+        { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: NSFOC, achieved: (ASFOC ?? 0).toFixed(2), gainLoss: (gainSFOC ?? 0).toFixed(1) },
+        { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: NTL, achieved: (ATL ?? 0), gainLoss: (gainTL ?? 0).toFixed(1) }
     ];
+
+    console.log(gainLossData);
 
     // Incentive Gains Report Data
     const incentiveGainsData = [
-        { srNo: 6, parameter: 'MTBF', unit: 'days', normativeValue: 45, achieved: AMTBF, gain: gainMTBF.toFixed(3) },
-        { srNo: 7, parameter: 'Ramp rate above 1%', normativeValue: '%/min', description: 'above 1% ramp rate', achieved: ARR.toFixed(3), gain: gainRampRate.toFixed(3) },
-        { srNo: 8, parameter: 'Peak AVF', unit: '%', normativeValue: 75, achieved: APAVF, gain: gainPeakAVF.toFixed(3) },
-        { srNo: 9, parameter: 'FGMO status', unit: '-', normativeValue: 'In service', achieved: 'y', gain: gainFGMO.toFixed(3) }
+        { srNo: 6, parameter: 'MTBF', unit: 'days', normativeValue: 45, achieved: (AMTBF ?? 0), gain: (gainMTBF ?? 0).toFixed(2) },
+        { srNo: 7, parameter: 'Ramp rate above 1%', normativeValue: '%/min', description: 'above 1% ramp rate', achieved: (ARR ?? 0).toFixed(3), gain: (gainRampRate ?? 0).toFixed(2) },
+        { srNo: 8, parameter: 'Peak AVF', unit: '%', normativeValue: 75, achieved: (APAVF ?? 0), gain: (gainPeakAVF ?? 0).toFixed(2) },
+        { srNo: 9, parameter: 'FGMO status', unit: '-', normativeValue: 'In service', achieved: 'y', gain: (gainFGMO ?? 0).toFixed(2) }
     ];
 
     // Net Gain/Loss
-    const normGainLoss = gainAPC + gainSFOC + gainTL + gainNSHR + gainAVF;
+    const normGainLoss = (gainAPC ?? 0) + (gainSFOC ?? 0) + (gainTL ?? 0) + (gainNSHR ?? 0) + (gainAVF ?? 0);
 
-    const incentiveGainLoss = gainMTBF + gainRampRate + gainPeakAVF + gainFGMO;
+    const incentiveGainLoss = (gainMTBF ?? 0) + (gainRampRate ?? 0) + (gainPeakAVF ?? 0) + (gainFGMO ?? 0);
 
-    const netGainLoss = normGainLoss - incentiveGainLoss;
+    const netGainLoss = (normGainLoss ?? 0) - (incentiveGainLoss?? 0);
 
     // Constructing Gain/Loss Report HTML
 
@@ -1451,8 +1949,8 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
         </td>
         <td class="border border-gray-300 px-1 py-1">${item.unit}</td>
         <td class="border border-gray-300 px-1 py-1">${item.normativeValue}</td>
-        <td class="border border-gray-300 px-1 py-1">${item.achieved}</td>
-        <td class="border border-gray-300 px-1 py-1">${item.gainLoss}</td>
+        <td class="border border-gray-300 px-1 py-1">${item.achieved ?? 0}</td>
+        <td class="border border-gray-300 px-1 py-1">${(item.gainLoss ?? 0)}</td>
     </tr>
 `
     })
@@ -1460,7 +1958,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
     gainLossHTML += `
     <tr>
         <td colspan="4" class="border border-gray-300 px-2 py-1 text-right text-sm font-semibold">Total</td>
-        <td class="border border-gray-300 px-2 py-1 font-semibold text-sm">${normGainLoss.toFixed(4)}</td>
+        <td class="border border-gray-300 px-2 py-1 font-semibold text-sm">${(normGainLoss ?? 0).toFixed(1)}</td>
     </tr>
 
 </tbody>
@@ -1492,8 +1990,8 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
         <td class="border border-gray-300 px-2 py-1"><span> ${item.parameter}</span></td>
         <td class="border border-gray-300 px-2 py-1">${item.unit}</td>
         <td class="border border-gray-300 px-1 py-1">${item.normativeValue}</td>
-        <td class="border border-gray-300 px-2 py-1">${item.achieved}</td>
-        <td class="border border-gray-300 px-2 py-1">${item.gain}</td>
+        <td class="border border-gray-300 px-2 py-1">${item.achieved ?? 0}</td>
+        <td class="border border-gray-300 px-2 py-1">${item.gain ?? 0}</td>
     </tr>
 `;
     });
@@ -1501,7 +1999,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
     incentiveGainsHTML += `
     <tr>
         <td colspan="4" class="border border-gray-300 px-2 py-1 text-right font-semibold text-sm">Total</td>
-        <td class="border border-gray-300 px-2 py-1 font-semibold text-sm">${incentiveGainLoss.toFixed(4)}</td>
+        <td class="border border-gray-300 px-2 py-1 font-semibold text-sm">${(incentiveGainLoss ?? 0).toFixed(1)}</td>
     </tr>
 </tbody>
 </table>
@@ -1513,7 +2011,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
     // Net Gain/Loss
     let netGainLossHTML = `
 <h2 class="text-lg font-semibold mt-8">Net Gain/ Loss</h2>
-<p class="mt-4">Net Gain/ Loss: <span class="font-semibold">${netGainLoss.toFixed(4)}</span></p>
+<p class="mt-4">Net Gain/ Loss: <span class="font-semibold">${(netGainLoss ?? 0).toFixed(4)}</span></p>
 `;
 
     //const reportOutput = document.getElementById('reportOutput');
@@ -1522,7 +2020,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
 
     const ctx1 = document.getElementById(`chart6`).getContext('2d');
 
-    const dataValues1 = [gainMTBF, gainRampRate, gainPeakAVF, gainFGMO];
+    const dataValues1 = [(gainMTBF ?? 0), (gainRampRate ?? 0), (gainPeakAVF ?? 0), (gainFGMO ?? 0)];
 
     const getDoughnutColor = (values) => {
         const indexedValues = values.map((value, index) => ({ value, index }));
@@ -1562,7 +2060,249 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
 
     const ctx2 = document.getElementById(`chart7`).getContext('2d');
 
-    const dataValues = [gainAVF, gainNSHR, gainAPC, gainSFOC, gainTL];
+    const dataValues = [(gainAVF ?? 0), (gainNSHR ?? 0), (gainAPC ?? 0), (gainSFOC ?? 0), (gainTL ?? 0)];
+
+    const getColor = (value) => {
+        return value > 0 ? '#16a34a' : '#dc2626';
+    };
+
+    const incentivesChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: ['Avail Factor', 'Heat Rate', 'Aux Power Con', 'Spec Oil Con', 'Transit Loss'],
+            datasets: [{
+                label: 'Gain/Loss',
+                data: dataValues,
+                backgroundColor: dataValues.map(getColor),
+                minBarLength: 7,
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        position: 'top',
+                    },
+                    stacked: true
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Loss/Gain'
+                    }
+                }
+            },
+            onClick: function (e) {
+                const points = incentivesChart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
+
+                if (points.length) {
+                    const firstPoint = points[0];
+                    const label = incentivesChart.data.labels[firstPoint.index];
+
+                    const chartMapping = {
+                        'Avail Factor': 'chart1',
+                        'Heat Rate': 'chart2',
+                        'Aux Power Con': 'chart3',
+                        'Spec Oil Con': 'chart4',
+                        'Transit Loss': 'chart5'
+                    };
+
+                    const chartID = chartMapping[label];
+
+                    console.log(chartID);
+
+                    if (chartID) {
+                        updateSmallerChart(chartID, label, parsedValues, afterCalculations);
+                    }
+                }
+            }
+        }
+    });
+
+
+}
+
+function generateReport2(gainValues, afterCalculations, ROEValues, parsedValues) {
+
+    const { ROE_RP, converted_ROE_MTBF, converted_ROE_RR, converted_ROE_PAVF } = ROEValues;
+
+    const { gainMTBF, gainRampRate, gainPeakAVF, gainFGMO, gainAPC, gainSFOC, gainTL, gainNSHR, gainAVF } = gainValues;
+
+    const { AAPC, AAVFTDR, ASHR, ASFOC } = afterCalculations;
+
+    const { ATL, ATLC, AMTBF, ARR, APAVF, NAVF, NSHR, NAPC, NSFOC, NTL } = parsedValues;
+
+    // Gain/Loss Report Data
+    const gainLossData = [
+        { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: (AAVFTDR ?? 0).toFixed(3), gainLoss: (gainAVF ?? 0).toFixed(3) },
+        { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: (ASHR ?? 0).toFixed(3), gainLoss: (gainNSHR ?? 0).toFixed(3) },
+        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: (AAPC ?? 0).toFixed(3), gainLoss: (gainAPC?? 0).toFixed(3) },
+        { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: NSFOC, achieved: (ASFOC ?? 0).toFixed(3), gainLoss: (gainSFOC ?? 0).toFixed(3) },
+        { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: NTL, achieved: (ATL ?? 0), gainLoss: (gainTL ?? 0).toFixed(3) }
+    ];
+
+    console.log(gainLossData);
+
+    // Incentive Gains Report Data
+    const incentiveGainsData = [
+        { srNo: 6, parameter: 'MTBF', unit: 'days', normativeValue: 45, achieved: (AMTBF ?? 0), gain: (gainMTBF ?? 0).toFixed(3) },
+        { srNo: 7, parameter: 'Ramp rate above 1%', normativeValue: '%/min', description: 'above 1% ramp rate', achieved: (ARR ?? 0).toFixed(3), gain: (gainRampRate ?? 0).toFixed(3) },
+        { srNo: 8, parameter: 'Peak AVF', unit: '%', normativeValue: 75, achieved: (APAVF ?? 0), gain: (gainPeakAVF ?? 0).toFixed(3) },
+        { srNo: 9, parameter: 'FGMO status', unit: '-', normativeValue: 'In service', achieved: 'y', gain: (gainFGMO ?? 0).toFixed(3) }
+    ];
+
+    // Net Gain/Loss
+    const normGainLoss = (gainAPC ?? 0) + (gainSFOC ?? 0) + (gainTL ?? 0) + (gainNSHR ?? 0) + (gainAVF ?? 0);
+
+    const incentiveGainLoss = (gainMTBF ?? 0) + (gainRampRate ?? 0) + (gainPeakAVF ?? 0) + (gainFGMO ?? 0);
+
+    const netGainLoss = (normGainLoss ?? 0) - (incentiveGainLoss?? 0);
+
+    // Constructing Gain/Loss Report HTML
+
+    let gainLossHTML = `
+<div class="relative overflow-x-auto">
+<h2 class="text-md text-center font-semibold">Gain/ Loss Report as per Norms</h2>
+<table class="mt-1 w-full border-collapse border border-gray-300 shadow-md rounded-md">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr class="bg-gray-200">
+            <th scope="col" class="border border-gray-300 py-1">Parameter</th>
+            <th scope="col" class="border border-gray-300 py-1">Unit</th>
+            <th scope="col" class="border border-gray-300 px-1 py-1">Normative</th>
+            <th scope="col" class="border border-gray-300 py-1">Achieved</th>
+            <th scope="col" class="border border-gray-300 py-1">Gain/ Loss(Cr.)</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+`
+
+    gainLossData.forEach(item => {
+        gainLossHTML += `
+    <tr class="font-sans text-sm">
+        <td class="border border-gray-300 px-1 py-1">
+        <a onClick="moreInfoPage2('${item.parameter}')" class="cursor-pointer text-blue-500 underline hover:text-blue-700">${item.parameter}</a>
+        </td>
+        <td class="border border-gray-300 px-1 py-1">${item.unit}</td>
+        <td class="border border-gray-300 px-1 py-1">${item.normativeValue}</td>
+        <td class="border border-gray-300 px-1 py-1">${item.achieved ?? 0}</td>
+        <td class="border border-gray-300 px-1 py-1">${(item.gainLoss ?? 0)}</td>
+    </tr>
+`
+    })
+
+    gainLossHTML += `
+    <tr>
+        <td colspan="4" class="border border-gray-300 px-2 py-1 text-right text-sm font-semibold">Total</td>
+        <td class="border border-gray-300 px-2 py-1 font-semibold text-sm">${(normGainLoss ?? 0).toFixed(4)}</td>
+    </tr>
+
+</tbody>
+</table>
+</div>
+`
+    document.getElementById('gain-loss-report').innerHTML = gainLossHTML;
+
+    // Constructing Incentive Gains Report HTML
+    let incentiveGainsHTML = `
+<div class="relative overflow-y-auto">
+<h2 class="text-md text-center font-semibold"">Incentive Gains Report as per Regulations</h2>
+<table class="mt-1 w-full border-collapse border border-gray-300 shadow-md rounded-md">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr class="bg-gray-200">
+            <th class="border border-gray-300 px-2 py-1">Parameter</th>
+            <th class="border border-gray-300 px-2 py-1">Unit</th>
+            <th class="border border-gray-300 px-2 py-1">Note</th>
+            <th class="border border-gray-300 px-2 py-1">Achieved</th>
+            <th class="border border-gray-300 px-2 py-1">Gain/Loss</th>
+        </tr>
+    </thead>
+    <tbody>
+`;
+
+    incentiveGainsData.forEach(item => {
+        incentiveGainsHTML += `
+    <tr class="font-sans text-sm">
+        <td class="border border-gray-300 px-2 py-1"><span> ${item.parameter}</span></td>
+        <td class="border border-gray-300 px-2 py-1">${item.unit}</td>
+        <td class="border border-gray-300 px-1 py-1">${item.normativeValue}</td>
+        <td class="border border-gray-300 px-2 py-1">${item.achieved ?? 0}</td>
+        <td class="border border-gray-300 px-2 py-1">${item.gain ?? 0}</td>
+    </tr>
+`;
+    });
+
+    incentiveGainsHTML += `
+    <tr>
+        <td colspan="4" class="border border-gray-300 px-2 py-1 text-right font-semibold text-sm">Total</td>
+        <td class="border border-gray-300 px-2 py-1 font-semibold text-sm">${(incentiveGainLoss ?? 0).toFixed(4)}</td>
+    </tr>
+</tbody>
+</table>
+</div>
+`;
+
+    document.getElementById('incentive-gains-report').innerHTML = incentiveGainsHTML;
+
+    // Net Gain/Loss
+    let netGainLossHTML = `
+<h2 class="text-lg font-semibold mt-8">Net Gain/ Loss</h2>
+<p class="mt-4">Net Gain/ Loss: <span class="font-semibold">${(netGainLoss ?? 0).toFixed(4)}</span></p>
+`;
+
+    //const reportOutput = document.getElementById('reportOutput');
+    //reportOutput.innerHTML = gainLossHTML + incentiveGainsHTML;
+
+
+    const ctx1 = document.getElementById(`chart6`).getContext('2d');
+
+    const dataValues1 = [(gainMTBF ?? 0), (gainRampRate ?? 0), (gainPeakAVF ?? 0), (gainFGMO ?? 0)];
+
+    const getDoughnutColor = (values) => {
+        const indexedValues = values.map((value, index) => ({ value, index }));
+
+        indexedValues.sort((a, b) => b.value - a.value);
+
+        const colors = new Array(values.length).fill('#000000');
+        if (indexedValues.length > 0) colors[indexedValues[0].index] = '#7f6519'; // Highest
+        if (indexedValues.length > 1) colors[indexedValues[1].index] = '#848406'; // 2nd highest
+        if (indexedValues.length > 2) colors[indexedValues[2].index] = '#e4c97b'; // 3rd highest
+        if (indexedValues.length > 3) colors[indexedValues[3].index] = '#f3f017'; // 4th highest
+
+        return colors;
+    };
+
+
+
+    new Chart(ctx1, {
+        type: 'doughnut',
+        data: {
+            labels: ['MTBF', 'Ramp Rate', 'Peak AVF', 'FGMO Status'],
+            datasets: [{
+                label: 'Gains',
+                data: dataValues1,
+                backgroundColor: getDoughnutColor(dataValues1),
+            }]
+        },
+        options: {
+            responsive: false,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                }
+            }
+        }
+    });
+
+    const ctx2 = document.getElementById(`chart7`).getContext('2d');
+
+    const dataValues = [(gainAVF ?? 0), (gainNSHR ?? 0), (gainAPC ?? 0), (gainSFOC ?? 0), (gainTL ?? 0)];
 
     const getColor = (value) => {
         return value > 0 ? '#16a34a' : '#dc2626';
