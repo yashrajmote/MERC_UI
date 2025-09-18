@@ -173,8 +173,8 @@ const insightData = [
             "FG temp. High",
             "CHP problem"
         ],
-        thirdTableHeader:[
-            "Particulars", "Mus","%"
+        thirdTableHeader: [
+            "Particulars", "Mus", "%"
         ],
         thirdValues1: [
             "2", "1.82", "0.69", "0.25", "0.38"
@@ -182,12 +182,12 @@ const insightData = [
         thirdValues2: [
             "16.67", "15.17", "5.75", "2.08", "3.17"
         ],
-        graphHeading1:'Availability Factor',
-        graphHeading2:'AVF Disallowance',
-        graphLegend1:[
+        graphHeading1: 'Availability Factor',
+        graphHeading2: 'AVF Disallowance',
+        graphLegend1: [
             'Avg AVF achieved', 'AVF achieved in HDS', 'AVF achieved in LDS'
         ],
-        graphLegend2:[
+        graphLegend2: [
             'Fixed cost recovered', 'Fixed cost disallowance'
         ],
         graphValues1: [
@@ -309,8 +309,8 @@ const insightData = [
             "Coal factor",
             "Approved GCV"
         ],
-        thirdTableHeader:[
-            "Particulars", "Normative","Actual"
+        thirdTableHeader: [
+            "Particulars", "Normative", "Actual"
         ],
         thirdValues1: [
             "0.65", "3400"
@@ -318,12 +318,12 @@ const insightData = [
         thirdValues2: [
             "0.75", "3125"
         ],
-        graphHeading1:'Normative vs Actual SHR',
-        graphHeading2:'Normative vs Actual Rs. /Mkcal',
-        graphLegend1:[
+        graphHeading1: 'Normative vs Actual SHR',
+        graphHeading2: 'Normative vs Actual Rs. /Mkcal',
+        graphLegend1: [
             'Actual SHR (kcal/kWh)', 'Normative SHR (kcal/kWh)'
         ],
-        graphLegend2:[
+        graphLegend2: [
             'Achieved Rs./Mkcal', 'Normative Rs./Mkcal'
         ],
         graphValues1: [
@@ -509,21 +509,21 @@ const insightData = [
             "Flue gas temp. high",
             "CHP problem"
         ],
-        thirdTableHeader:[
-            "Particulars", "MUs","%"
+        thirdTableHeader: [
+            "Particulars", "MUs", "%"
         ],
         thirdValues1: [
-            "10", "0.5", "0.18", "0.69", "0.25",'0.38'
+            "10", "0.5", "0.18", "0.69", "0.25", '0.38'
         ],
         thirdValues2: [
-            "83.33", "4.17", "1.5", "5.75", "2.08","3.17"
+            "83.33", "4.17", "1.5", "5.75", "2.08", "3.17"
         ],
-        graphHeading1:'Normative vs Actual APC',
-        graphHeading2:'Loss Contribution',
-        graphLegend1:[
+        graphHeading1: 'Normative vs Actual APC',
+        graphHeading2: 'Loss Contribution',
+        graphLegend1: [
             'Actual APC (%)', 'Normative APC (%)'
         ],
-        graphLegend2:[
+        graphLegend2: [
             'Actual Generation', 'Losses'
         ],
         graphValues1: [
@@ -616,8 +616,8 @@ const insightData = [
             "Coal Feeder problem",
             "CHP problem"
         ],
-        thirdTableHeader:[
-            "Oil Consumption", "KL","SOC"
+        thirdTableHeader: [
+            "Oil Consumption", "KL", "SOC"
         ],
         thirdValues1: [
             "1.5", "3"
@@ -625,12 +625,12 @@ const insightData = [
         thirdValues2: [
             "0.15", "0.3"
         ],
-        graphHeading1:'Normative vs Actual SOC',
-        graphHeading2:'SOC Details',
-        graphLegend1:[
+        graphHeading1: 'Normative vs Actual SOC',
+        graphHeading2: 'SOC Details',
+        graphLegend1: [
             'Actual SOC (ml/kWh)', 'Normative SOC (ml/kWh)'
         ],
-        graphLegend2:[
+        graphLegend2: [
             'Coal Feeder problem', 'CHP problem'
         ],
         graphValues1: [
@@ -685,7 +685,7 @@ const insightData = [
             "0.8", "0.83", "-0.03", "-0.26"
         ],
         secondTable: [
-            "Raw coal TL railway (MT)", "Raw coal TL road (MT)","Total TL (MT)"
+            "Raw coal TL railway (MT)", "Raw coal TL road (MT)", "Total TL (MT)"
         ],
         secondValues: [
             "1137", "843", "1980"
@@ -696,21 +696,21 @@ const insightData = [
             "WCL - Gondegaon (Road)",
             "WCL - Saoner (Road)"
         ],
-        thirdTableHeader:[
-            "Coal Source", "TL","%"
+        thirdTableHeader: [
+            "Coal Source", "TL", "%"
         ],
         thirdValues1: [
-            "843", "294","498","345"
+            "843", "294", "498", "345"
         ],
         thirdValues2: [
-            "0.43", "0.15","0.25","0.17"
+            "0.43", "0.15", "0.25", "0.17"
         ],
-        graphHeading1:'Normative vs Actual TL',
-        graphHeading2:'TL Details',
-        graphLegend1:[
+        graphHeading1: 'Normative vs Actual TL',
+        graphHeading2: 'TL Details',
+        graphLegend1: [
             'Actual SOC (%)', 'Normative SOC (%)'
         ],
-        graphLegend2:[
+        graphLegend2: [
             'TL', '%'
         ],
         graphValues1: [
@@ -1683,7 +1683,7 @@ function calculateGainValues(parsedValues, afterCalculations, ROEValues, TDR, TD
     const gainAPC = ((NAPCM - AAPCM) * APECR) / 10;
     const gainSFOC = NLDOCC + NFOCC - ALDOCC - AFOCC;
     const gainTL = ((((IRCCC * ARCC) / (1 - (NTL / 100))) - (IRCCC * ARCC)) / 10 ** 7) - ATLC;
-    const gainNSHR = NRCCC + NWCCC + NICCC - ARCCC - AWCCC - AICCC - gainTL;
+    const gainNSHR = NRCCC + NWCCC + NICCC - ARCCC - AWCCC - AICCC;
     // const gainAVF = ARAAVFTDR - MPRAAVFTDR;
 
     let gainAVF = 0;
@@ -1900,7 +1900,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
     const gainLossData = [
         { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: (AAVFTDR ?? 0).toFixed(2), gainLoss: (gainAVF ?? 0).toFixed(1) },
         { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: (ASHR ?? 0).toFixed(2), gainLoss: (gainNSHR ?? 0).toFixed(1) },
-        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: (AAPC ?? 0).toFixed(2), gainLoss: (gainAPC?? 0).toFixed(1) },
+        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: (AAPC ?? 0).toFixed(2), gainLoss: (gainAPC ?? 0).toFixed(1) },
         { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: NSFOC, achieved: (ASFOC ?? 0).toFixed(2), gainLoss: (gainSFOC ?? 0).toFixed(1) },
         { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: NTL, achieved: (ATL ?? 0), gainLoss: (gainTL ?? 0).toFixed(1) }
     ];
@@ -1920,7 +1920,7 @@ function generateReport(gainValues, afterCalculations, ROEValues, parsedValues) 
 
     const incentiveGainLoss = (gainMTBF ?? 0) + (gainRampRate ?? 0) + (gainPeakAVF ?? 0) + (gainFGMO ?? 0);
 
-    const netGainLoss = (normGainLoss ?? 0) - (incentiveGainLoss?? 0);
+    const netGainLoss = (normGainLoss ?? 0) - (incentiveGainLoss ?? 0);
 
     // Constructing Gain/Loss Report HTML
 
@@ -2142,7 +2142,7 @@ function generateReport2(gainValues, afterCalculations, ROEValues, parsedValues)
     const gainLossData = [
         { srNo: 1, parameter: 'Availability Factor', unit: '%', normativeValue: NAVF, achieved: (AAVFTDR ?? 0).toFixed(3), gainLoss: (gainAVF ?? 0).toFixed(3) },
         { srNo: 2, parameter: 'Heat Rate', unit: 'kcal/kwh', normativeValue: NSHR, achieved: (ASHR ?? 0).toFixed(3), gainLoss: (gainNSHR ?? 0).toFixed(3) },
-        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: (AAPC ?? 0).toFixed(3), gainLoss: (gainAPC?? 0).toFixed(3) },
+        { srNo: 3, parameter: 'Auxiliary Power Consumption', unit: '%', normativeValue: NAPC, achieved: (AAPC ?? 0).toFixed(3), gainLoss: (gainAPC ?? 0).toFixed(3) },
         { srNo: 4, parameter: 'Specific Oil Consumption', unit: 'ml/kwh', normativeValue: NSFOC, achieved: (ASFOC ?? 0).toFixed(3), gainLoss: (gainSFOC ?? 0).toFixed(3) },
         { srNo: 5, parameter: 'Transit Loss', unit: '%', normativeValue: NTL, achieved: (ATL ?? 0), gainLoss: (gainTL ?? 0).toFixed(3) }
     ];
@@ -2162,7 +2162,7 @@ function generateReport2(gainValues, afterCalculations, ROEValues, parsedValues)
 
     const incentiveGainLoss = (gainMTBF ?? 0) + (gainRampRate ?? 0) + (gainPeakAVF ?? 0) + (gainFGMO ?? 0);
 
-    const netGainLoss = (normGainLoss ?? 0) - (incentiveGainLoss?? 0);
+    const netGainLoss = (normGainLoss ?? 0) - (incentiveGainLoss ?? 0);
 
     // Constructing Gain/Loss Report HTML
 
