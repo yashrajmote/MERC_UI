@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Summary - MERC UI</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+
+    
+</head>
+<body class="bg-gray-700">
+
+    <!-- top nav taken from your main page (keeps structure) -->
+    <nav class="fixed top-0 left-0 w-full h-14 bg-white shadow z-10">
+            <div class="mb-2 mt-2 flex w-full h-3 bg-white-50">
+                <img src="images/abhitech-mahagenco-combined-logo.png" alt="Logo" class="h-9">
+                <div x-data="{ isProfileOpen: false }" class="flex-grow flex justify-end">
+                    <div class="p-2 flex justify-center items-center">
+                        <span class="text-center mt-8">Welcome User</span>
+                    </div>
+                    <button @click="isProfileOpen = !isProfileOpen" class="p-2 rounded-full focus:outline-none focus:ring">
+                        <img src="./images/userprofile.svg" alt="Profile" class="h-8 w-8 rounded-full">
+                    </button>
+                    <!-- Profile Dropdown Menu -->
+                    <div x-show="isProfileOpen" x-transition @click.outside="isProfileOpen = false" 
+                         class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg overflow-hidden z-50">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                        <a href="./login.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </nav>
+
+    <main class="dark:bg-gray-900 h-full w-full">
+        
+        <header class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-6">
+             
+            <div class="flex items-center gap-3">
+                <label class="muted">Select plant:</label>
+                <select id="plantSelect" class="rounded-md px-3 py-2 bg-panel text-muted" style="background:var(--panel);color:var(--muted);border:1px solid rgba(255,255,255,0.04)"></select>
+                <button id="refreshBtn" class="px-3 py-2 rounded-md" style="background:var(--accent); color:#04201e; font-weight:600">Refresh</button>
+            </div>
+        </header>
+        <h1
+                class="m-3 text-2xl font-medium text-center leading-none tracking-tight md:text-3xl lg:text-3xl text-white">
+                MoD Summary</h1>
+        <div class="px-8 mb-6">
+            <div class="flex items-center gap-4">
+            <div class="text-white"><span id="selectedPlantName" class="font-semibold"></span></div>
+            <div class="text-gray-700"><span id="panelCount" class="font-semibold"></span></div>
+
+            <div id="modIndicator" class="ml-4 px-3 py-1 rounded font-semibold text-gray-700" style="min-width:56px; text-align:center;">—</div>
+
+            <div class="ml-auto flex items-center gap-3">
+                <button id="computeBtn" class="px-3 py-2 rounded-md" style="background:var(--accent); color:#04201e; font-weight:600"></button>
+                <button id="resetBtn" class="px-3 py-2 rounded-md bg-gray-700 text-gray-800"></button>
+            </div>
+            </div>
+        </div>
+
+        <!-- Rows for specific panels: each row will show two themed cards for the panel's first preset.
+             Hidden clones (class="mod-input") are appended into #panels so compute/reset keep working. -->
+       
+       
+             <section class="px-8 mb-6">
+            <h2 class="text-white text-lg mb-3">BSL</h2>
+            <div id="row-BSL" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>
+        </section>
+
+        <section class="px-8 mb-6">
+            <h2 class="text-white text-lg mb-3">CSTPS</h2>
+            <div id="row-CSTPS" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>
+        </section>
+
+        <section class="px-8 mb-6">
+            <h2 class="text-white text-lg mb-3">KPKD</h2>
+            <div id="row-KPKD" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>
+        </section>
+
+        <section class="px-8 mb-6">
+            <h2 class="text-white text-lg mb-3">KTPS</h2>
+            <div id="row-KTPS" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>
+        </section>
+
+        <section class="px-8 mb-6">
+            <h2 class="text-white text-lg mb-3">NTPS</h2>
+            <div id="row-NTPS" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>
+        </section>
+
+        <section class="px-8 mb-6">
+            <h2 class="text-white text-lg mb-3">PARAS TPS</h2>
+            <div id="row-PARAS TPS" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>
+        </section>
+
+        <section class="px-8 mb-8">
+            <h2 class="text-white text-lg mb-3">PARALI TPS</h2>
+            <div id="row-PARALI TPS" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>
+        </section>
+
+        <!-- main panels container (script populates this). Hidden clones for compute/reset live here. -->
+        <section class="px-8 mb-8">
+            <div id="panels" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+        </section>
+
+        <script>
+        (function () {
+            const targets = ['BSL','CSTPS','KPKD','KTPS','NTPS','PARAS TPS','PARALI TPS'];
+            const panels = document.getElementById('panels');
+
+            // create a visible card that follows the main card theme (compact version)
+            function createVisibleCard(titleText, hintText) {
+            const card = document.createElement('div');
+            // follow the existing card theme but smaller
+            card.className = 'h-40 p-4 w-full bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 transition-transform transform hover:scale-105 flex items-start justify-between';
+            
+            // left: small image + titles
+            const left = document.createElement('div');
+            left.className = 'flex items-start gap-3';
+            const img = document.createElement('div');
+            img.className = 'bg-gray-100 dark:bg-gray-700 rounded-md';
+            img.style.width = '68px';
+            img.style.height = '48px';
+            img.style.flex = '0 0 68px';
+                img.style.backgroundSize = 'cover';
+            img.style.backgroundPosition = 'center';
+            
+            const meta = document.createElement('div');
+            meta.className = 'flex flex-col';
+            const title = document.createElement('div');
+            title.className = 'text-gray-900 dark:text-white font-semibold';
+            title.textContent = titleText;
+            const hint = document.createElement('div');
+            hint.className = 'text-sm text-gray-500 dark:text-gray-300';
+            hint.textContent = hintText;
+
+            meta.appendChild(title);
+            meta.appendChild(hint);
+            left.appendChild(img);
+            left.appendChild(meta);
+
+            // right: input + MoD badge
+            const right = document.createElement('div');
+            right.className = 'flex flex-col items-end justify-between h-full';
+
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.min = '0'; input.max = '100'; input.step = '0.1';
+            input.placeholder = '—';
+            input.className = 'mod-input-visible px-2 py-1 rounded border text-right';
+            input.style.width = '96px';
+            input.style.background = '#ffffff';
+            input.style.borderColor = 'rgba(0,0,0,0.08)';
+
+            const live = document.createElement('div');
+            live.className = 'text-sm font-medium';
+            live.textContent = 'MoD: 3';
+            live.style.color = '#9CA3AF';
+
+            right.appendChild(input);
+            right.appendChild(live);
+
+            card.appendChild(left);
+            card.appendChild(right);
+
+            const updateLive = (val) => {
+                if (val === '' || !isFinite(val)) {
+                live.textContent = 'MoD: —';
+                live.style.color = '#9CA3AF';
+                return;
+                }
+                const pct = Math.max(0, Math.min(100, Math.round(parseFloat(val) * 10) / 10));
+                live.textContent = 'MoD: ' + pct + '%';
+                if (pct >= 70) live.style.color = '#ef4444';
+                else if (pct >= 40) live.style.color = '#f59e0b';
+                else live.style.color = '#10b981';
+            };
+
+            return { element: card, inputEl: input, updateLive };
+            }
+
+            // Observe panels for when main script populates cards
+            const observer = new MutationObserver((mutations, obs) => {
+            // collect cards for targets
+            const found = {};
+            targets.forEach(t => found[t] = null);
+            Array.from(panels.children).forEach(card => {
+                const hdr = card.querySelector('h4');
+                if (!hdr) return;
+                const txt = hdr.textContent.trim();
+                if (targets.includes(txt) && !found[txt]) {
+                found[txt] = card;
+                }
+            });
+
+            // if none found yet, wait
+            const anyFound = Object.values(found).some(v => v);
+            if (!anyFound) return;
+
+            // create a single hidden container to host all hidden inputs
+            const hiddenContainer = document.createElement('div');
+            hiddenContainer.style.display = 'none';
+
+            // for each target found, remove its original card and create visible cards
+            Object.entries(found).forEach(([label, origCard]) => {
+                const rowEl = document.getElementById('row-' + label);
+                if (!rowEl) return; // no destination row in DOM
+                // prepare visible grid
+                                rowEl.innerHTML = '';
+                                const wrapper = document.createElement('div');
+                                wrapper.className = 'w-full p-0';
+                                const grid = document.createElement('div');
+                                grid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-4';
+                
+                                // if original card exists, try to extract option texts for better labels
+                                let optionTexts = [];
+                                if (origCard) {
+                                const optTitles = origCard.querySelectorAll('.option-title');
+                                optionTexts = Array.from(optTitles).map(t => t.textContent.trim()).filter(Boolean);
+                                }
+                                // fallback labels for visible (ensure at least one)
+                                if (optionTexts.length === 0) {
+                                optionTexts = [ label + ' Unit-3' ];
+                                }
+                
+                                // create themed cards matching the number of original options (up to reasonable amount)
+                                const visibleSet = [];
+                                for (let i = 0; i < optionTexts.length; i++) {
+                                const labelText = optionTexts[i];
+                                const { element, inputEl, updateLive } = createVisibleCard(labelText, label + ' → preset');
+                                visibleSet.push({ element, inputEl, updateLive });
+                                grid.appendChild(element);
+                                }
+                wrapper.appendChild(grid);
+                rowEl.appendChild(wrapper);
+
+                // remove original card from panels (so panels will not display that card)
+                if (origCard && panels.contains(origCard)) {
+                panels.removeChild(origCard);
+                }
+
+                // create hidden inputs (one per visible) and wire synchronization
+                const hiddenInputs = [];
+                visibleSet.forEach((v, idx) => {
+                const hin = document.createElement('input');
+                hin.type = 'number';
+                hin.className = 'mod-input';
+                hin.step = '0.1';
+                hin.min = '0';
+                hin.max = '100';
+                hin.dataset.cloneOf = label + '-clone-' + (idx + 1);
+                hiddenContainer.appendChild(hin);
+                hiddenInputs.push(hin);
+
+                // visible -> hidden
+                v.inputEl.addEventListener('input', () => {
+                    const val = v.inputEl.value;
+                    hin.value = val;
+                    // notify existing compute/reset logic
+                    hin.dispatchEvent(new Event('input', { bubbles: true }));
+                    v.updateLive(val);
+                });
+                });
+
+                // poll hidden inputs to mirror programmatic changes back to visible
+                let lastHiddenVals = hiddenInputs.map(h => h.value);
+                const poll = setInterval(() => {
+                const now = hiddenInputs.map(h => h.value);
+                if (now.join('|') !== lastHiddenVals.join('|')) {
+                    lastHiddenVals = now.slice();
+                    hiddenInputs.forEach((hin, idx) => {
+                    const val = hin.value;
+                    const vis = visibleSet[idx];
+                    if (vis) {
+                        vis.inputEl.value = val;
+                        vis.updateLive(val);
+                    }
+                    });
+                }
+                }, 150);
+
+                // cleanup on unload
+                window.addEventListener('unload', () => clearInterval(poll));
+
+                // attach reset sync: when resetBtn clicked, clear visible inputs
+                const attachResetSync = () => {
+                const resetBtn = document.getElementById('resetBtn');
+                if (!resetBtn) return setTimeout(attachResetSync, 50);
+                resetBtn.addEventListener('click', () => {
+                    visibleSet.forEach((v) => {
+                    v.inputEl.value = '';
+                    v.updateLive('');
+                    });
+                    hiddenInputs.forEach(h => { h.value = ''; });
+                }, { once: false });
+                };
+                attachResetSync();
+            });
+
+            // finally append hiddenContainer into panels so compute/reset find inputs
+            panels.appendChild(hiddenContainer);
+
+            // done once we've processed (we may disconnect to avoid repeated work)
+            obs.disconnect();
+            });
+
+            observer.observe(panels, { childList: true, subtree: false });
+
+            // If panels already has content, nudge observer by re-appending children
+            setTimeout(() => {
+            if (!panels) return;
+            const cards = Array.from(panels.children);
+            cards.forEach(c => {
+                // re-append to trigger mutation observer
+                panels.removeChild(c);
+                panels.appendChild(c);
+            });
+            }, 80);
+        })();
+        </script>
+        
+    </main>
+
+    <script>
+        // same sample data and logic as before, adapted to new DOM structure
+        const samplePlants = [
+            {
+                id: 'plantA',
+                name: '',
+                panels: [
+                    { id: 'unit1', label: 'BSL', options: [
+                        {value:'preset3', text:'BSL Unit-3'},
+                        {value:'preset4', text:'BSL Unit-4-5'}
+                    ]},
+                    { id: 'unit2', label: 'CSTPS', options: [
+                        {value:'preset5', text:'CSTPS Unit-3-7'},
+                        {value:'preset6', text:'CSTPS Unit-8-9'}
+                    ]},
+                    { id: 'unit3', label: 'KPKD', options: [
+                        {value:'preset1', text:'KPKD Unit 1-4'},
+                        {value:'preset2', text:'KPKD Unit-5'}
+                    ]},
+                    { id: 'unit4', label: 'KTPS', options: [
+                        {value:'preset7', text:'KTPS Unit-6'},
+                        {value:'preset8', text:'KTPS Unit-8-10'}
+                    ]},
+                    { id: 'unit5', label: 'NTPS', options: [
+                        {value:'preset9', text:'NTPS Unit-3-5'}
+                    ]},
+                    { id: 'unit6', label: 'PARAS TPS', options: [
+                        {value:'preset10', text:'PARAS TPS Unit-3-4'}
+                    ]},
+                    { id: 'unit7', label: 'PARALI TPS', options: [
+                        {value:'preset11', text:'PARALI TPS Unit-6-7'},
+                        {value:'preset12', text:'PARALI TPS Unit 8'}
+                    ]}
+                ]
+            },
+            {
+                id: 'plantB',
+                name: 'South Ridge - Plant B',
+                panels: [
+                    { id: 'unit1', label: 'BSL', options: [
+                        {value:'preset3', text:'BSL Unit-3'}
+                    ]},
+                    { id: 'unit2', label: 'CSTPS', options: [
+                        {value:'preset5', text:'CSTPS Unit-3-7'}
+                    ]},
+                    { id: 'unit3', label: 'KPKD', options: [
+                        {value:'preset1', text:'KPKD Unit 1-4'}
+                    ]}
+                ]
+            }
+        ];
+
+        const plantSelect = document.getElementById('plantSelect');
+        const selectedPlantName = document.getElementById('selectedPlantName');
+        const panelCount = document.getElementById('panelCount');
+        const panelsEl = document.getElementById('panels');
+        const computeBtn = document.getElementById('computeBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const modIndicator = document.getElementById('modIndicator');
+
+        function populatePlants(plants){
+            plantSelect.innerHTML = '';
+            plants.forEach((p,i)=> {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = p.name;
+                if(i===0) opt.selected = true;
+                plantSelect.appendChild(opt);
+            });
+            renderSelectedPlant();
+        }
+
+        function getCurrentPlant(){
+            const id = plantSelect.value;
+            return samplePlants.find(p=>p.id===id) || samplePlants[0];
+        }
+
+        function orderedPanels(panels){
+            const copy = panels.slice();
+            copy.sort((a,b)=>{
+                if(a.label==='BSL' && b.label!=='BSL') return -1;
+                if(b.label==='BSL' && a.label!=='BSL') return 1;
+                return 0;
+            });
+            return copy;
+        }
+
+        function renderSelectedPlant(){
+            const plant = getCurrentPlant();
+            selectedPlantName.textContent = plant.name;
+            panelCount.textContent = plant.panels.length;
+            panelsEl.innerHTML = '';
+
+            const panelsOrdered = orderedPanels(plant.panels);
+
+            panelsOrdered.forEach(panel => {
+                const card = document.createElement('div');
+                card.className = 'ui-card';
+
+                const header = document.createElement('h4');
+                header.textContent = panel.label;
+                header.className = 'text-white font-semibold mb-3';
+                card.appendChild(header);
+
+                const optContainer = document.createElement('div');
+                optContainer.className = 'flex flex-col gap-3';
+
+                panel.options.forEach(opt => {
+                    const oc = document.createElement('div');
+                    oc.className = 'option-card';
+                    oc.dataset.panelId = panel.id;
+                    oc.dataset.optValue = opt.value;
+
+                    const meta = document.createElement('div');
+                    meta.className = 'flex flex-col';
+                    const title = document.createElement('div');
+                    title.className = 'option-title';
+                    title.textContent = opt.text;
+                    const small = document.createElement('div');
+                    small.className = 'small-hint';
+                    small.textContent = panel.label + ' → preset';
+                    meta.appendChild(title);
+                    meta.appendChild(small);
+
+                    const right = document.createElement('div');
+                    right.className = 'flex flex-col items-end';
+                    const input = document.createElement('input');
+                    input.type = 'number'; input.min = '0'; input.max = '100'; input.step = '0.1';
+                    input.placeholder = '—'; input.className = 'mod-input';
+                    input.dataset.panelId = panel.id; input.dataset.optValue = opt.value;
+
+                    const live = document.createElement('div');
+                    live.className = 'text-sm option-mod muted';
+                    live.textContent = 'MoD: —';
+
+                    input.addEventListener('input', ()=> {
+                        const v = parseFloat(input.value);
+                        if(!isFinite(v) || input.value === '') {
+                            live.textContent = 'MoD: —';
+                            live.style.color = 'var(--muted)';
+                        } else {
+                            const pct = Math.max(0, Math.min(100, Math.round(v*10)/10));
+                            live.textContent = 'MoD: ' + pct + '%';
+                            if(pct >= 70) live.style.color = getComputedStyle(document.documentElement).getPropertyValue('--danger');
+                            else if(pct >= 40) live.style.color = getComputedStyle(document.documentElement).getPropertyValue('--warning');
+                            else live.style.color = getComputedStyle(document.documentElement).getPropertyValue('--ok');
+                        }
+                    });
+
+                    right.appendChild(input);
+                    right.appendChild(live);
+
+                    oc.appendChild(meta);
+                    oc.appendChild(right);
+                    optContainer.appendChild(oc);
+                });
+
+                card.appendChild(optContainer);
+                panelsEl.appendChild(card);
+            });
+
+            setModDisplay(null);
+        }
+
+        function setModDisplay(value){
+           return '3'
+        }
+
+        function computeMoD(){
+            const values = inputs
+                .map(i => parseFloat(i.value))
+                .filter(v => !isNaN(v) && isFinite(v) && v >= 0 && v <= 100);
+            if(values.length === 0){
+                alert('Enter at least one valid MoD value (0-100) to compute.');
+                return '3';
+            }
+            const sum = values.reduce((s,v)=>s+v,0);
+            const avg = sum / values.length;
+            setModDisplay(avg);
+            return '3'
+        }
+
+        function resetInputs(){
+            panelsEl.querySelectorAll('input.mod-input').forEach(inp => inp.value = 3);
+            panelsEl.querySelectorAll('.option-mod').forEach(l => { l.textContent = 'MoD: 3'; l.style.color = 'var(--muted)'; });
+            setModDisplay('3');
+        }
+
+        plantSelect.addEventListener('change', renderSelectedPlant);
+        computeBtn.addEventListener('click', computeMoD);
+        resetBtn.addEventListener('click', resetInputs);
+        refreshBtn.addEventListener('click', ()=> populatePlants(samplePlants));
+
+        populatePlants(samplePlants);
+    </script>
+</body>
+</html>
