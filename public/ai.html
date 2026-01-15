@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="icon" href="images/abhitech-mahagenco-combined-logo.png" type="image/png">
     <title>Mahagenco</title>
 </head>
+
 <body class="bg-gray-100">
     <div x-data="{ isSidebarOpen: false }" class="max-h-screen flex flex-col">
         <nav class="sticky top-0 left-0 w-full z-50 bg-white justify-center">
@@ -20,23 +22,24 @@
                     </svg>
                 </button>
                 <img src="images/abhitech-mahagenco-combined-logo.png" alt="Logo" class="h-9 w-auto">
-                
                 <div x-data="{ isProfileOpen: false }" class="flex-grow flex justify-end">
                     <div class=" p-2 flex justify-center items-center">
                         <span class="text-center mt-4">Welcome User</span>
                     </div>
-                    <button @click="isProfileOpen = !isProfileOpen" class="p-2 rounded-full   focus:outline-none focus:ring">
+                    <button @click="isProfileOpen = !isProfileOpen"
+                        class="p-2 rounded-full   focus:outline-none focus:ring">
                         <img src="./images/userprofile.svg" alt="Profile" class="h-6 w-6 rounded-full">
                     </button>
-                    <div x-show="isProfileOpen" @click.outside="isProfileOpen = false" 
-                         class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg overflow-hidden z-50">
+                    <div x-show="isProfileOpen" @click.outside="isProfileOpen = false"
+                        class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg overflow-hidden z-50">
                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-                        <a href="./login.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                        <a href="./login.html"
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
                     </div>
                 </div>
-               
-           </div>
+
+            </div>
         </nav>
 
         <div class="flex">
@@ -107,33 +110,39 @@
        </div>
 
             <!-- Main content that shifts when sidebar is open -->
-            <main 
-                :class="{'ml-0': !isSidebarOpen, 'ml-34 transition-all duration-300 ease-in-out': isSidebarOpen}" 
-                class="content flex-1 items-center justify-center overflow-y-auto h-[calc(100vh-4rem)] p-4"
-            >
+            <main :class="{'ml-0': !isSidebarOpen, 'ml-34 transition-all duration-300 ease-in-out': isSidebarOpen}"
+                class="content flex-1 items-center justify-center h-[calc(100vh-4rem)]   p-4 bg-gray-600">
+                <div class="flex justify-between p-4 px-5 pb-3 pt-0">
+                    <span class="text-white text-lg text-bold font-medium text-left">AI Model</span>
+                    <span></span>
+                    <button onclick="window.location.href='selection.html'" class="hover:text-blue-600 transition ">
+                        <img src="images/back.svg" alt="Back" class="h-5 w-5">
+                    </button>
+                </div>
                 <!-- Main content goes here -->
-                <div class="sticky flex">
-                    <section class="w-full p-4 bg-white shadow">
-                        <div class="grid grid-cols-2 gap-4">
+                <div class="sticky flex px-5"  >
+                    <section class="w-full shadow">
+                        <div class="grid grid-cols-2 gap-10">
                             <div>
-                                <img src="/images/1.png" alt="Image 1" class="w-full h-auto rounded shadow">
+                                <img src="/images/1.png" style="height: 100%;" alt="Image 1" class="w-full rounded shadow">
                             </div>
                             <div>
-                                <img src="/images/2.png" alt="Image 2" class="w-full h-auto rounded shadow">
+                                <img src="/images/2.png"  style="height: 100%;" alt="Image 2" class="w-full rounded shadow">
                             </div>
                             <div>
-                                <img src="/images/3.png" alt="Image 3" class="w-full h-auto rounded shadow">
+                                <img src="/images/3.png" style="height: 100%;" alt="Image 3" class="w-full rounded shadow">
                             </div>
                             <div>
-                                <img src="/images/4.png" alt="Image 4" class="w-full h-auto rounded shadow">
+                                <img src="/images/4.png" style="height: 100%;" alt="Image 4" class="w-full rounded shadow">
                             </div>
                         </div>
                     </section>
-                </div>  
+                </div>
             </main>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
 </body>
+
 </html>
